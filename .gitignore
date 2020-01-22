@@ -1,0 +1,9 @@
+node_modules/
+wwwroot/
+package-lock.json
+proxyUrl.js
+*.log
+*.bak
+*.orig
+*.pdf
+*~
