@@ -1,0 +1,15 @@
+<div class="flex-row">
+    <md-menu #mdMenu baseUrl="/content" activeCssClass="active">
+        <ul>
+            <li>
+                <a mdMenuItem="test">prvy</a>
+            </li>
+
+            <li>
+                <a mdMenuItem="another">druhy</a>
+            </li>
+        </ul>
+    </md-menu>
+
+    <div class="flex-1" renderMarkdown [source]="mdMenu?.activePath" baseUrl="content"></div>
+</div>

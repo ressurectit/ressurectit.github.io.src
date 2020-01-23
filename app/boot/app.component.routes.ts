@@ -1,12 +1,10 @@
 import {Type} from '@angular/core';
 import {ModuleRoutesOptions} from '@anglr/common/router';
 
-import {HomeComponent} from '../pages/home/home.component';
 import {NotFoundComponent} from "../pages/notFound/notFound.component";
 
 export const routes: Type<any>[] =
 [
-    HomeComponent,
     NotFoundComponent
 ];
 
@@ -20,5 +18,14 @@ export const routesOptions: ModuleRoutesOptions =
     },
     staticRoutesBefore:
     [
+        {
+            path: '',
+            redirectTo: 'content/test',
+            pathMatch: 'full'
+        },
+        {
+            path: 'content',
+            loadChildren: () => import('../pages/+content/content.module').then(({ContentModule}) => ContentModule)
+        }
     ]
 };

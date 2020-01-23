@@ -14,7 +14,6 @@ import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
 
-
 /**
  * Main module shared for both server and browser side
  */

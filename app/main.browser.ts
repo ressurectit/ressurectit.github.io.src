@@ -4,7 +4,7 @@ import './dependencies.browser';
 import 'zone.js/dist/zone';
 import './hacks';
 import {platformBrowser} from '@angular/platform-browser';
-import {NgModuleRef, enableProdMode} from '@angular/core';
+import {enableProdMode} from '@angular/core';
 import {runWhenModuleStable} from '@anglr/common';
 import {hmrAccept, hmrFinishedNotification} from '@anglr/common/hmr';
 import * as config from 'config/global';
@@ -25,7 +25,7 @@ jsDevMode && hmrAccept(() => platform);
 
 var platform = platformBrowser();
 
-runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), (moduleRef: NgModuleRef<{}>) => 
+runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), () => 
 {    
     jsDevMode && hmrFinishedNotification();
 }, config.debug);

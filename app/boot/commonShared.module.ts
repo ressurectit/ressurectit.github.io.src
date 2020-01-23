@@ -27,7 +27,6 @@ import {TranslateModule} from '@ngx-translate/core';
     [
         CommonModule,
         ReactiveFormsModule,
-        ReactiveFormsModule,
         RouterModule,
         ScrollingModule,
         NgCommonModule,
