@@ -53,11 +53,11 @@
     }
 
     //############## PAGE TITLE ##############
-
+    
     .page-title
     {
         background-image: linear-gradient(to bottom, #b5e853ba, #1a1a1a);
-
+        
         a
         {
             .fa-github
@@ -65,6 +65,25 @@
                 color: $primaryForegroundColor;
             }
         }
+    }
+
+    //############## TABLE ##############
+    
+    .table-striped > tbody > tr:nth-of-type(2n+1) 
+    {
+        background-color: #000000;
+    }
+    
+    //############## TABS ##############
+
+    .mat-tab-labels
+    {
+        background-color: darken($primaryBackgroundColor, 3%);
+    }
+
+    .mat-tab-label
+    {
+        color: $primaryForegroundColor;
     }
 
     //############## BUTTONS ##############

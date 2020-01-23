@@ -3,6 +3,7 @@ import {ModuleRoutes} from '@anglr/common/router';
 
 import {components} from './sampleGrid.component.routes';
 import {CommonSharedModule} from "../../boot/commonShared.module";
+import {BasicSampleComponent} from './basic/basicSample.component';
 
 /**
  * Module for samples for grid
@@ -11,7 +12,8 @@ import {CommonSharedModule} from "../../boot/commonShared.module";
 {
     declarations: 
     [
-        ...components
+        ...components,
+        BasicSampleComponent
     ],
     imports:
     [

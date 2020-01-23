@@ -1,11 +1,12 @@
 import {NgModule, ClassProvider, ExistingProvider} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {ModuleRoutes} from '@anglr/common/router';
-import {MarkdownModule, HelpService} from '@anglr/md-help/web';
+import {HelpService, MarkdownModule} from '@anglr/md-help/web';
 
 import {contentComponents} from './content.component.routes';
-import {CommonSharedModule} from "../../boot/commonShared.module";
 import {ContentService} from '../../services/api/content';
 import {ContentMenuResolver} from './content/content.resolver';
+import {RenderMarkdownModule} from '../../modules';
 
 /**
  * Content module for displaying content pages
@@ -15,7 +16,8 @@ import {ContentMenuResolver} from './content/content.resolver';
     declarations: [...contentComponents],
     imports:
     [
-        CommonSharedModule,
+        RenderMarkdownModule,
+        CommonModule,
         MarkdownModule
     ],
     providers:

@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import {MatTabsModule} from '@angular/material/tabs';
 import {ProgressIndicatorModule} from '@anglr/common';
 import {BootstrapCoreModule} from '@anglr/bootstrap/core';
 import {DatetimepickerModule} from '@anglr/bootstrap/datetimepicker';
@@ -16,7 +17,11 @@ import {NumberInputModule} from '@anglr/common/forms';
 import {NotificationsModule} from '@anglr/notifications';
 import {InternalServerErrorModule} from '@anglr/error-handling';
 import {AuthorizationModule} from '@anglr/authentication';
+import {MarkdownModule} from '@anglr/md-help/web';
 import {TranslateModule} from '@ngx-translate/core';
+
+import {AsSourceModule} from '../modules/asSource';
+import {SourceCodeModule} from '../modules/sourceCode';
 
 /**
  * Common module for all other modules
@@ -45,7 +50,11 @@ import {TranslateModule} from '@ngx-translate/core';
         NgSelectModule,
         NgSelectDynamicModule,
         NgSelectEditModule,
-        InternalServerErrorModule
+        InternalServerErrorModule,
+        MatTabsModule,
+        MarkdownModule,
+        AsSourceModule,
+        SourceCodeModule
     ]
 })
 export class CommonSharedModule
