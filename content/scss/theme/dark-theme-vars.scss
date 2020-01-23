@@ -11,6 +11,10 @@ $primaryTitleColor: #b5e853;
 
 $primarySeparatorColor: $primaryTitleColor;
 
+$primaryPaginationForeground: $primaryTitleColor;
+$primaryPaginationActiveForeground: lighten($primaryBackgroundColor, 15%);
+$primaryPaginationActiveBackground: $primaryTitleColor;
+
 $primaryCodeBackground: #151515;
 $secondaryCodeBackground: $primaryCodeBackground;
 $primaryCodeForeground: #DCDCDC;

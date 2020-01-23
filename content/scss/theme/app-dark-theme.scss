@@ -53,11 +53,11 @@
     }
 
     //############## PAGE TITLE ##############
-    
+
     .page-title
     {
         background-image: linear-gradient(to bottom, #b5e853ba, #1a1a1a);
-        
+
         a
         {
             .fa-github
@@ -68,12 +68,50 @@
     }
 
     //############## TABLE ##############
-    
-    .table-striped > tbody > tr:nth-of-type(2n+1) 
+
+    .table-striped > tbody > tr:nth-of-type(2n+1)
     {
         background-color: #000000;
     }
-    
+
+    .table-hover > tbody > tr:hover
+    {
+        background-color: lighten($primaryBackgroundColor, 5%);
+    }
+
+    //############## PAGINATION ##############
+
+    .pagination > li >
+    {
+        a,
+        a:focus,
+        a:hover,
+        span,
+        span:focus,
+        span:hover
+        {
+            background-color: lighten($primaryBackgroundColor, 15%);
+            border-color: lighten($primaryBackgroundColor, 15%);
+            color: $primaryPaginationForeground;
+        }
+    }
+
+    //TODO - updated this
+
+    .pagination > .active >
+    {
+        a,
+        a:focus,
+        a:hover,
+        span,
+        span:focus,
+        span:hover
+        {
+            background-color: $primaryPaginationActiveBackground;
+            color: $primaryPaginationActiveForeground;
+        }
+    }
+
     //############## TABS ##############
 
     .mat-tab-labels
