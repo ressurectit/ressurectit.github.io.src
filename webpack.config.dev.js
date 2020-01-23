@@ -65,16 +65,6 @@ module.exports = function(options)
                     ]
                 },
                 {
-                    test: require.resolve("konami"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options: 'Konami'
-                        }
-                    ]
-                },
-                {
                     test: /\.html$/,
                     use: 
                     {

@@ -21,8 +21,7 @@
         [
             "node",
             "bootstrap",
-            "highlight.js",
-            "konami.js"
+            "highlight.js"
         ],
         "typeRoots":
         [

@@ -198,16 +198,6 @@ module.exports = [function(options, args)
                         }
                     ]
                 },
-                {
-                    test: require.resolve("konami"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options: 'Konami'
-                        }
-                    ]
-                },
                 //file processing
                 {
                     test: /\.ts$/,
