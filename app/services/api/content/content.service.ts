@@ -3,6 +3,8 @@ import {BaseUrl, Produces, ResponseType, GET, Path, Cache, RESTClient} from "@an
 import {HelpService as HelpServiceBase} from '@anglr/md-help/web';
 import {Observable} from "rxjs";
 
+import {ContentMenu} from "./content.interface";
+
 /**
  * Service used to obtain content files
  */
@@ -18,6 +20,16 @@ export class ContentService extends RESTClient implements HelpServiceBase
     @Produces(ResponseType.Text)
     @GET('{path}.md')
     public get(@Path('path') _path: string): Observable<string>
+    {
+        return null;
+    }
+
+    /**
+     * Gets content menu
+     */
+    @Cache()
+    @GET('menu.json')
+    public getMenu(): Observable<ContentMenu[]>
     {
         return null;
     }

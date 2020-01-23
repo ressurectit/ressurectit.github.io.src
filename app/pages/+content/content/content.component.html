@@ -1,14 +1,18 @@
 <div class="flex-row">
     <md-menu #mdMenu baseUrl="/content" activeCssClass="active">
-        <ul>
-            <li>
-                <a mdMenuItem="test">prvy</a>
-            </li>
+        <ng-container *ngTemplateOutlet="menuTmpl; context: {$implicit: menu}"></ng-container>
+        
+        <ng-template #menuTmpl let-children >
+            <ul>
+                <li *ngFor="let item of children">
+                    <a [mdMenuItem]="item?.mdPath">{{item?.title}}</a>
 
-            <li>
-                <a mdMenuItem="another">druhy</a>
-            </li>
-        </ul>
+                    <ng-template [ngIf]="!!item?.children?.length">
+                        <ng-container *ngTemplateOutlet="menuTmpl; context: {$implicit: item?.children}"></ng-container>
+                    </ng-template>
+                </li>
+            </ul>
+        </ng-template>
     </md-menu>
 
     <div class="flex-1" renderMarkdown [source]="mdMenu?.activePath" baseUrl="content"></div>

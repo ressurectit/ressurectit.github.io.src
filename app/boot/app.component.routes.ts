@@ -2,6 +2,7 @@ import {Type} from '@angular/core';
 import {ModuleRoutesOptions} from '@anglr/common/router';
 
 import {NotFoundComponent} from "../pages/notFound/notFound.component";
+import {DEFAULT_CONTENT} from '../misc/constants';
 
 export const routes: Type<any>[] =
 [
@@ -20,7 +21,7 @@ export const routesOptions: ModuleRoutesOptions =
     [
         {
             path: '',
-            redirectTo: 'content/test',
+            redirectTo: `content/${DEFAULT_CONTENT}`,
             pathMatch: 'full'
         },
         {
