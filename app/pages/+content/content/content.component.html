@@ -1,5 +1,5 @@
-<div class="flex-row">
-    <md-menu #mdMenu baseUrl="/content" activeCssClass="active">
+<div class="flex-row flex-1">
+    <md-menu #mdMenu baseUrl="/content" activeCssClass="active" class="thin-scrollbar overflow-vertical-auto">
         <ng-container *ngTemplateOutlet="menuTmpl; context: {$implicit: menu}"></ng-container>
         
         <ng-template #menuTmpl let-children >
@@ -15,5 +15,5 @@
         </ng-template>
     </md-menu>
 
-    <div class="flex-1" renderMarkdown [source]="mdMenu?.activePath" baseUrl="content"></div>
+    <div class="flex-1 md-content" renderMarkdown [source]="mdMenu?.activePath" baseUrl="content"></div>
 </div>

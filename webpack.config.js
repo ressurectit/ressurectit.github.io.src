@@ -49,7 +49,7 @@ function getEntries(ssr, dll, css, diff)
                 "bootstrap/dist/css/bootstrap-theme.min.css",
                 "eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
                 "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
-                "highlight.js/styles/googlecode.css"
+                "highlight.js/styles/vs2015.css"
             ],
             style: [path.join(__dirname, "content/site.scss")]} : {},
             ...diff ? {} : {client: [path.join(__dirname, "app/main.browser.ts")]}

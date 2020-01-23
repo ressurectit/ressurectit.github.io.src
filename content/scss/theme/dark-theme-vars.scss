@@ -1,26 +1,21 @@
 // ---------------------- DARK THEME ----------------------
-$darkBackgroundColor: #1E1E1E;
-$semiDarkBackgroundColor: #3A3A3A;
-$ligntBackgroundColor: #E5E5E5;
-$lighterBackgroundColor: #F4F7FB;
-$whiteBackgroundColor: #FFFFFF;
-$titleBarBackgroundColor: #019BD5;
-$titleBarCloseBackgroundColor: #E81123;
-$titleBarIconBackgroundColor: #FFFFFF;
-$blueBackgroundColor: rgb(0, 116, 158);
-$primaryBackgroundColor: #019BD5;
-$primaryForegroundColor: #1E1E1E;
+$primaryBackgroundColor: #1a1a1a;
 
-$blackText: #ADADAD;
-$semiDarkText: #737373;
-$semiLightText: #e0e0e0;
-$lightText: #BABABA;
-$redText: #EC0E0E;
-$blueText: #019BD5;
-$whiteText: #FFFFFF;
-$positiveText: #009500;
-$warningText: #FF4A00;
-$iconText: #019BD5;
+$primaryTextColor: #eaeaea;
+
+$primaryLinkColor: #63c0f5;
+
+$primaryActiveMenuColor: #00AA88;
+
+$primaryTitleColor: #b5e853;
+
+$primarySeparatorColor: $primaryTitleColor;
+
+$primaryCodeBackground: #151515;
+$secondaryCodeBackground: $primaryCodeBackground;
+$primaryCodeForeground: #DCDCDC;
+$secondaryCodeForeground: #569CD6;
+$primaryCodeBorder: #333333;
 
 $buttonLightColor: #6ABA4F;
 $buttonDarkColor: darken($buttonLightColor, 20%);

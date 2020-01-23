@@ -1,0 +1,20 @@
+@import '../../theme-vars.scss';
+@import '../../dark-theme-vars.scss';
+
+//---------------------- COMPONENT STYLING ----------------------
+.app-page.dark
+{
+    content-view
+    {
+        .active
+        {
+            color: $primaryActiveMenuColor;
+            text-shadow: 0 0 1px $primaryActiveMenuColor;
+            
+            &:hover
+            {
+                text-shadow: 0 0 3px $primaryActiveMenuColor;
+            }
+        }
+    }
+}
