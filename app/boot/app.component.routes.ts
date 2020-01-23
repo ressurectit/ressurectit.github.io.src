@@ -27,6 +27,10 @@ export const routesOptions: ModuleRoutesOptions =
         {
             path: 'content',
             loadChildren: () => import('../pages/+content/content.module').then(({ContentModule}) => ContentModule)
+        },
+        {
+            path: 'gridSamples',
+            loadChildren: () => import('../pages/+sampleGrid/sampleGrid.module').then(({SampleGridModule}) => SampleGridModule)
         }
     ]
 };
