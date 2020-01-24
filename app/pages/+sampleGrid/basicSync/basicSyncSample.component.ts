@@ -1,8 +1,14 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
+import {ActivatedRoute} from "@angular/router";
 import {GridOptions, SyncDataLoaderComponent, SyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions} from "@anglr/grid";
 import {getValue, OrderByDirection} from "@jscrpt/common";
 
 import {Address} from "../../../services/api/data";
+
+interface RouteData
+{
+    data: Address[];
+}
 
 /**
  * Basic synchronous sample for grid component
@@ -23,8 +29,10 @@ export class BasicSyncSampleComponent
     public gridOptions: GridOptions;
 
     //######################### constructor #########################
-    constructor()
+    constructor(private _route: ActivatedRoute)
     {
+        let data = (this._route.snapshot.data as RouteData).data;
+
         this.gridOptions =
         {
             plugins:
@@ -36,30 +44,7 @@ export class BasicSyncSampleComponent
                     options: <SyncDataLoaderOptions<Address, SimpleOrdering>>
                     {
                         //all data used in data loader
-                        data: 
-                        [
-                            {
-                                country: "Slovakia",
-                                city: "Banská Bystrica",
-                                zip: "97401",
-                                street: "Janka Chalupku",
-                                houseNumber: "3"
-                            },
-                            {
-                                country: "Slovakia",
-                                city: "Bratislava",
-                                zip: "82109",
-                                street: "Trenčianska",
-                                houseNumber: "56/A"
-                            },
-                            {
-                                country: "Slovakia",
-                                city: "Košice",
-                                zip: "04011",
-                                street: "Werferova",
-                                houseNumber: "1"
-                            }
-                        ],
+                        data: data,
                         //custom ordering, does not have to be specified, defaults to function that orders using string ordering
                         orderData: (data: any[], ordering: SimpleOrdering) =>
                         {

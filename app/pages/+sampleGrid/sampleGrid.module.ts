@@ -5,6 +5,8 @@ import {components} from './sampleGrid.component.routes';
 import {CommonSharedModule} from "../../boot/commonShared.module";
 import {BasicSampleComponent} from './basic/basicSample.component';
 import {BasicSyncSampleComponent} from './basicSync/basicSyncSample.component';
+import {DataResolver} from '../../misc/resolvers';
+import {DataService} from '../../services/api/data';
 
 /**
  * Module for samples for grid
@@ -20,6 +22,11 @@ import {BasicSyncSampleComponent} from './basicSync/basicSyncSample.component';
     imports:
     [
         CommonSharedModule
+    ],
+    providers:
+    [
+        DataResolver,
+        DataService
     ]
 })
 @ModuleRoutes(components)

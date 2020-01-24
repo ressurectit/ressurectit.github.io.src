@@ -1,6 +1,8 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
 import {ComponentRoute} from "@anglr/common/router";
 
+import {DataResolver} from "../../../misc/resolvers";
+
 /**
  * Basic synchronous sample for grid component
  */
@@ -10,7 +12,7 @@ import {ComponentRoute} from "@anglr/common/router";
     templateUrl: 'basicSync.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@ComponentRoute({path: 'sync'})
+@ComponentRoute({path: 'sync', resolve: {data: DataResolver}})
 export class BasicSyncComponent
 {
 }

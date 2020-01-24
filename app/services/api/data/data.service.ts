@@ -22,7 +22,7 @@ export class DataService extends RESTClient
     public getData(paging?: Pageable,
                    ordering?: Orderable): Observable<PagedData<Address>>
     {
-        return this._getData()
+        return this.getAllData()
             .pipe(map(data =>
             {
                 let paginator = new Paginator();
@@ -69,9 +69,8 @@ export class DataService extends RESTClient
     /**
      * Gets data
      */
-    @Cache()
     @GET('data.json')
-    private _getData(): Observable<Address[]>
+    public getAllData(): Observable<Address[]>
     {
         return null;
     }
