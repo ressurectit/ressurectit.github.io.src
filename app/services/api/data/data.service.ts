@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {BaseUrl, GET, Cache, RESTClient} from "@anglr/rest";
+import {BaseUrl, GET, RESTClient} from "@anglr/rest";
 import {Paginator, getValue, OrderByDirection} from "@jscrpt/common";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
