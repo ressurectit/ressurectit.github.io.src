@@ -1,15 +1,8 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
-import {GridOptions, SyncDataLoaderComponent, SyncDataLoaderOptions, SimpleOrdering, BasicPagingOptions} from "@anglr/grid";
-import {getValue, OrderByDirection} from "@jscrpt/common";
+import {GridOptions, SimpleOrdering, BasicPagingOptions, AsyncDataLoaderOptions, DataResponse} from "@anglr/grid";
 
-export interface Address
-{
-    country?: string;
-    city?: string;
-    zip?: string;
-    street?: string;
-    houseNumber?: string;
-}
+import {Address, DataService} from "../../../services/api/data";
+import {Orderable} from "../../../misc/types";
 
 /**
  * Basic sample for grid component
@@ -18,6 +11,7 @@ export interface Address
 {
     selector: 'basic-sample',
     templateUrl: 'basicSample.component.html',
+    providers: [DataService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BasicSampleComponent
@@ -30,7 +24,7 @@ export class BasicSampleComponent
     public gridOptions: GridOptions;
 
     //######################### constructor #########################
-    constructor()
+    constructor(private _dataSvc: DataService)
     {
         this.gridOptions =
         {
@@ -38,68 +32,10 @@ export class BasicSampleComponent
             {
                 dataLoader:
                 {
-                    //use sync data loader as grid data loader plugin
-                    type: SyncDataLoaderComponent,
-                    options: <SyncDataLoaderOptions<Address, SimpleOrdering>>
+                    options: <AsyncDataLoaderOptions<Address, SimpleOrdering>>
                     {
-                        //all data used in data loader
-                        data: 
-                        [
-                            {
-                                country: "Slovakia",
-                                city: "Banská Bystrica",
-                                zip: "97401",
-                                street: "Janka Chalupku",
-                                houseNumber: "3"
-                            },
-                            {
-                                country: "Slovakia",
-                                city: "Bratislava",
-                                zip: "82109",
-                                street: "Trenčianska",
-                                houseNumber: "56/A"
-                            },
-                            {
-                                country: "Slovakia",
-                                city: "Košice",
-                                zip: "04011",
-                                street: "Werferova",
-                                houseNumber: "1"
-                            }
-                        ],
-                        //custom ordering, does not have to be specified, defaults to function that orders using string ordering
-                        orderData: (data: any[], ordering: SimpleOrdering) =>
-                        {
-                            if(!ordering)
-                            {
-                                return data;
-                            }
-
-                            return data.sort((a, b) =>
-                            {
-                                let aValue = getValue(a, ordering.orderBy);
-                                let bValue = getValue(b, ordering.orderBy);
-                                let aValueNum = +aValue;
-                                let bValueNum = +bValue;
-
-                                if(!isNaN(aValueNum) && !isNaN(bValueNum))
-                                {
-                                    aValue = aValueNum;
-                                    bValue = bValueNum;
-                                }
-
-                                if(aValue < bValue)
-                                {
-                                    return ordering.orderByDirection == OrderByDirection.Ascendant ? -1 : 1;
-                                }
-                                else if(aValue > bValue)
-                                {
-                                    return ordering.orderByDirection == OrderByDirection.Ascendant ? 1 : -1;
-                                }
-                    
-                                return 0;
-                            });
-                        }
+                        //data callback used for getting data asynchronously
+                        dataCallback: this._getData.bind(this)
                     }
                 },
                 paging:
@@ -107,12 +43,47 @@ export class BasicSampleComponent
                     options: <BasicPagingOptions>
                     {
                         //available values for items per page buttons
-                        itemsPerPageValues: [15, 30, 60],
+                        itemsPerPageValues: [5, 10, 20],
                         //initial value of items per page, should be one of above
-                        initialItemsPerPage: 15
+                        initialItemsPerPage: 5
                     }
                 }
             }
+        };
+    }
+
+    //######################### private methods #########################
+
+    /**
+     * Callback used for obtaining data
+     * @param page Index of requested page
+     * @param itemsPerPage Number of items per page
+     * @param ordering Order by column name
+     */
+    private async _getData(page: number, itemsPerPage: number, ordering: SimpleOrdering): Promise<DataResponse<Address>>
+    {
+        let reqOrdering: Orderable = null;
+
+        if(ordering)
+        {
+            reqOrdering = 
+            {
+                direction: ordering.orderByDirection,
+                sort: ordering.orderBy
+            };
+        }
+
+        let result = await this._dataSvc
+            .getData({
+                        page: page,
+                        size: itemsPerPage
+                    },
+                    reqOrdering)
+            .toPromise();
+
+        return {
+            data: result.content,
+            totalCount: result.totalElements
         };
     }
 }
