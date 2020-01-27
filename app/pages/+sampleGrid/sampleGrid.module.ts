@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {ModuleRoutes} from '@anglr/common/router';
 
-import {components} from './sampleGrid.component.routes';
+import {components} from './sampleGrid.routes';
 import {CommonSharedModule} from "../../boot/commonShared.module";
 import {BasicSampleComponent} from './basic/basicSample.component';
 import {BasicSyncSampleComponent} from './basicSync/basicSyncSample.component';

@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ModuleRoutes} from '@anglr/common/router';
 import {HelpService, MarkdownModule} from '@anglr/md-help/web';
 
-import {contentComponents} from './content.component.routes';
+import {contentComponents} from './content.routes';
 import {ContentService} from '../../services/api/content';
 import {ContentMenuResolver} from './content/content.resolver';
 import {RenderMarkdownModule} from '../../modules';
