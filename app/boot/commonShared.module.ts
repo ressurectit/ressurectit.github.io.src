@@ -14,6 +14,7 @@ import {NgSelectModule, NgSelectDynamicModule, NgSelectEditModule} from '@anglr/
 import {CommonModule as NgCommonModule} from '@anglr/common';
 import {NumeralModule} from '@anglr/common/numeral';
 import {NumberInputModule} from '@anglr/common/forms';
+import {MomentModule} from '@anglr/common/moment';
 import {NotificationsModule} from '@anglr/notifications';
 import {InternalServerErrorModule} from '@anglr/error-handling';
 import {AuthorizationModule} from '@anglr/authentication';
@@ -22,6 +23,7 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import {AsSourceModule} from '../modules/asSource';
 import {SourceCodeModule} from '../modules/sourceCode';
+import {GoBackModule} from '../modules/goBack';
 
 /**
  * Common module for all other modules
@@ -38,6 +40,7 @@ import {SourceCodeModule} from '../modules/sourceCode';
         ProgressIndicatorModule,
         NumeralModule,
         NumberInputModule,
+        MomentModule,
         TranslateModule,
         BootstrapCoreModule,
         DatetimepickerModule,
@@ -54,7 +57,8 @@ import {SourceCodeModule} from '../modules/sourceCode';
         MatTabsModule,
         MarkdownModule,
         AsSourceModule,
-        SourceCodeModule
+        SourceCodeModule,
+        GoBackModule
     ]
 })
 export class CommonSharedModule

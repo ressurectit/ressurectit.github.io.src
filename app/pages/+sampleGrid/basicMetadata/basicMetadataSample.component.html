@@ -1,0 +1,43 @@
+<ng-grid [gridOptions]="gridOptions">
+    <basic-table-metadata>
+        <!-- Simple column definition -->
+        <basic-table-column id="country" name="country" title="Country"></basic-table-column>
+        <!-- Simple column definition, with ordering enabled, specific width and title tooltip in header -->
+        <basic-table-column id="city" name="city" title="City" [ordering]="true" width="70px" headerTooltip="City where citizen lives"></basic-table-column>
+        <!-- Simple column definition, that is hidden as default, can be displayed using metadata selector -->
+        <basic-table-column id="zip" name="zip" title="ZIP" [visible]="false"></basic-table-column>
+        <!-- Simple column definition, with custom css classes for header and body cell -->
+        <basic-table-column id="street" name="street" title="Street" headerClass="text-center" cellClass="text-right"></basic-table-column>
+        <!-- Simple column definition, without visible title -->
+        <basic-table-column id="houseNumber" name="houseNumber" title="House number" [titleVisible]="false"></basic-table-column>
+
+        <!-- Custom column definition, custom body template with all available context data -->
+        <basic-table-column id="citizenName" title="Citizen name">
+            <ng-template #bodyTemplate let-row let-column="column" let-index="index" let-rowIndex="rowIndex">
+                <div>
+                    {{row?.citizen?.name}} | column title: {{column?.title}} | index of row on current page: {{index}} | index of row: {{rowIndex}}
+                </div>
+            </ng-template>
+        </basic-table-column>
+
+        <!-- Custom column definition, custom body and header template -->
+        <basic-table-column id="citizenSurname" title="Citizen surname">
+            <ng-template #bodyTemplate let-row>
+                <div>
+                    {{row?.citizen?.surname}}
+                </div>
+            </ng-template>
+
+            <ng-template #headerTemplate let-column="column">
+                <div class="bold">
+                    {{column?.title}}
+                </div>
+            </ng-template>
+        </basic-table-column>
+
+        <!-- Custom column definition, custom body template -->
+        <basic-table-column id="citizenBirthDate" title="Citizen birth date">
+            <ng-template #bodyTemplate let-row>{{row?.citizen?.birthDate | momentConvert}}</ng-template>
+        </basic-table-column>
+    </basic-table-metadata>
+</ng-grid>
