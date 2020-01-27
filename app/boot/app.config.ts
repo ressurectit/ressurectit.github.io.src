@@ -4,7 +4,6 @@ import {LocalPermanentStorageService} from '@anglr/common/store';
 import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE} from "@anglr/common";
 import {NgxTranslateStringLocalizationService} from "@anglr/translate-extensions";
 import {HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER} from '@anglr/error-handling';
-import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions} from '@anglr/grid';
 import {NORMAL_STATE_OPTIONS, NormalStateOptions} from '@anglr/select';
 import * as config from 'config/global';
 
@@ -12,6 +11,7 @@ import {AuthConfig} from '../services/api/account/authConfig';
 import {AccountService} from '../services/api/account/account.service';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
 import {NOTHING_SELECTED} from '../misc/constants';
+import {globalGridConfig} from './grid.global.conf';
 
 /**
  * Factory for HttpErrorInterceptorOptions
@@ -87,14 +87,7 @@ export var providers =
     },
 
     //######################### GRID GLOBAL OPTIONS #########################
-    <ValueProvider>
-    {
-        provide: NO_DATA_RENDERER_OPTIONS,
-        useValue: <NoDataRendererOptions<any>>
-        {
-            text: "Neboli nájdené dáta odpovedajúce zadaným parametrom"
-        }
-    },
+    ...globalGridConfig,
     
     //############################ SELECT GLOBAL OPTIONS ############################
     <ValueProvider>

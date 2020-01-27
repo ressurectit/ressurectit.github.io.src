@@ -1,3 +1,10 @@
+export interface Citizen
+{
+    name?: string;
+    surname?: string;
+    birthDate?: string;
+}
+
 export interface Address
 {
     country?: string;
@@ -5,4 +12,5 @@ export interface Address
     zip?: string;
     street?: string;
     houseNumber?: string;
+    citizen?: Citizen;
 }
