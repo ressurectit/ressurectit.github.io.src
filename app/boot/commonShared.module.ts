@@ -8,7 +8,7 @@ import {ProgressIndicatorModule} from '@anglr/common';
 import {BootstrapCoreModule} from '@anglr/bootstrap/core';
 import {DatetimepickerModule} from '@anglr/bootstrap/datetimepicker';
 import {TypeaheadModule, TypeaheadTagsModule} from '@anglr/bootstrap/typeahead';
-import {GridModule} from '@anglr/grid';
+import {GridModule, GroupedGridModule} from '@anglr/grid';
 import {VirtualScrollTableContentRendererModule} from '@anglr/grid/material';
 import {NgSelectModule, NgSelectDynamicModule, NgSelectEditModule} from '@anglr/select';
 import {CommonModule as NgCommonModule} from '@anglr/common';
@@ -48,6 +48,7 @@ import {GoBackModule} from '../modules/goBack';
         TypeaheadTagsModule,
         NotificationsModule,
         GridModule,
+        GroupedGridModule,
         VirtualScrollTableContentRendererModule,
         AuthorizationModule,
         NgSelectModule,
