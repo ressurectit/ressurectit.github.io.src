@@ -36,7 +36,8 @@ import {GridOptions, SimpleOrdering, BasicPagingOptions, SyncDataLoaderComponent
             provide: PAGING_OPTIONS,
             useValue: <BasicPagingOptions>
             {
-                itemsPerPageValues: [15, 30, 60]
+                itemsPerPageValues: [15, 30, 60],
+                initialItemsPerPage: 15
             }
         }
     ],
