@@ -1,4 +1,5 @@
 import {NgModule} from "@angular/core";
+import {ModuleRoutes} from "@anglr/common/router";
 
 import {CommonSharedModule} from "../../boot/commonShared.module";
 import {components} from "./sampleSelect.routes";
@@ -17,6 +18,7 @@ import {components} from "./sampleSelect.routes";
         ...components
     ]
 })
+@ModuleRoutes(components)
 export class SampleSelectModule
 {
 }
