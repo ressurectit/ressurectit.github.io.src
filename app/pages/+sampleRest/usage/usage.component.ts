@@ -13,8 +13,4 @@ import {ComponentRoute} from "@anglr/common/router";
 @ComponentRoute({path: ''})
 export class UsageComponent
 {
-    constructor()
-    {
-        console.log('vytvaram');
-    }
 }

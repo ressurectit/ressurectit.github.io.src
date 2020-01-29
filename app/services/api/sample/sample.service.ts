@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
  * Sample REST service
  */
 @Injectable()
-@BaseUrl('http://www.mocky.io/v2/')
+@BaseUrl('https://www.mocky.io/v2/')
 export class SampleService extends RESTClient
 {
     /**
