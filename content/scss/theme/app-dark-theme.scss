@@ -126,6 +126,20 @@
 
     //############## BUTTONS ##############
 
+    .btn-primary
+    {
+        background-color: $primaryButtonBackground;
+        background-image: linear-gradient(to bottom, $primaryButtonBackground 0%, $primaryButtonBackgroundGradient 100%);
+        border-width: 0;
+        background-position: 0;
+
+        &:hover
+        {
+            background-color: $primaryButtonBackgroundHover;
+            background-image: none;
+        }
+    }
+
     // .btn-primary
     // {
     //     letter-spacing: 1px;

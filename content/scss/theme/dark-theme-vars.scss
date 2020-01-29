@@ -21,15 +21,6 @@ $primaryCodeForeground: #DCDCDC;
 $secondaryCodeForeground: #569CD6;
 $primaryCodeBorder: #333333;
 
-$buttonLightColor: #6ABA4F;
-$buttonDarkColor: darken($buttonLightColor, 20%);
-$buttonDarkerColor: darken($buttonLightColor, 12%);
-$buttonDarkestColor: darken($buttonLightColor, 28%);
-
-$buttonInfoLightColor: #5bc0de;
-$buttonInfoDarkColor: darken($buttonInfoLightColor, 20%);
-$buttonInfoDarkerColor: darken($buttonInfoLightColor, 12%);
-
-$buttonInvalidLightColor: #EC0E0E;
-$buttonInvalidDarkColor: darken($buttonInvalidLightColor, 20%);
-$buttonInvalidDarkerColor: darken($buttonInvalidLightColor, 12%);
+$primaryButtonBackground: $primaryTitleColor;
+$primaryButtonBackgroundGradient: darken($primaryButtonBackground, 15%);
+$primaryButtonBackgroundHover: darken($primaryButtonBackground, 20%);

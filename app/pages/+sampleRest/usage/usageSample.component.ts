@@ -1,4 +1,5 @@
 import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from "@angular/core";
+import * as moment from 'moment';
 
 import {SampleService} from "../../../services/api/sample";
 
@@ -35,6 +36,22 @@ export class UsageSampleComponent
     public async simpleGet()
     {
         this.result = await this._sampleSvc.getData().toPromise();
+
+        this._changeDetector.detectChanges();
+        console.log(this.result);
+    }
+
+    /**
+     * Performs advanced GET request with params and transformations
+     */
+    public async advancedGet()
+    {
+        this.result = await this._sampleSvc.getWithParamsData('5e3140eb3200000d00888393', 'test',
+        {
+            date: moment(),
+            name: 'Test',
+            age: 33
+        }).toPromise();
 
         this._changeDetector.detectChanges();
         console.log(this.result);
