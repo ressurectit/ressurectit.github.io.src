@@ -16,5 +16,16 @@
                 text-shadow: 0 0 3px $primaryActiveMenuColor;
             }
         }
+
+        .md-content
+        {
+            table
+            {
+                td, th
+                {
+                    padding: 0 $sizeSm;
+                }
+            }
+        }
     }
 }
