@@ -4,7 +4,7 @@ var webpack = require('webpack'),
 module.exports = function(options)
 {
     var es5 = !!options && !!options.es5;
-    var distPath = "wwwroot/dist";
+    var distPath = "wwwroot/bin";
 
     var config =
     {

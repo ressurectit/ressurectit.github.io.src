@@ -99,7 +99,7 @@ function getStyleLoaders(prod)
     return prod ? [{loader: MiniCssExtractPlugin.loader, options: {publicPath: ""}}, 'css-loader', 'sass-loader'] : ['style-loader', 'css-loader', 'sass-loader'];
 }
 
-var distPath = "wwwroot/dist";
+var distPath = "wwwroot/bin";
 var entryPoints = [];
 
 module.exports = [function(options, args)
@@ -135,7 +135,7 @@ module.exports = [function(options, args)
             globalObject: 'self',
             path: path.join(__dirname, distPath),
             filename: `[name].${diff ? 'file' : es5 ? 'es5' : 'es2015'}.js`,
-            publicPath: prod ? 'dist/' : '/dist/',
+            publicPath: prod ? 'bin/' : '/bin/',
             chunkFilename: `[name].${ssr ? 'server' : 'client'}.${es5 ? 'es5' : 'es2015'}.chunk.js`
         },
         mode: 'development',

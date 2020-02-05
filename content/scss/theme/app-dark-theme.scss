@@ -147,6 +147,16 @@
         scrollbar-color: $primaryScrollbarColor $primaryScrollbarBackground;
     }
 
+    .thin-scrollbar::-webkit-scrollbar-thumb
+    {
+        background-color: $primaryScrollbarColor;
+    }
+
+    .thin-scrollbar::-webkit-scrollbar
+    {
+        background-color: $primaryScrollbarBackground;
+    }
+
     // .btn-primary
     // {
     //     letter-spacing: 1px;
