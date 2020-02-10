@@ -27,3 +27,8 @@ $primaryButtonBackgroundHover: darken($primaryButtonBackground, 20%);
 
 $primaryScrollbarColor: #cdcdcd;
 $primaryScrollbarBackground: $primaryBackgroundColor;
+
+$primarySelectBackgroundColor: lighten($primaryBackgroundColor, 5%);
+$primarySelectForegroundColor: #FFFFFF;
+$primarySelectPopupBackgroundColor: $primarySelectBackgroundColor;
+$primarySelectPopupForegroundColor: $primaryForegroundColor;

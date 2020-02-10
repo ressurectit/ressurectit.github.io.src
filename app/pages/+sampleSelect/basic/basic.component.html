@@ -1,0 +1,20 @@
+<go-back></go-back>
+
+<h3>Basic Select Sample</h3>
+
+<div class="bold spread-text">IMPORT MODULE</div>
+<div renderMarkdown="`import {NgSelectModule} from '@anglr/select';`"></div>
+
+<source-code>
+    <mat-tab-group>
+        <mat-tab label="basicSample.component.ts">
+            <div [renderMarkdown]="'pages/+sampleSelect/basic/basicSample.component.ts' | asSource | async"></div>
+        </mat-tab>
+
+        <mat-tab label="basicSample.component.html">
+            <div [renderMarkdown]="'pages/+sampleSelect/basic/basicSample.component.html' | asSource: 'html' | async"></div>
+        </mat-tab>
+    </mat-tab-group>
+</source-code>
+
+<basic-sample></basic-sample>

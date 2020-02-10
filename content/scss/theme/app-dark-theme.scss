@@ -140,6 +140,34 @@
         }
     }
 
+    //############## NG SELECT ##############
+
+    ng-select
+    {
+        button.btn-select
+        {
+            background-color: $primarySelectBackgroundColor;
+
+            &.btn:hover, &.btn:focus
+            {
+                color: $primarySelectForegroundColor;
+            }
+        }
+
+        .popup-div
+        {
+            background-color: $primarySelectPopupBackgroundColor;
+            color: $primarySelectPopupForegroundColor;
+
+            .option-item:hover, .option-item.selected
+            {
+                background-color: lighten($primarySelectBackgroundColor, 10%);
+                background-image: linear-gradient(to bottom, lighten($primarySelectBackgroundColor, 10%) 0,lighten($primarySelectBackgroundColor, 15%) 100%);
+                color: $primarySelectForegroundColor;
+            }
+        }
+    }
+
     //############## SCROLLBAR ##############
 
     .thin-scrollbar
