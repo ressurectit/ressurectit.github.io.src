@@ -10,7 +10,7 @@ import {DatetimepickerModule} from '@anglr/bootstrap/datetimepicker';
 import {TypeaheadModule, TypeaheadTagsModule} from '@anglr/bootstrap/typeahead';
 import {GridModule, GroupedGridModule} from '@anglr/grid';
 import {VirtualScrollTableContentRendererModule} from '@anglr/grid/material';
-import {NgSelectModule, NgSelectDynamicModule, NgSelectEditModule} from '@anglr/select';
+import {NgSelectModule, NgSelectEditModule} from '@anglr/select';
 import {CommonModule as NgCommonModule} from '@anglr/common';
 import {NumeralModule} from '@anglr/common/numeral';
 import {NumberInputModule} from '@anglr/common/forms';
@@ -52,7 +52,6 @@ import {GoBackModule} from '../modules/goBack';
         VirtualScrollTableContentRendererModule,
         AuthorizationModule,
         NgSelectModule,
-        NgSelectDynamicModule,
         NgSelectEditModule,
         InternalServerErrorModule,
         MatTabsModule,

@@ -4,7 +4,7 @@ import {Paginator, getValue, OrderByDirection} from "@jscrpt/common";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
 
-import {PagedData, Pageable, Orderable} from "../../../misc/types";
+import {PagedData, Pageable, Orderable, KodPopisValue} from "../../../misc/types";
 import {Address} from "./data.interface";
 
 /**
@@ -67,10 +67,37 @@ export class DataService extends RESTClient
     }
 
     /**
+     * Gets cis data 
+     * @param search Search string
+     */
+    public getCis(search: string): Observable<PagedData<KodPopisValue>>
+    {
+        return this.getCisData()
+            .pipe(map(data =>
+            {
+                data = data.filter(itm => itm.kod.toLowerCase().indexOf(search.toLowerCase()) >= 0 || itm.popis.toLowerCase().indexOf(search.toLowerCase()) >= 0);
+
+                return <PagedData<KodPopisValue>>{
+                    content: data,
+                    totalElements: data.length
+                };
+            }));
+    }
+
+    /**
      * Gets data
      */
     @GET('data.json')
     public getAllData(): Observable<Address[]>
+    {
+        return null;
+    }
+
+    /**
+     * Gets cis data
+     */
+    @GET('cis.json')
+    public getCisData(): Observable<KodPopisValue[]>
     {
         return null;
     }

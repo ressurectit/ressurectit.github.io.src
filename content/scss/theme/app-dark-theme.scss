@@ -166,6 +166,12 @@
                 color: $primarySelectForegroundColor;
             }
         }
+
+        input.form-control
+        {
+            background-color: $primarySelectInputBackgroundColor;
+            color: $primarySelectInputForegroundColor;
+        }
     }
 
     //############## SCROLLBAR ##############

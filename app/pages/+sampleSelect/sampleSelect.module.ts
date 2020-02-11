@@ -7,6 +7,8 @@ import {BasicSampleComponent} from "./basic/basicSample.component";
 import {BasicLazySampleComponent} from "./basicLazy/basicLazySample.component";
 import {CustomReadonlySampleComponent} from "./customReadonly/customReadonlySample.component";
 import {CustomReadonlyStateComponent} from "./customReadonly/customReadonlyState.component";
+import {CustomTemplateSampleComponent} from "./customTemplate/customTemplateSample.component";
+import {DynamicSampleComponent} from "./dynamic/dynamicSample.component";
 
 /**
  * Module for samples for select
@@ -23,6 +25,8 @@ import {CustomReadonlyStateComponent} from "./customReadonly/customReadonlyState
         BasicLazySampleComponent,
         CustomReadonlySampleComponent,
         CustomReadonlyStateComponent,
+        CustomTemplateSampleComponent,
+        DynamicSampleComponent,
         ...components
     ]
 })
