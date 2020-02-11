@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {BaseUrl, GET, RESTClient} from "@anglr/rest";
+import {BaseUrl, GET, RESTClient, Path} from "@anglr/rest";
 import {Paginator, getValue, OrderByDirection} from "@jscrpt/common";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
@@ -98,6 +98,15 @@ export class DataService extends RESTClient
      */
     @GET('cis.json')
     public getCisData(): Observable<KodPopisValue[]>
+    {
+        return null;
+    }
+
+    /**
+     * Gets enum data
+     */
+    @GET('{name}.json')
+    public getEnum(@Path('name') _name: string): Observable<KodPopisValue[]>
     {
         return null;
     }

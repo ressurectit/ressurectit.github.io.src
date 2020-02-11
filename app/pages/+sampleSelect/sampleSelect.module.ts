@@ -11,6 +11,10 @@ import {CustomTemplateSampleComponent} from "./customTemplate/customTemplateSamp
 import {DynamicSampleComponent} from "./dynamic/dynamicSample.component";
 import {LiveSearchSampleComponent} from "./liveSearch/liveSearchSample.component";
 import {MultipleSampleComponent} from "./multiple/multipleSample.component";
+import {ReadonlySampleComponent} from "./readonly/readonlySample.component";
+import {ConfigSampleComponent} from "./config/configSample.component";
+import {ExternalSampleComponent} from "./external/externalSample.component";
+import {ExternalSourceDirective} from "./external/externalSource.directive";
 
 /**
  * Module for samples for select
@@ -31,6 +35,10 @@ import {MultipleSampleComponent} from "./multiple/multipleSample.component";
         DynamicSampleComponent,
         LiveSearchSampleComponent,
         MultipleSampleComponent,
+        ReadonlySampleComponent,
+        ConfigSampleComponent,
+        ExternalSampleComponent,
+        ExternalSourceDirective,
         ...components
     ]
 })

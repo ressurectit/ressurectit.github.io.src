@@ -5,6 +5,9 @@ import {CustomTemplateComponent} from "./customTemplate/customTemplate.component
 import {DynamicComponent} from "./dynamic/dynamic.component";
 import {LiveSearchComponent} from "./liveSearch/liveSearch.component";
 import {MultipleComponent} from "./multiple/multiple.component";
+import {ReadonlyComponent} from "./readonly/readonly.component";
+import {ConfigComponent} from "./config/config.component";
+import {ExternalComponent} from "./external/external.component";
 
 export var components = 
 [
@@ -14,5 +17,8 @@ export var components =
     CustomTemplateComponent,
     DynamicComponent,
     LiveSearchComponent,
-    MultipleComponent
+    MultipleComponent,
+    ReadonlyComponent,
+    ConfigComponent,
+    ExternalComponent
 ];

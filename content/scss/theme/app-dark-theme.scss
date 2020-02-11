@@ -159,7 +159,7 @@
             background-color: $primarySelectPopupBackgroundColor;
             color: $primarySelectPopupForegroundColor;
 
-            .option-item:hover, .option-item.selected
+            .option-item:hover, .option-item.selected, .option-item.active
             {
                 background-color: lighten($primarySelectBackgroundColor, 10%);
                 background-image: linear-gradient(to bottom, lighten($primarySelectBackgroundColor, 10%) 0,lighten($primarySelectBackgroundColor, 15%) 100%);

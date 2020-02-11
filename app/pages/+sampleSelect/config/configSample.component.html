@@ -1,0 +1,23 @@
+<div>Value: {{selectControl?.value | json}}</div>
+
+<div class="bold margin-top-small">DI provided options</div>
+
+<ng-select [formControl]="selectControl">
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
+</ng-select>
+
+<div class="bold margin-top-small">Locally overriden options</div>
+
+<ng-select [formControl]="selectControl" [selectOptions]="selectOptions">
+    <ng-option value="first" text="First value text"></ng-option>
+    <ng-option value="second" text="Second value text"></ng-option>
+    <ng-option value="third" text="Third value text"></ng-option>
+    <ng-option value="fourth" text="Fourth value text"></ng-option>
+    <ng-option value="fifth" text="Fifth value text"></ng-option>
+</ng-select>
+
+<div class="bold margin-top-small">All other select samples are using global DI provided options</div>
