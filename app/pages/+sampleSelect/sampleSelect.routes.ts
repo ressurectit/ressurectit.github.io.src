@@ -3,6 +3,8 @@ import {BasicLazyComponent} from "./basicLazy/basicLazy.component";
 import {CustomReadonlyComponent} from "./customReadonly/customReadonly.component";
 import {CustomTemplateComponent} from "./customTemplate/customTemplate.component";
 import {DynamicComponent} from "./dynamic/dynamic.component";
+import {LiveSearchComponent} from "./liveSearch/liveSearch.component";
+import {MultipleComponent} from "./multiple/multiple.component";
 
 export var components = 
 [
@@ -10,5 +12,7 @@ export var components =
     BasicLazyComponent,
     CustomReadonlyComponent,
     CustomTemplateComponent,
-    DynamicComponent
+    DynamicComponent,
+    LiveSearchComponent,
+    MultipleComponent
 ];

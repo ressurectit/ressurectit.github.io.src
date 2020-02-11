@@ -9,6 +9,8 @@ import {CustomReadonlySampleComponent} from "./customReadonly/customReadonlySamp
 import {CustomReadonlyStateComponent} from "./customReadonly/customReadonlyState.component";
 import {CustomTemplateSampleComponent} from "./customTemplate/customTemplateSample.component";
 import {DynamicSampleComponent} from "./dynamic/dynamicSample.component";
+import {LiveSearchSampleComponent} from "./liveSearch/liveSearchSample.component";
+import {MultipleSampleComponent} from "./multiple/multipleSample.component";
 
 /**
  * Module for samples for select
@@ -27,6 +29,8 @@ import {DynamicSampleComponent} from "./dynamic/dynamicSample.component";
         CustomReadonlyStateComponent,
         CustomTemplateSampleComponent,
         DynamicSampleComponent,
+        LiveSearchSampleComponent,
+        MultipleSampleComponent,
         ...components
     ]
 })
