@@ -5,6 +5,8 @@ import {CommonSharedModule} from "../../boot/commonShared.module";
 import {components} from "./sampleSelect.routes";
 import {BasicSampleComponent} from "./basic/basicSample.component";
 import {BasicLazySampleComponent} from "./basicLazy/basicLazySample.component";
+import {CustomReadonlySampleComponent} from "./customReadonly/customReadonlySample.component";
+import {CustomReadonlyStateComponent} from "./customReadonly/customReadonlyState.component";
 
 /**
  * Module for samples for select
@@ -19,6 +21,8 @@ import {BasicLazySampleComponent} from "./basicLazy/basicLazySample.component";
     [
         BasicSampleComponent,
         BasicLazySampleComponent,
+        CustomReadonlySampleComponent,
+        CustomReadonlyStateComponent,
         ...components
     ]
 })
