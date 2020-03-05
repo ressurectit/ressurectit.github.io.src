@@ -1,14 +1,13 @@
-<div class="bold spread-text">IMPORT MODULE</div>
-<div renderMarkdown="`import {NgSelectModule} from '@anglr/select';`"></div>
+<h3>Basic Select</h3>
 
 <source-code>
     <mat-tab-group>
         <mat-tab label="basicSample.component.ts">
-            <div [renderMarkdown]="'samples/select/basic/basicSample.component.ts' | asSource | async"></div>
+            <div [renderMarkdown]="'samples/select/basicSample/basicSample.component.ts' | asSource | async"></div>
         </mat-tab>
 
         <mat-tab label="basicSample.component.html">
-            <div [renderMarkdown]="'samples/select/basic/basicSample.component.html' | asSource: 'html' | async"></div>
+            <div [renderMarkdown]="'samples/select/basicSample/basicSample.component.html' | asSource: 'html' | async"></div>
         </mat-tab>
     </mat-tab-group>
 </source-code>

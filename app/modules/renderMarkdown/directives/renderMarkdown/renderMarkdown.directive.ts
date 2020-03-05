@@ -1,9 +1,11 @@
-import {Directive, Optional, ElementRef, Inject, PLATFORM_ID, ViewContainerRef, ComponentFactoryResolver, ComponentRef} from '@angular/core';
+import {Directive, Optional, ElementRef, Inject, PLATFORM_ID, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnDestroy} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
+import {AnimationBuilder, useAnimation, AnimationPlayer} from '@angular/animations';
 import {DOCUMENT} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {RenderMarkdownIncludeDirective, HelpService} from '@anglr/md-help/web';
 import {GlobalNotificationsService} from '@anglr/notifications';
+import {fadeInAnimation} from '@anglr/animations';
 
 /**
  * Directive used for custom rendering of markdown
@@ -12,7 +14,7 @@ import {GlobalNotificationsService} from '@anglr/notifications';
 {
     selector: "[renderMd]"
 })
-export class RenderMarkdownDirective extends RenderMarkdownIncludeDirective
+export class RenderMarkdownDirective extends RenderMarkdownIncludeDirective implements OnDestroy
 {
     //######################### protected fields #########################
 
@@ -20,6 +22,11 @@ export class RenderMarkdownDirective extends RenderMarkdownIncludeDirective
      * Array of components that are present
      */
     protected _components: {[id: string]: ComponentRef<any>} = {};
+
+    /**
+     * Animation player used for animating fade in
+     */
+    protected _fadeInAnimationPlayer: AnimationPlayer;
 
     //######################### constructor #########################
     constructor(@Optional() helpSvc: HelpService,
@@ -31,9 +38,22 @@ export class RenderMarkdownDirective extends RenderMarkdownIncludeDirective
                 @Inject(PLATFORM_ID) platformId: Object,
                 protected _viewContainer: ViewContainerRef,
                 protected _componentFactoryResolver: ComponentFactoryResolver,
+                protected _animationBuilder: AnimationBuilder,
                 http: HttpClient)
     {
         super(helpSvc, element, router, route, notifications, document, platformId, http);
+
+        this._fadeInAnimationPlayer = this._animationBuilder.build(useAnimation(fadeInAnimation, {params: {duration: "250ms"}})).create(element.nativeElement);
+    }
+
+    //######################### public methods - implementation of OnDestroy #########################
+    
+    /**
+     * Called when component is destroyed
+     */
+    public ngOnDestroy()
+    {
+        this._fadeInAnimationPlayer?.destroy();
     }
 
     //######################### public methods #########################
@@ -60,6 +80,7 @@ export class RenderMarkdownDirective extends RenderMarkdownIncludeDirective
 
             let factory = this._componentFactoryResolver.resolveComponentFactory(components[matches[3]]);
             this._components[matches[1]] = this._viewContainer.createComponent(factory);
+            (this._components[matches[1]].location.nativeElement as HTMLElement).style.opacity = "0";
 
             md = md.replace(/@SAMPLE#(.*?)&.*?@/, '<div class="sample-$1 live-sample-div"></div>');
         }
@@ -82,9 +103,16 @@ export class RenderMarkdownDirective extends RenderMarkdownIncludeDirective
         Object.keys(this._components).forEach(componentId =>
         {
             let component = this._components[componentId];
+            let element: HTMLElement = component.location.nativeElement;
 
-            this._document.querySelector(`.sample-${componentId}`).append(component.location.nativeElement);
+            this._document.querySelector(`.sample-${componentId}`).append(element);
             component.changeDetectorRef.detectChanges();
+            element.style.opacity = "1";
         });
+
+        this._element.nativeElement.style.opacity = "1";
+
+        this._fadeInAnimationPlayer.reset();
+        this._fadeInAnimationPlayer.play();
     }
 }
