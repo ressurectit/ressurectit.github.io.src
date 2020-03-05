@@ -32,11 +32,11 @@ app
     height: 100vh;
     flex-direction: column;
 
-    router-outlet+*
+    router-outlet+*, router-outlet+*+*
     {
         @extend .thin-scrollbar;
 
-        overflow-y: scroll;
+        overflow: hidden;
         flex: 1;
         min-height: 0;
         min-width: 0;

@@ -1,1 +1,1 @@
-export * from './modules/renderMarkdown.module';
+export * from './modules';

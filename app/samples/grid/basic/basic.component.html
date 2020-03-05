@@ -1,16 +1,13 @@
-<h3>Basic Grid Sample</h3>
-
-<div class="bold spread-text">IMPORT MODULE</div>
-<div renderMarkdown="`import {GridModule} from '@anglr/grid';`"></div>
+<h3>Basic Grid</h3>
 
 <source-code>
     <mat-tab-group>
         <mat-tab label="basicSample.component.ts">
-            <div [renderMarkdown]="'pages/+sampleGrid/basic/basicSample.component.ts' | asSource | async"></div>
+            <div [renderMarkdown]="'samples/grid/basic/basicSample.component.ts' | asSource | async"></div>
         </mat-tab>
 
         <mat-tab label="basicSample.component.html">
-            <div [renderMarkdown]="'pages/+sampleGrid/basic/basicSample.component.html' | asSource: 'html' | async"></div>
+            <div [renderMarkdown]="'samples/grid/basic/basicSample.component.html' | asSource: 'html' | async"></div>
         </mat-tab>
 
         <mat-tab label="data.interface.ts">

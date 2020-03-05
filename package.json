@@ -65,7 +65,7 @@
         "@anglr/common": "7.0.0",
         "@anglr/error-handling": "7.0.0",
         "@anglr/grid": "7.0.0",
-        "@anglr/md-help": "7.0.0",
+        "@anglr/md-help": "next",
         "@anglr/notifications": "7.0.0",
         "@anglr/rest": "7.0.0",
         "@anglr/select": "7.0.0",

@@ -1,9 +1,9 @@
 import {Directive, Optional, ElementRef, Inject, PLATFORM_ID, ViewContainerRef, ComponentFactoryResolver, ComponentRef} from '@angular/core';
 import {Router, ActivatedRoute} from '@angular/router';
 import {DOCUMENT} from '@angular/common';
-import {RenderMarkdownDirective as RenderMdDirective, HelpService} from '@anglr/md-help/web';
-import {GlobalNotificationsService} from '@anglr/notifications';
 import {HttpClient} from '@angular/common/http';
+import {RenderMarkdownIncludeDirective, HelpService} from '@anglr/md-help/web';
+import {GlobalNotificationsService} from '@anglr/notifications';
 
 /**
  * Directive used for custom rendering of markdown
@@ -12,7 +12,7 @@ import {HttpClient} from '@angular/common/http';
 {
     selector: "[renderMd]"
 })
-export class RenderMarkdownDirective extends RenderMdDirective
+export class RenderMarkdownDirective extends RenderMarkdownIncludeDirective
 {
     //######################### protected fields #########################
 
@@ -31,9 +31,9 @@ export class RenderMarkdownDirective extends RenderMdDirective
                 @Inject(PLATFORM_ID) platformId: Object,
                 protected _viewContainer: ViewContainerRef,
                 protected _componentFactoryResolver: ComponentFactoryResolver,
-                protected _http: HttpClient)
+                http: HttpClient)
     {
-        super(helpSvc, element, router, route, notifications, document, platformId);
+        super(helpSvc, element, router, route, notifications, document, platformId, http);
     }
 
     //######################### public methods #########################
@@ -61,26 +61,12 @@ export class RenderMarkdownDirective extends RenderMdDirective
             let factory = this._componentFactoryResolver.resolveComponentFactory(components[matches[3]]);
             this._components[matches[1]] = this._viewContainer.createComponent(factory);
 
-            md = md.replace(/@SAMPLE#(.*?)&.*?@/, '<div class="sample-$1"></div>');
+            md = md.replace(/@SAMPLE#(.*?)&.*?@/, '<div class="sample-$1 live-sample-div"></div>');
         }
 
-        while(matches = /@INCLUDEMD#(.*?)@/.exec(md))
-        {
-            let includeMd = await this._http.get(matches[1], {responseType: 'text'}).toPromise();
-
-            md = md.replace(/@INCLUDEMD#(.*?)@/, includeMd);
-        }
+        md = await super.filterMd(md);
 
         return md;
-    }
-
-    /**
-     * Filters out parts of html that should not be rendered
-     * @param html Html to be filtered
-     */
-    public async filterHtml(html: string): Promise<string>
-    {
-        return html;
     }
 
     //######################### protected methods #########################

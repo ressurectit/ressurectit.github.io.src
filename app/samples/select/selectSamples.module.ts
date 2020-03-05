@@ -9,6 +9,7 @@ import {ConfigComponent} from "./config/config.component";
 import {ConfigSampleComponent} from "./config/configSample.component";
 import {CustomReadonlySampleComponent} from "./customReadonly/customReadonlySample.component";
 import {CustomReadonlyComponent} from "./customReadonly/customReadonly.component";
+import {CustomReadonlyStateComponent} from "./customReadonly/customReadonlyState.component";
 import {CustomTemplateComponent} from "./customTemplate/customTemplate.component";
 import {CustomTemplateSampleComponent} from "./customTemplate/customTemplateSample.component";
 import {DynamicSampleComponent} from "./dynamic/dynamicSample.component";
@@ -42,6 +43,7 @@ import {ReadonlyComponent} from "./readonly/readonly.component";
         ConfigComponent,
         CustomReadonlySampleComponent,
         CustomReadonlyComponent,
+        CustomReadonlyStateComponent,
         CustomTemplateSampleComponent,
         CustomTemplateComponent,
         DynamicSampleComponent,

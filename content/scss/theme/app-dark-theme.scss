@@ -191,34 +191,16 @@
         background-color: $primaryScrollbarBackground;
     }
 
-    // .btn-primary
-    // {
-    //     letter-spacing: 1px;
-    //     background-color: $buttonLightColor;
-    //     background-image: none;
-    //     border-color: $buttonLightColor;
-    //     text-shadow: 0 0;
-    //     box-shadow: 0 0;
+    //############## LIVE SAMPLE ##############
+    
+    .live-sample-div
+    {
+        border-color: $primaryLiveSampleHeaderBackground;;
+        box-shadow: 0 0 1px $primaryLiveSampleHeaderBackground;
 
-    //     &:active:not(.disabled)
-    //     {
-    //         transform: translateY(2px);
-    //         background-color: $buttonLightColor;
-    //         border-color: $buttonLightColor;
-    //         box-shadow: 0 0;
-    //     }
-
-    //     &:hover,
-    //     &:focus
-    //     {
-    //         background-color: $buttonDarkerColor;
-    //         border-color: $buttonDarkerColor;
-    //     }
-
-    //     &>span[class^="fa"],
-    //     &>span[class^="glyphicon"]
-    //     {
-    //         color: $buttonDarkColor;
-    //     }
-    // }
+        h1, h2, h3, h4, h5, h6
+        {
+            background-color: $primaryLiveSampleHeaderBackground;
+        }
+    }
 }

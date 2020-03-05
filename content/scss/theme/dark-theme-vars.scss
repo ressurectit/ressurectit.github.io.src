@@ -34,3 +34,5 @@ $primarySelectPopupBackgroundColor: $primarySelectBackgroundColor;
 $primarySelectPopupForegroundColor: $primaryForegroundColor;
 $primarySelectInputBackgroundColor: $primaryBackgroundColor;
 $primarySelectInputForegroundColor: $primaryForegroundColor;
+
+$primaryLiveSampleHeaderBackground: lighten($primaryBackgroundColor, 10%);

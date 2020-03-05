@@ -137,22 +137,49 @@
     }
     
     //############## PAGE TITLE ##############
-
+    
     .page-title
     {
         padding: 10px 0;
-
+        
         .title-text
         {
             padding-left: 10%;
             font-size: 24px;
         }
-
+        
         a
         {
             font-size: 22px;
             display: block;
             margin-right: 10px;
+        }
+    }
+
+    //############## LIVE SAMPLE ##############
+    
+    .live-sample-div
+    {
+        border-width: 1px;
+        border-style: solid;
+        margin-bottom: $sizeSm;
+        padding: $sizeSm;
+        border-radius: $borderRadius;
+        position: relative;
+
+        h1, h2, h3, h4, h5, h6
+        {
+            margin: $negSizeSm $negSizeSm $sizeSm;
+            padding: $sizeSm;
+        }
+
+        source-code
+        {
+            .show-icon
+            {
+                position: absolute;
+                top: 5px;
+            }
         }
     }
 }
