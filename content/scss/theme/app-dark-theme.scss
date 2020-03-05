@@ -28,7 +28,7 @@
 
     //############## CODE ##############
 
-    code
+    code:not(.hljs)
     {
         background-color: $secondaryCodeBackground;
         color: $secondaryCodeForeground;
@@ -37,12 +37,6 @@
     pre
     {
         border-color: $primaryCodeBorder;
-
-        &>code
-        {
-            background: $primaryCodeBackground;
-            color: $primaryCodeForeground;
-        }
     }
 
     //############## SEPARATOR ##############

@@ -1,6 +1,8 @@
-import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
+import {RouterOutlet, Router} from '@angular/router';
 import {GlobalizationService} from '@anglr/common';
+import {getCurrentUrlPrefix} from '@anglr/md-help/web';
 import {TranslateService} from "@ngx-translate/core";
 import {Subscription} from 'rxjs';
 import * as config from 'config/global';
@@ -22,7 +24,7 @@ import {routeAnimationTrigger} from './app.component.animations';
 export class AppComponent implements AfterViewInit, OnDestroy
 {
     //######################### private fields #########################
-    
+
     /**
      * Subscription for router outlet activation changes
      */
@@ -44,17 +46,25 @@ export class AppComponent implements AfterViewInit, OnDestroy
 
     //######################### constructor #########################
     constructor(translate: TranslateService,
-                globalization: GlobalizationService) 
+                globalization: GlobalizationService,
+                router: Router,
+                @Inject(DOCUMENT) document: HTMLDocument)
     {
         document.body.classList.add("app-page", config.theme);
 
         moment.locale(globalization.locale);
         translate.setDefaultLang('en');
         translate.use(config.language);
+
+        //handle route to html5 routing
+        if(document.location.pathname != router.url)
+        {
+            router.navigateByUrl(router.parseUrl(document.location.href.replace(getCurrentUrlPrefix(document), '')));
+        }
     }
 
     //######################### public methods - implementation of AfterViewInit #########################
-    
+
     /**
      * Called when view was initialized
      */
@@ -67,7 +77,7 @@ export class AppComponent implements AfterViewInit, OnDestroy
     }
 
     //######################### public methods - implementation of OnDestroy #########################
-    
+
     /**
      * Called when component is destroyed
      */

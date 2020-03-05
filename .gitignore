@@ -1,5 +1,6 @@
 node_modules/
 wwwroot/
+packages/
 package-lock.json
 proxyUrl.js
 *.log
