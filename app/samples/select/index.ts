@@ -1,2 +1,2 @@
 export * from './selectSamples.module';
-export * from './basicSample/basicSample.component';
+export * from './basicSample/basic.component';

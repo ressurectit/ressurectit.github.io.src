@@ -3,6 +3,7 @@ import {Router, ActivatedRoute} from '@angular/router';
 import {DOCUMENT} from '@angular/common';
 import {RenderMarkdownDirective as RenderMdDirective, HelpService} from '@anglr/md-help/web';
 import {GlobalNotificationsService} from '@anglr/notifications';
+import {HttpClient} from '@angular/common/http';
 
 /**
  * Directive used for custom rendering of markdown
@@ -29,7 +30,8 @@ export class RenderMarkdownDirective extends RenderMdDirective
                 @Inject(DOCUMENT) document: HTMLDocument,
                 @Inject(PLATFORM_ID) platformId: Object,
                 protected _viewContainer: ViewContainerRef,
-                protected _componentFactoryResolver: ComponentFactoryResolver)
+                protected _componentFactoryResolver: ComponentFactoryResolver,
+                protected _http: HttpClient)
     {
         super(helpSvc, element, router, route, notifications, document, platformId);
     }
@@ -62,6 +64,13 @@ export class RenderMarkdownDirective extends RenderMdDirective
             md = md.replace(/@SAMPLE#(.*?)&.*?@/, '<div class="sample-$1"></div>');
         }
 
+        while(matches = /@INCLUDEMD#(.*?)@/.exec(md))
+        {
+            let includeMd = await this._http.get(matches[1], {responseType: 'text'}).toPromise();
+
+            md = md.replace(/@INCLUDEMD#(.*?)@/, includeMd);
+        }
+
         return md;
     }
 
@@ -71,8 +80,6 @@ export class RenderMarkdownDirective extends RenderMdDirective
      */
     public async filterHtml(html: string): Promise<string>
     {
-        html = html.replace(/content\/SAMPLES_URL\//g, "");
-
         return html;
     }
 
