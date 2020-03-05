@@ -1,5 +1,4 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
-import {ComponentRoute} from "@anglr/common/router";
 
 /**
  * Readonly sample for select component
@@ -10,7 +9,6 @@ import {ComponentRoute} from "@anglr/common/router";
     templateUrl: 'readonly.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@ComponentRoute({path: 'readonly'})
 export class ReadonlyComponent
 {
 }

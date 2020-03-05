@@ -7,6 +7,8 @@ import {contentComponents} from './content.routes';
 import {ContentService} from '../../services/api/content';
 import {ContentMenuResolver} from './content/content.resolver';
 import {RenderMarkdownModule} from '../../modules';
+import {DataResolver} from '../../misc/resolvers';
+import {DataService} from '../../services/api/data';
 
 /**
  * Content module for displaying content pages
@@ -32,7 +34,9 @@ import {RenderMarkdownModule} from '../../modules';
             provide: ContentService,
             useExisting: HelpService
         },
-        ContentMenuResolver
+        DataService,
+        ContentMenuResolver,
+        DataResolver
     ]
 })
 @ModuleRoutes(contentComponents)

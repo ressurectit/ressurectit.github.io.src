@@ -6,6 +6,7 @@ import {Subscription} from "rxjs";
 import {DEFAULT_CONTENT} from "../../../misc/constants";
 import {ContentMenuResolver, ContentData} from "./content.resolver";
 import {ContentMenu} from "../../../services/api/content";
+import {DataResolver} from "../../../misc/resolvers";
 
 /**
  * Content component used for displaying markdowns
@@ -17,7 +18,7 @@ import {ContentMenu} from "../../../services/api/content";
     styleUrls: ['content.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@ComponentRoute({path: '**', resolve: {menu: ContentMenuResolver}})
+@ComponentRoute({path: '**', resolve: {menu: ContentMenuResolver, data: DataResolver}})
 export class ContentComponent implements OnInit, OnDestroy
 {
     //######################### private fields #########################

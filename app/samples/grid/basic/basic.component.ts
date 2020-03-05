@@ -1,5 +1,4 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
-import {ComponentRoute} from "@anglr/common/router";
 
 /**
  * Basic sample for grid component
@@ -10,7 +9,6 @@ import {ComponentRoute} from "@anglr/common/router";
     templateUrl: 'basic.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@ComponentRoute({path: ''})
 export class BasicComponent
 {
 }
