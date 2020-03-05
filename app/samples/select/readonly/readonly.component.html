@@ -1,0 +1,18 @@
+<h3>Readonly Select Sample</h3>
+
+<div class="bold spread-text">IMPORT MODULE</div>
+<div renderMarkdown="`import {NgSelectModule} from '@anglr/select';`"></div>
+
+<source-code>
+    <mat-tab-group>
+        <mat-tab label="readonlySample.component.ts">
+            <div [renderMarkdown]="'pages/+sampleSelect/readonly/readonlySample.component.ts' | asSource | async"></div>
+        </mat-tab>
+
+        <mat-tab label="readonlySample.component.html">
+            <div [renderMarkdown]="'pages/+sampleSelect/readonly/readonlySample.component.html' | asSource: 'html' | async"></div>
+        </mat-tab>
+    </mat-tab-group>
+</source-code>
+
+<readonly-sample></readonly-sample>

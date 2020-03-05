@@ -23,7 +23,6 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import {AsSourceModule} from '../modules/asSource';
 import {SourceCodeModule} from '../modules/sourceCode';
-import {GoBackModule} from '../modules/goBack';
 
 /**
  * Common module for all other modules
@@ -57,8 +56,7 @@ import {GoBackModule} from '../modules/goBack';
         MatTabsModule,
         MarkdownModule,
         AsSourceModule,
-        SourceCodeModule,
-        GoBackModule
+        SourceCodeModule
     ]
 })
 export class CommonSharedModule

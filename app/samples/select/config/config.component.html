@@ -1,0 +1,30 @@
+<h3>Configuration Select Sample</h3>
+
+<div class="bold spread-text">IMPORT MODULE</div>
+<div renderMarkdown="`import {NgSelectModule} from '@anglr/select';`"></div>
+
+<source-code>
+    <mat-tab-group>
+        <mat-tab label="configSample.component.ts">
+            <div [renderMarkdown]="'pages/+sampleSelect/config/configSample.component.ts' | asSource | async"></div>
+        </mat-tab>
+
+        <mat-tab label="configSample.component.html">
+            <div [renderMarkdown]="'pages/+sampleSelect/config/configSample.component.html' | asSource: 'html' | async"></div>
+        </mat-tab>
+
+        <mat-tab label="kodPopisValue.interface.ts">
+            <div [renderMarkdown]="'misc/types/kodPopisValue.interface.ts' | asSource | async"></div>
+        </mat-tab>
+
+        <mat-tab label="select.global.conf.ts">
+            <div [renderMarkdown]="'boot/select.global.conf.ts' | asSource | async"></div>
+        </mat-tab>
+
+        <mat-tab label="constants.ts">
+            <div [renderMarkdown]="'misc/constants.ts' | asSource | async"></div>
+        </mat-tab>
+    </mat-tab-group>
+</source-code>
+
+<config-sample></config-sample>

@@ -29,14 +29,6 @@ export const routesOptions: ModuleRoutesOptions =
             loadChildren: () => import('../pages/+content/content.module').then(({ContentModule}) => ContentModule)
         },
         {
-            path: 'gridSamples',
-            loadChildren: () => import('../pages/+sampleGrid/sampleGrid.module').then(({SampleGridModule}) => SampleGridModule)
-        },
-        {
-            path: 'selectSamples',
-            loadChildren: () => import('../pages/+sampleSelect/sampleSelect.module').then(({SampleSelectModule}) => SampleSelectModule)
-        },
-        {
             path: 'restSamples',
             loadChildren: () => import('../pages/+sampleRest/sampleRest.module').then(({SampleRestModule}) => SampleRestModule)
         }

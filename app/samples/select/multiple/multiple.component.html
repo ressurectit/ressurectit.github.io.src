@@ -1,0 +1,18 @@
+<h3>Multiple Select Sample</h3>
+
+<div class="bold spread-text">IMPORT MODULE</div>
+<div renderMarkdown="`import {NgSelectModule} from '@anglr/select';`"></div>
+
+<source-code>
+    <mat-tab-group>
+        <mat-tab label="multipleSample.component.ts">
+            <div [renderMarkdown]="'pages/+sampleSelect/multiple/multipleSample.component.ts' | asSource | async"></div>
+        </mat-tab>
+
+        <mat-tab label="multipleSample.component.html">
+            <div [renderMarkdown]="'pages/+sampleSelect/multiple/multipleSample.component.html' | asSource: 'html' | async"></div>
+        </mat-tab>
+    </mat-tab-group>
+</source-code>
+
+<multiple-sample></multiple-sample>
