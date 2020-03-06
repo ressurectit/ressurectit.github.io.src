@@ -17,8 +17,7 @@ export const routesOptions: ModuleRoutesOptions =
         enableTracing: false,
         useHash: true,
         anchorScrolling: 'enabled',
-        onSameUrlNavigation: 'reload',
-        scrollPositionRestoration: 'enabled'
+        onSameUrlNavigation: 'reload'
     },
     staticRoutesBefore:
     [
