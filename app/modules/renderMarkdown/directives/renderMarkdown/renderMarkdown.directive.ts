@@ -80,7 +80,7 @@ export class RenderMarkdownDirective extends RenderMarkdownIncludeDirective impl
 
             let factory = this._componentFactoryResolver.resolveComponentFactory(components[matches[3]]);
             this._components[matches[1]] = this._viewContainer.createComponent(factory);
-            (this._components[matches[1]].location.nativeElement as HTMLElement).style.opacity = "0";
+            (this._components[matches[1]].location.nativeElement as HTMLElement).style.display = "none";
 
             md = md.replace(/@SAMPLE#(.*?)&.*?@/, '<div class="sample-$1 live-sample-div"></div>');
         }
@@ -107,10 +107,8 @@ export class RenderMarkdownDirective extends RenderMarkdownIncludeDirective impl
 
             this._document.querySelector(`.sample-${componentId}`).append(element);
             component.changeDetectorRef.detectChanges();
-            element.style.opacity = "1";
+            element.style.display = "block";
         });
-
-        this._element.nativeElement.style.opacity = "1";
 
         this._fadeInAnimationPlayer.reset();
         this._fadeInAnimationPlayer.play();
