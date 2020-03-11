@@ -11,6 +11,11 @@ import {ConfigurationSampleComponent} from "./configuration/configurationSample.
 import {ConfigurationComponent} from "./configuration/configuration.component";
 import {GroupedMetadataSampleComponent} from "./groupedMetadata/groupedMetadataSample.component";
 import {GroupedMetadataComponent} from "./groupedMetadata/groupedMetadata.component";
+import {CustomRendererSampleComponent} from "./customRenderer/customRendererSample.component";
+import {CustomRendererComponent} from "./customRenderer/customRenderer.component";
+import {GalleryMetadataGathererComponent} from "./customRenderer/gallery/galleryMetadataGatherer.component";
+import {GalleryItemComponent} from "./customRenderer/gallery/galleryItem.component";
+import {GalleryContentRendererComponent} from "./customRenderer/galleryRenderer/galleryContentRenderer.component";
 
 /**
  * Module with grid samples components
@@ -32,7 +37,12 @@ import {GroupedMetadataComponent} from "./groupedMetadata/groupedMetadata.compon
         ConfigurationSampleComponent,
         ConfigurationComponent,
         GroupedMetadataSampleComponent,
-        GroupedMetadataComponent
+        GroupedMetadataComponent,
+        CustomRendererSampleComponent,
+        CustomRendererComponent,
+        GalleryMetadataGathererComponent,
+        GalleryItemComponent,
+        GalleryContentRendererComponent
     ]
     
 })

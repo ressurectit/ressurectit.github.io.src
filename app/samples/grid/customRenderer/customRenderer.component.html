@@ -1,0 +1,15 @@
+<h3>Custom Renderer Grid</h3>
+
+<source-code>
+    <mat-tab-group>
+        <mat-tab label="customRendererSample.component.ts">
+            <div [renderMarkdown]="'samples/grid/customRenderer/customRendererSample.component.ts' | asSource | async"></div>
+        </mat-tab>
+
+        <mat-tab label="customRendererSample.component.html">
+            <div [renderMarkdown]="'samples/grid/customRenderer/customRendererSample.component.html' | asSource: 'html' | async"></div>
+        </mat-tab>
+    </mat-tab-group>
+</source-code>
+
+<custom-renderer-sample></custom-renderer-sample>
