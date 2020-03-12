@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy} from "@angular/core";
+import {Component, ChangeDetectionStrategy, Input} from "@angular/core";
 
 import {GalleryItem} from "./gallery.interface";
 
@@ -18,5 +18,6 @@ export class GalleryItemComponent implements GalleryItem
     /**
      * Source of gallery item
      */
+    @Input()
     source: string;
 }

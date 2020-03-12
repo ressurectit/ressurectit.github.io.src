@@ -1,6 +1,8 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
-import {GridOptions, SimpleOrdering, SyncDataLoaderComponent, SyncDataLoaderOptions} from "@anglr/grid";
+import {GridOptions, SimpleOrdering, DataResponse, AsyncDataLoaderOptions} from "@anglr/grid";
+
 import {GalleryContentRendererComponent} from "./galleryRenderer/galleryContentRenderer.component";
+import {GalleryService, GalleryItem} from "../../../services/api/gallery";
 
 /**
  * Custom renderer sample for grid component
@@ -9,6 +11,7 @@ import {GalleryContentRendererComponent} from "./galleryRenderer/galleryContentR
 {
     selector: 'custom-renderer-sample',
     templateUrl: 'customRendererSample.component.html',
+    providers: [GalleryService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomRendererSampleComponent
@@ -21,7 +24,7 @@ export class CustomRendererSampleComponent
     public gridOptions: GridOptions;
 
     //######################### constructor #########################
-    constructor()
+    constructor(private _dataSvc: GalleryService)
     {
         this.gridOptions =
         {
@@ -29,12 +32,10 @@ export class CustomRendererSampleComponent
             {
                 dataLoader:
                 {
-                    //use sync data loader as grid data loader plugin
-                    type: SyncDataLoaderComponent,
-                    options: <SyncDataLoaderOptions<any, SimpleOrdering>>
+                    options: <AsyncDataLoaderOptions<GalleryItem, SimpleOrdering>>
                     {
-                        //all data used in data loader
-                        data: []
+                        //data callback used for getting data asynchronously
+                        dataCallback: this._getData.bind(this)
                     }
                 },
                 contentRenderer:
@@ -42,6 +43,29 @@ export class CustomRendererSampleComponent
                     type: GalleryContentRendererComponent
                 }
             }
+        };
+    }
+
+    
+    //######################### private methods #########################
+
+    /**
+     * Callback used for obtaining data
+     * @param page Index of requested page
+     * @param itemsPerPage Number of items per page
+     */
+    private async _getData(page: number, itemsPerPage: number, _ordering: SimpleOrdering): Promise<DataResponse<GalleryItem>>
+    {
+        let result = await this._dataSvc
+            .getGallery({
+                            page: page,
+                            size: itemsPerPage
+                        })
+            .toPromise();
+
+        return {
+            data: result.content,
+            totalCount: result.totalElements
         };
     }
 }
