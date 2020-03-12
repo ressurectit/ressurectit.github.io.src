@@ -1,4 +1,5 @@
 import {Component, ElementRef, Inject, Optional, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy} from "@angular/core";
+import {trigger, transition, query, style, stagger, animate} from "@angular/animations";
 import {GridPluginGeneric, GRID_PLUGIN_INSTANCES, GridPluginInstances, CONTENT_RENDERER_OPTIONS, MetadataSelector, DataLoader, DataResponse, METADATA_SELECTOR, DATA_LOADER} from "@anglr/grid";
 import {extend} from "@jscrpt/common";
 import {Subscription} from "rxjs";
@@ -26,6 +27,23 @@ const defaultOptions: GalleryContentRendererOptions<CssClassesGalleryContentRend
     selector: 'div.gallery-renderer',
     templateUrl: 'galleryContentRenderer.component.html',
     styleUrls: ['galleryContentRenderer.component.scss'],
+    animations:
+    [
+        trigger('showGallery',
+        [
+            transition(":enter",
+            [
+                query('.gallery-item',
+                [
+                    style({opacity: 0, transform: 'translateY(-100px)'}),
+                    stagger(-30, 
+                    [
+                        animate('500ms cubic-bezier(0.35, 0, 0.25, 1)', style({ opacity: 1, transform: 'none' }))
+                    ])
+                ])
+            ])
+        ])
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GalleryContentRendererComponent<TOrdering, TOptions extends GalleryContentRendererOptions<CssClassesGalleryContentRenderer>> implements GalleryContentRenderer<TOrdering>, GridPluginGeneric<TOptions>, OnDestroy
