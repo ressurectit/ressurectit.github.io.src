@@ -23,6 +23,8 @@ import {MultipleSampleComponent} from "./multiple/multipleSample.component";
 import {MultipleComponent} from "./multiple/multiple.component";
 import {ReadonlySampleComponent} from "./readonly/readonlySample.component";
 import {ReadonlyComponent} from "./readonly/readonly.component";
+import {ModalPopupSampleComponent} from './modalPopup/modalPopupSample.component';
+import {ModalPopupComponent} from './modalPopup/modalPopup.component';
 
 /**
  * Module with select samples components
@@ -56,7 +58,9 @@ import {ReadonlyComponent} from "./readonly/readonly.component";
         MultipleSampleComponent,
         MultipleComponent,
         ReadonlySampleComponent,
-        ReadonlyComponent
+        ReadonlyComponent,
+        ModalPopupSampleComponent,
+        ModalPopupComponent
     ]
 })
 export class SelectSamplesModule

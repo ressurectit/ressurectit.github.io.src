@@ -16,4 +16,17 @@
             border-color: rgb(234, 234, 234);
         }
     }
+
+    //############## NG SELECT ##############
+
+    ng-select
+    {
+        custom-readonly-state
+        {
+            .form-control
+            {
+                background-color: $primarySelectBackgroundColor;
+            }
+        }
+    }
 }

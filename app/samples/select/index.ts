@@ -9,3 +9,4 @@ export * from './external/external.component';
 export * from './liveSearch/liveSearch.component';
 export * from './multiple/multiple.component';
 export * from './readonly/readonly.component';
+export * from './modalPopup/modalPopup.component';

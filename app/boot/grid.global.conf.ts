@@ -1,5 +1,5 @@
 import {ValueProvider} from "@angular/core";
-import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, PAGING_INITIALIZER_OPTIONS, BasicPagingOptions} from "@anglr/grid";
+import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, GRID_INITIALIZER_OPTIONS, PAGING_OPTIONS, BasicPagingOptions, GridInitializerOptions} from "@anglr/grid";
 
 /**
  * Global configuration for Grid
@@ -21,7 +21,15 @@ export const globalGridConfig =
     },
     <ValueProvider>
     {
-        provide: PAGING_INITIALIZER_OPTIONS,
+        provide: GRID_INITIALIZER_OPTIONS,
+        //default value for each grid if not overwritten
+        useValue: <GridInitializerOptions>
+        {
+        }
+    },
+    <ValueProvider>
+    {
+        provide: PAGING_OPTIONS,
         //default value for each grid if not overwritten
         useValue: <BasicPagingOptions>
         {

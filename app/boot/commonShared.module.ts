@@ -11,6 +11,7 @@ import {TypeaheadModule, TypeaheadTagsModule} from '@anglr/bootstrap/typeahead';
 import {GridModule, GroupedGridModule} from '@anglr/grid';
 import {VirtualScrollTableContentRendererModule} from '@anglr/grid/material';
 import {NgSelectModule, NgSelectEditModule} from '@anglr/select';
+import {NgSelectDialogPopupModule} from '@anglr/select/material';
 import {CommonModule as NgCommonModule} from '@anglr/common';
 import {NumeralModule} from '@anglr/common/numeral';
 import {NumberInputModule} from '@anglr/common/forms';
@@ -52,6 +53,7 @@ import {SourceCodeModule} from '../modules/sourceCode';
         AuthorizationModule,
         NgSelectModule,
         NgSelectEditModule,
+        NgSelectDialogPopupModule,
         InternalServerErrorModule,
         MatTabsModule,
         MarkdownModule,

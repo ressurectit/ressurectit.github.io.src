@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from "@angular/core";
-import {BasicNormalStateComponent, ReadonlyStateOptions, NgSelectPluginGeneric, ReadonlyState} from "@anglr/select";
+import {BasicNormalStateComponent, ReadonlyStateOptions, NgSelectPlugin, ReadonlyState} from "@anglr/select";
 
 /**
  * Custom readonly state component
@@ -10,6 +10,6 @@ import {BasicNormalStateComponent, ReadonlyStateOptions, NgSelectPluginGeneric, 
     templateUrl: 'customReadonlyState.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CustomReadonlyStateComponent extends BasicNormalStateComponent implements ReadonlyState, NgSelectPluginGeneric<ReadonlyStateOptions<any>>
+export class CustomReadonlyStateComponent extends BasicNormalStateComponent implements ReadonlyState, NgSelectPlugin<ReadonlyStateOptions<any>>
 {
 }
