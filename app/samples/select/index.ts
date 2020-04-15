@@ -10,3 +10,5 @@ export * from './liveSearch/liveSearch.component';
 export * from './multiple/multiple.component';
 export * from './readonly/readonly.component';
 export * from './modalPopup/modalPopup.component';
+export * from './edit/edit.component';
+export * from './absolute/absolute.component';

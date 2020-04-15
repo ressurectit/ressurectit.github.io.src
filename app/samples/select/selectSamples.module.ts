@@ -25,6 +25,10 @@ import {ReadonlySampleComponent} from "./readonly/readonlySample.component";
 import {ReadonlyComponent} from "./readonly/readonly.component";
 import {ModalPopupSampleComponent} from './modalPopup/modalPopupSample.component';
 import {ModalPopupComponent} from './modalPopup/modalPopup.component';
+import {EditSampleComponent} from './edit/editSample.component';
+import {EditComponent} from './edit/edit.component';
+import {AbsoluteSampleComponent} from './absolute/absoluteSample.component';
+import {AbsoluteComponent} from './absolute/absolute.component';
 
 /**
  * Module with select samples components
@@ -60,7 +64,11 @@ import {ModalPopupComponent} from './modalPopup/modalPopup.component';
         ReadonlySampleComponent,
         ReadonlyComponent,
         ModalPopupSampleComponent,
-        ModalPopupComponent
+        ModalPopupComponent,
+        EditSampleComponent,
+        EditComponent,
+        AbsoluteSampleComponent,
+        AbsoluteComponent
     ]
 })
 export class SelectSamplesModule
