@@ -119,14 +119,14 @@
     }
 
     //############## BUTTONS ##############
-    
+
     .btn-primary
     {
         background-color: $primaryButtonBackground;
         background-image: linear-gradient(to bottom, $primaryButtonBackground 0%, $primaryButtonBackgroundGradient 100%);
         border-width: 0;
         background-position: 0;
-        
+
         &:hover
         {
             background-color: $primaryButtonBackgroundHover;
@@ -136,18 +136,8 @@
 
     //############## NG SELECT ##############
 
-    ng-select
+    %popup-div
     {
-        button.btn-select
-        {
-            background-color: $primarySelectBackgroundColor;
-
-            &.btn:hover, &.btn:focus
-            {
-                color: $primarySelectForegroundColor;
-            }
-        }
-
         .popup-div
         {
             background-color: $primarySelectPopupBackgroundColor;
@@ -160,8 +150,34 @@
                 color: $primarySelectForegroundColor;
             }
         }
+    }
 
-        input.form-control
+    .ng-select-popup
+    {
+        @extend %popup-div;
+    }
+
+    ng-select
+    {
+        @extend %popup-div;
+
+        button.btn-select, .selected-caret
+        {
+            background-color: $primarySelectBackgroundColor;
+
+            &.btn:hover, &.btn:focus
+            {
+                color: $primarySelectForegroundColor;
+            }
+        }
+
+        .selected-multi-value
+        {
+            background-color: lighten($primarySelectBackgroundColor, 15%);
+            color: $primarySelectForegroundColor;
+        }
+
+        input.form-control, input.edit-control, div.btn-select
         {
             background-color: $primarySelectInputBackgroundColor;
             color: $primarySelectInputForegroundColor;
@@ -186,7 +202,7 @@
     }
 
     //############## LIVE SAMPLE ##############
-    
+
     .live-sample-div
     {
         border-color: $primaryLiveSampleHeaderBackground;;
