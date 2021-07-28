@@ -1,16 +1,15 @@
-@import "scss/variables.scss";
-@import "scss/fonts.scss";
-@import "scss/misc.scss";
-@import "scss/bootstrap-override.scss";
-@import "scss/theme/app-theme.scss";
-@import "scss/theme/app-dark-theme.scss";
-@import "scss/theme/app-light-theme.scss";
-@import "scss/components.scss";
+@use "scss/fonts";
+@use 'scss/app';
 
 // ---------------------- COMMON ----------------------
 *, *:focus
 {
     outline: none;
+}
+
+*
+{
+    box-sizing: border-box;
 }
 
 html
@@ -22,7 +21,7 @@ body
 {
     overflow: hidden;
     margin: 0;
-    padding: 0 !important;
+    padding: 0;
     height: 100%;
 }
 
@@ -36,16 +35,17 @@ app
     {
         @extend .thin-scrollbar;
 
-        overflow: hidden;
+        overflow-y: hidden;
         flex: 1;
-        min-height: 0;
-        min-width: 0;
         display: flex;
         flex-direction: column;
+        min-height: 0;
+        min-width: 0;
+        padding: 0 5% 5px;
 
-        &:not(content-view)
+        &.scrollable
         {
-            padding: 0 10px;
+            overflow-y: scroll;
         }
     }
 }
@@ -81,30 +81,58 @@ app
     }
 }
 
-// ---------------------- APP STARTING ----------------------
+// ---------------------- SPLASH SCREEN ----------------------
 
 .loading-indicator
 {
-    background-color: rgba(0, 0, 0, 0.3);
+    background: url('external/images/keycloak-bg.png') no-repeat center center fixed;
     height: 100%;
-    left: 0;
-    position: fixed;
-    top: 0;
     width: 100%;
-    z-index: 23456;
-    opacity: 1;
+    left: 0;
+    top: 0;
+    position: fixed;
 
-    & > div
+    .loading-header
+    {
+        margin-bottom: 40px;
+        margin-top: 20px;
+        text-align: center;
+        color: #ededed;
+
+        .loading-title
+        {
+            font-family: "Open Sans", Helvetica, Arial, sans-serif;
+            font-size: 29px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            line-height: 1.2em;
+            padding: 62px 10px 20px;
+            white-space: normal;
+        }
+    }
+
+    .loading-card
+    {
+        border-top: 4px solid;
+        border-color: #0066CC;
+        background-color: #FFFFFF;
+        width: 500px;
+        height: 323px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .loading-spinner
     {
         border: 4px solid #eee;
         border-bottom: none;
         border-top-left-radius: 48px;
         border-top-right-radius: 48px;
+        margin-top: 20px;
         height: 24px;
         margin-left: auto;
         margin-right: auto;
         position: relative;
-        top: 50%;
         width: 48px;
         animation-name: rotate-loading;
         animation-duration: 450ms;

@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
-import {BaseUrl, GET, RESTClient} from "@anglr/rest";
-import {Paginator} from "@jscrpt/common";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {Injectable} from '@angular/core';
+import {BaseUrl, GET, RESTClient} from '@anglr/rest';
+import {Paginator} from '@jscrpt/common';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import {PagedData, Pageable} from "../../../misc/types";
-import {GalleryItem} from "./gallery.interface";
+import {PagedData, Pageable} from '../../../misc/types';
+import {GalleryItem} from './gallery.interface';
 
 /**
  * Service used to obtain gallery data for grid
@@ -23,7 +23,7 @@ export class GalleryService extends RESTClient
         return this.getAllGallery()
             .pipe(map(data =>
             {
-                let paginator = new Paginator();
+                const paginator = new Paginator();
 
                 paginator.setPage(paging.page)
                     .setItemsPerPage(paging.size)

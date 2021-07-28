@@ -3,11 +3,10 @@ import {DOCUMENT} from '@angular/common';
 import {RouterOutlet, Router} from '@angular/router';
 import {GlobalizationService} from '@anglr/common';
 import {getCurrentUrlPrefix} from '@anglr/md-help/web';
-import {TranslateService} from "@ngx-translate/core";
+import {TranslateService} from '@ngx-translate/core';
 import {Subscription} from 'rxjs';
-import * as config from 'config/global';
-import * as moment from 'moment';
 
+import {config} from '../config';
 import {routeAnimationTrigger} from './app.component.animations';
 
 /**
@@ -16,7 +15,7 @@ import {routeAnimationTrigger} from './app.component.animations';
 @Component(
 {
     selector: 'app',
-    templateUrl: "app.component.html",
+    templateUrl: 'app.component.html',
     styleUrls: ['app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [routeAnimationTrigger]
@@ -50,11 +49,10 @@ export class AppComponent implements AfterViewInit, OnDestroy
                 router: Router,
                 @Inject(DOCUMENT) document: HTMLDocument)
     {
-        document.body.classList.add("app-page", config.theme);
+        document.body.classList.add('app-page', config.general.theme);
 
-        moment.locale(globalization.locale);
         translate.setDefaultLang('en');
-        translate.use(config.language);
+        translate.use(config.general.language);
 
         //handle route to html5 routing
         if(document.location.pathname != router.url)
@@ -68,7 +66,7 @@ export class AppComponent implements AfterViewInit, OnDestroy
     /**
      * Called when view was initialized
      */
-    public ngAfterViewInit()
+    public ngAfterViewInit(): void
     {
         this._routerOutletActivatedSubscription = this.routerOutlet.activateEvents.subscribe(() =>
         {
@@ -81,7 +79,7 @@ export class AppComponent implements AfterViewInit, OnDestroy
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
         if(this._routerOutletActivatedSubscription)
         {

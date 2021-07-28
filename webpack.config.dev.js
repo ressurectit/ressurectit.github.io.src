@@ -1,9 +1,11 @@
 var webpack = require('webpack'),
-    path = require('path');
+    path = require('path'),
+    {getResolve, ruleKonami, ruleNumeral} = require('./webpack.config.common');
 
 module.exports = function(options)
 {
     var es5 = !!options && !!options.es5;
+    var ssr = !!options && !!options.ssr;
     var distPath = "wwwroot/bin";
 
     var config =
@@ -12,73 +14,87 @@ module.exports = function(options)
         {
             "dependencies":
             [
-                "./webpack.config.dev.imports"
+                'core-js/es6',
+                'core-js/es7/reflect',
+                'numeral',
+                'numeral-languages',
+                'konami',
+
+                'date-fns',
+                'html2canvas',
+                'extend',
+                'jquery-param',
+                'crypto-js',
+                'file-saver',
+                'd3',
+                'marked',
+                'highlight.js',
+                'sourcemapped-stacktrace',
+                'positions',
+                'store',
+                '@popperjs/core',
+
+                '@jscrpt/common',
+                '@angular/animations',
+                '@angular/core',
+                '@angular/core/testing',
+                '@angular/compiler',
+                '@angular/common',
+                '@angular/common/testing',
+                '@angular/common/http',
+                '@angular/platform-browser',
+                '@angular/platform-browser-dynamic',
+                '@angular/platform-browser-dynamic/testing',
+                '@angular/forms',
+                '@angular/router',
+                '@angular/router/testing',
+                '@angular/material/dialog',
+                '@anglr/animations',
+                '@anglr/authentication',
+                '@anglr/common',
+                '@anglr/common/forms',
+                '@anglr/common/hmr',
+                '@anglr/common/hotkeys',
+                '@anglr/common/material',
+                '@anglr/common/numeral',
+                '@anglr/common/positions',
+                '@anglr/common/router',
+                '@anglr/common/store',
+                '@anglr/common/structured-log',
+                '@anglr/datetime',
+                '@anglr/error-handling',
+                '@anglr/error-handling/html2canvas',
+                '@anglr/error-handling/material',
+                '@anglr/grid',
+                '@anglr/grid/extensions',
+                '@anglr/grid/material',
+                '@anglr/md-help/web',
+                '@anglr/notifications',
+                '@anglr/rest',
+                '@anglr/select',
+                '@anglr/translate-extensions',
+                '@ngx-translate/core',
+                'angular2-hotkeys'
             ]
         },
         output:
         {
             path: path.join(__dirname, distPath),
             filename: '[name].js',
-            library: '[name]_[hash]'
+            library: '[name]_[fullhash]'
         },
         mode: 'development',
         devtool: 'source-map',
         resolve:
         {
-            symlinks: false,
-            extensions: ['.ts', '.js'],
-            alias:
-            {
-                "numeral-languages": path.join(__dirname, "node_modules/numeral/locales.js"),
-                "handlebars": path.join(__dirname, "node_modules/handlebars/dist/handlebars.js"),
-                "typeahead": path.join(__dirname, "node_modules/typeahead.js/dist/typeahead.jquery.js"),
-                "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js")
-            },
-            mainFields: es5 ? ['browser', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main']
+            ...getResolve(es5, ssr)
         },
         module:
         {
             rules:
             [
-                {
-                    test: require.resolve("jquery"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options: '$'
-                        },
-                        {
-                            loader: 'expose-loader',
-                            options: 'jQuery'
-                        }
-                    ]
-                },
-                {
-                    test: require.resolve("numeral"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options: 'numeral'
-                        }
-                    ]
-                },
-                {
-                    test: /\.html$/,
-                    use: 
-                    {
-                        loader: 'html-loader'
-                    }
-                },
-                {
-                    test: /\.scss$/,
-                    use: ['style-loader', 'css-loader', 'sass-loader'],
-                    exclude:
-                    [
-                        path.join(__dirname, "app")
-                    ]
-                }
+                ruleNumeral,
+                ruleKonami
             ]
         },
         plugins:
@@ -86,7 +102,7 @@ module.exports = function(options)
             new webpack.DllPlugin(
             {
                 path: path.join(__dirname, distPath + '/[name]-manifest.json'),
-                name: '[name]_[hash]'
+                name: '[name]_[fullhash]'
             }),
             new webpack.DefinePlugin(
             {

@@ -1,31 +1,12 @@
 import 'modernizr';
-import './dependencies';
-import './dependencies.browser';
-import 'zone.js/dist/zone';
-import './hacks';
-import {platformBrowser} from '@angular/platform-browser';
-import {enableProdMode} from '@angular/core';
-import {runWhenModuleStable} from '@anglr/common';
-import {hmrAccept, hmrFinishedNotification} from '@anglr/common/hmr';
-import * as config from 'config/global';
 
-import {BrowserAppModule} from './boot/browser-app.module';
+import {loadConfig} from './config.loader';
 
-if(isProduction)
+async function main()
 {
-    enableProdMode();
+    await loadConfig();
+    
+    await import('./main.browser.bootstrap');
 }
 
-if (jsDevMode && module['hot'])
-{
-    module['hot'].accept();
-}
-
-jsDevMode && hmrAccept(() => platform);
-
-var platform = platformBrowser();
-
-runWhenModuleStable(platform.bootstrapModule(BrowserAppModule), () => 
-{    
-    jsDevMode && hmrFinishedNotification();
-}, config.debug);
+main();

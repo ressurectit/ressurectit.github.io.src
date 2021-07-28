@@ -2,6 +2,9 @@ node_modules/
 wwwroot/
 packages/
 package-lock.json
+**/config/version.json
+**/config/config.*.json
+.env
 proxyUrl.js
 *.log
 *.bak

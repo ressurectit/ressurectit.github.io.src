@@ -3,7 +3,7 @@ const fs = require('fs'),
 
 try
 {
-    if (!fs.existsSync(path.join(__dirname, "wwwroot/bin/dependencies.js")))
+    if (!fs.existsSync(path.join(__dirname, "wwwroot/bin/dependencies.js")) || !fs.existsSync(path.join(__dirname, "wwwroot/index.html")))
     {
         process.exit(0);
     }

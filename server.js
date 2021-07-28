@@ -2,9 +2,12 @@ var connect = require('connect'),
     gzipStatic = require('connect-gzip-static'),
     serveStatic = require('serve-static'),
     history = require('connect-history-api-fallback'),
+    {createProxyMiddleware} = require('http-proxy-middleware'),
     argv = require('yargs').argv,
     path = require('path'),
     connectExtensions = require('nodejs-connect-extensions');
+
+require('dotenv').config();
 
 var app = connect();
 
@@ -33,9 +36,9 @@ if(isRequireAvailable(proxyUrlFile))
     proxyUrl = require(proxyUrlFile);
 }
 
-if(process.env.GUI_API_BASE_URL)
+if(process.env.SERVER_PROXY_HOST)
 {
-    proxyUrl = process.env.GUI_API_BASE_URL;
+    proxyUrl = process.env.SERVER_PROXY_HOST;
 }
 
 console.log(`Using proxy url '${proxyUrl}'`);
@@ -43,21 +46,31 @@ console.log(`Using proxy url '${proxyUrl}'`);
 //enable webpack only if run with --webpack param
 if(!!argv.webpack)
 {
-    var webpack = require('webpack'),
-        webpackConfig = require('./webpack.config.js')[0]({hmr: true, dll: true, aot: true, css: true}),
-        webpackDev = require('webpack-dev-middleware'),
-        hmr = require("webpack-hot-middleware");
-
-    var compiler = webpack(webpackConfig);
-
-    //enables webpack dev middleware
-    app.use(webpackDev(compiler,
+    //WEBPACK 5 DEV SERVER
+    app.use(createProxyMiddleware(['/bin'],
     {
-        publicPath: webpackConfig.output.publicPath
+        target: 'http://localhost:9000',
+        ws: true
     }));
 
-    app.use(hmr(compiler));
+    // var webpack = require('webpack'),
+    //     webpackConfig = require('./webpack.config.js')[0]({hmr: true, dll: true, aot: true, css: true}),
+    //     webpackDev = require('webpack-dev-middleware'),
+    //     hmr = require("webpack-hot-middleware");
+
+    // var compiler = webpack(webpackConfig);
+
+    // //enables webpack dev middleware
+    // app.use(webpackDev(compiler,
+    // {
+    //     publicPath: webpackConfig.output.publicPath,
+    // }));
+
+    // app.use(hmr(compiler));
 }
+
+//custom rest api
+require('./server.rest')(app);
 
 //enable html5 routing
 app.use(history());

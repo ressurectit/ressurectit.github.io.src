@@ -5,10 +5,10 @@ $sizeMd: 15px;
 $sizeLg: 20px;
 $sizeBg: $sizeLg;
 
-$negSizeXs: -4px;
-$negSizeSm: -10px;
-$negSizeMd: -15px;
-$negSizeLg: -20px;
+$negXsWidth: -2px;
+$negSmWidth: -10px;
+$negMdWidth: -20px;
+$negLgWidth: -36px;
 
 $fontSizeXs: 10px;
 $fontSizeSm: 12px;
@@ -16,6 +16,9 @@ $fontSizeMd: 14px;
 $fontSizeLg: 16px;
 $fontSizeXl: 18px;
 $fontSizeXxl: 22px;
+$fontSizeXxxl: 32px;
+
+$responsiveTrasholdMd: 800px;
 
 $borderRadius: 4px;
 

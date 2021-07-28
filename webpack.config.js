@@ -8,27 +8,20 @@ var webpack = require('webpack'),
     WebpackNotifierPlugin = require('webpack-notifier'),
     CompressionPlugin = require("compression-webpack-plugin"),
     SpeedMeasurePlugin = require("speed-measure-webpack-plugin"),
+    BitBarWebpackProgressPlugin = require("bitbar-webpack-progress-plugin"),
     BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin,
-    rxPaths = require('rxjs/_esm5/path-mapping'),
-    extend = require('extend'),
+    TerserPlugin = require('terser-webpack-plugin'),
     ts = require('typescript'),
-    AngularCompilerPlugin =  require('@ngtools/webpack').AngularCompilerPlugin;
-
-//array of paths for server and browser tsconfigs
-const tsconfigs =
-{
-    client: path.join(__dirname, 'tsconfig.browser.json'),
-    server: path.join(__dirname, 'tsconfig.server.json')
-};
+    AngularWebpackPlugin =  require('@ngtools/webpack').AngularWebpackPlugin,
+    {getResolve, ruleKonami, ruleNumeral} = require('./webpack.config.common');
 
 /**
  * Gets entries for webpack
  * @param {boolean} ssr Indication that it should be entries for server side rendering
- * @param {boolean} dll Indication that it should be dll import added to entries
  * @param {boolean} css Indication that it should be css added to entries
  * @param {boolean} diff Indication that it should be js added to entries
  */
-function getEntries(ssr, dll, css, diff)
+function getEntries(ssr, css, diff)
 {
     if(ssr)
     {
@@ -40,22 +33,17 @@ function getEntries(ssr, dll, css, diff)
     {
         var entries =
         {
-            ...dll ? {"import-dependencies": './webpack.config.dev.imports'} : {},
-            ...css ? {externalStyle:
-            [
-                "@angular/material/prebuilt-themes/indigo-pink.css",
-                "@fortawesome/fontawesome-free/css/all.min.css",
-                "bootstrap/dist/css/bootstrap.min.css",
-                "bootstrap/dist/css/bootstrap-theme.min.css",
-                "eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
-                "bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
-                "highlight.js/styles/vs2015.css"
-            ],
-            style: [path.join(__dirname, "content/site.scss")]} : {},
+            ...css ? {
+                         externalStyle: ["@angular/material/prebuilt-themes/indigo-pink.css",
+                                         "@fortawesome/fontawesome-free/css/all.min.css",
+                                         "highlight.js/styles/vs2015.css",
+                                         "@anglr/common/src/style.scss"],
+                         style: [path.join(__dirname, "content/site.scss"),
+                                 path.join(__dirname, "content/dark.scss"),
+                                 path.join(__dirname, "content/light.scss")]
+                     } : {},
             ...diff ? {} : {client: [path.join(__dirname, "app/main.browser.ts")]}
         };
-
-        entryPoints = Object.keys(entries);
 
         return entries;
     }
@@ -64,15 +52,13 @@ function getEntries(ssr, dll, css, diff)
 /**
  * Generates a AotPlugin for @ngtools/webpack
  *
- * @param {string} platform Should either be client or server
  * @param {boolean} es5 Indication whether compile application in es5 or es2015
- * @returns
  */
-function getAotPlugin(platform, es5)
+function getAotPlugin(es5)
 {
-    return new AngularCompilerPlugin(
+    return new AngularWebpackPlugin(
     {
-        tsConfigPath: tsconfigs[platform],
+        tsConfigPath: path.join(__dirname, 'tsconfig.json'),
         sourceMap: true,
         compilerOptions:
         {
@@ -100,11 +86,10 @@ function getStyleLoaders(prod)
 }
 
 var distPath = "wwwroot/bin";
-var entryPoints = [];
 
 module.exports = [function(options, args)
 {
-    var prod = args && args.mode == 'production';
+    var prod = args && args.mode == 'production' || false;
     var hmr = !!options && !!options.hmr;
     var aot = !!options && !!options.aot;
     var ssr = !!options && !!options.ssr;
@@ -113,6 +98,7 @@ module.exports = [function(options, args)
     var es5 = !!options && !!options.es5;
     var css = !!options && !!options.css;
     var html = !!options && !!options.html;
+    var nomangle = !!options && !!options.nomangle;
     var diff = !!options && !!options.diff;
     var ngsw = process.env.NGSW == "true";
 
@@ -129,7 +115,7 @@ module.exports = [function(options, args)
 
     var config =
     {
-        entry: getEntries(ssr, dll, css, diff),
+        entry: getEntries(ssr, css, diff),
         output:
         {
             globalObject: 'self',
@@ -139,65 +125,37 @@ module.exports = [function(options, args)
             chunkFilename: `[name].${ssr ? 'server' : 'client'}.${es5 ? 'es5' : 'es2015'}.chunk.js`
         },
         mode: 'development',
-        devtool: hmr ? 'none' : 'source-map',
+        ...hmr ?
+            {
+                devServer:
+                {
+                    hot: true,
+                    port: 9000,
+                    publicPath: '/bin/',
+                    contentBase: path.join(__dirname, distPath),
+                    contentBasePublicPath: '/bin/',
+                    writeToDisk: true,
+                    overlay: true
+                },
+                devtool: 'eval-source-map'
+            } :
+            {
+                devtool: 'source-map'
+            },
         target: ssr ? 'node' : 'web',
+        //TODO remove this when https://github.com/webpack/webpack-dev-server/issues/2792 is fixed
+        optimization:
+        {
+            runtimeChunk: "single"
+        },
         resolve:
         {
-            symlinks: false,
-            extensions: ['.ts', '.js'],
-            alias: extend(rxPaths(),
-            {
-                "modernizr": path.join(__dirname, "content/external/scripts/modernizr-custom.js"),
-                "numeral-languages": path.join(__dirname, "node_modules/numeral/locales.js"),
-                "handlebars": path.join(__dirname, "node_modules/handlebars/dist/handlebars.js"),
-                "typeahead": path.join(__dirname, "node_modules/typeahead.js/dist/typeahead.jquery.js"),
-                "moment": path.join(__dirname, "node_modules/moment/min/moment-with-locales.js"),
-                "config/global": path.join(__dirname, prod ? "config/global.json" : "config/global.development.json"),
-                "angular_material/src/cdk": path.join(__dirname, "node_modules/@angular/cdk/esm2015"),
-                "app": path.join(__dirname, "app")
-            }),
-            mainFields: es5 ? ['browser', 'module', 'main'] : ['esm2015', 'es2015', 'jsnext:main', 'browser', 'module', 'main']
+            ...getResolve(es5, ssr)
         },
         module:
         {
             rules:
             [
-                //server globals
-                {
-                    test: require.resolve("form-data"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options: 'FormData'
-                        }
-                    ]
-                },
-                //vendor globals
-                {
-                    test: require.resolve("jquery"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options: '$'
-                        },
-                        {
-                            loader: 'expose-loader',
-                            options: 'jQuery'
-                        }
-                    ]
-                },
-                {
-                    test: require.resolve("numeral"),
-                    use:
-                    [
-                        {
-                            loader: 'expose-loader',
-                            options: 'numeral'
-                        }
-                    ]
-                },
                 //file processing
                 {
                     test: /\.ts$/,
@@ -253,21 +211,35 @@ module.exports = [function(options, args)
         plugins:
         [
             new WebpackNotifierPlugin({title: `Webpack - ${hmr ? 'HMR' : (ssr ? 'SSR' : 'BUILD')}`, excludeWarnings: true, alwaysNotify: true, sound: false}),
-            //copy external dependencies
-            new CopyWebpackPlugin(
-            [
-            ]),
+            new BitBarWebpackProgressPlugin(),
             new webpack.DefinePlugin(
             {
                 isProduction: prod,
                 isNgsw: ngsw,
                 jsDevMode: !prod,
-                ngDevMode: !prod,
-                designerMetadata: true,
+                ...prod ? {ngDevMode: false} : {},
                 ngI18nClosureMode: false
             })
         ]
     };
+
+    if(prod && nomangle)
+    {
+        config.optimization =
+        {
+            minimize: true,
+            minimizer:
+            [
+                new TerserPlugin(
+                {
+                    terserOptions:
+                    {
+                        mangle: false
+                    }
+                })
+            ]
+        };
+    }
 
     //server specific settings
     if(ssr)
@@ -282,25 +254,7 @@ module.exports = [function(options, args)
             {
                 filename: "../index.html",
                 template: path.join(__dirname, "index.html"),
-                inject: 'head',
-                chunksSortMode: function orderEntryLast(left, right)
-                {
-                    let leftIndex = entryPoints.indexOf(left.names[0]);
-                    let rightIndex = entryPoints.indexOf(right.names[0]);
-
-                    if (leftIndex > rightIndex)
-                    {
-                        return 1;
-                    }
-                    else if (leftIndex < rightIndex)
-                    {
-                        return -1;
-                    }
-                    else
-                    {
-                        return 0;
-                    }
-                }
+                inject: 'head'
             }));
 
             if(!debug)
@@ -338,21 +292,22 @@ module.exports = [function(options, args)
     //aot specific settings
     if(aot)
     {
-        config.plugins.push(getAotPlugin(ssr ? 'server' : 'client', es5));
+        config.plugins.push(getAotPlugin(es5));
     }
 
-    if(hmr)
-    {
-        config.plugins.push(new webpack.HotModuleReplacementPlugin());
+    //Webpack 5 using WEBPACK DEV SERVER
+    // if(hmr)
+    // {
+    //     config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
-        Object.keys(config.entry).forEach(entry =>
-        {
-            if(config.entry[entry].constructor === Array)
-            {
-                config.entry[entry].unshift('webpack-hot-middleware/client');
-            }
-        });
-    }
+    //     Object.keys(config.entry).forEach(entry =>
+    //     {
+    //         if(config.entry[entry].constructor === Array)
+    //         {
+    //             config.entry[entry].unshift('webpack-hot-middleware/client');
+    //         }
+    //     });
+    // }
 
     //only if dll package is required, use only for development
     if(dll)
@@ -371,6 +326,12 @@ module.exports = [function(options, args)
                 append: false
             }));
         }
+    }
+    else
+    {
+        //vendor globals
+        config.module.rules.push(ruleNumeral);
+        config.module.rules.push(ruleKonami);
     }
 
     //generate html with differential loading, old and modern scripts
@@ -431,4 +392,4 @@ module.exports = [function(options, args)
     }
 
     return config;
-}]
+}];

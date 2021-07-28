@@ -1,0 +1,10 @@
+@use 'sass:meta';
+
+@use 'theme/dark';
+@use 'theme/light';
+@use 'theme/chiroptera';
+
+$dark-theme: meta.module-variables('dark');
+$light-theme: meta.module-variables('light');
+$chiroptera-theme: meta.module-variables('chiroptera');
+$default-theme: $chiroptera-theme;

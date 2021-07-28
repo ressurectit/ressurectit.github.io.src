@@ -1,0 +1,58 @@
+// ---------------------- DARK THEME ----------------------
+$primaryBackgroundColor: #eaeaea;
+
+$primaryForegroundColor: #1a1a1a;
+
+$primaryLinkColor: #63c0f5;
+
+$primaryPaginationForeground: #00a5a5;
+$primaryPaginationActiveForeground: darken($primaryBackgroundColor, 15%);
+$primaryPaginationActiveBackground: $primaryPaginationForeground;
+
+$primaryCodeBackground: #151515;
+$secondaryCodeBackground: $primaryCodeBackground;
+$primaryCodeForeground: #DCDCDC;
+$secondaryCodeForeground: #569CD6;
+$primaryCodeBorder: #333333;
+
+$primaryScrollbarColor: #cdcdcd;
+$primaryScrollbarBackground: $primaryBackgroundColor;
+
+$primarySelectBackgroundColor: darken($primaryBackgroundColor, 5%);
+$primarySelectForegroundColor: #FFFFFF;
+$primarySelectPopupBackgroundColor: $primarySelectBackgroundColor;
+$primarySelectPopupForegroundColor: $primaryForegroundColor;
+$primarySelectInputBackgroundColor: $primaryBackgroundColor;
+$primarySelectInputForegroundColor: $primaryForegroundColor;
+
+$titleBarBackground: lighten($primaryBackgroundColor, 5%);
+$titleBarCloseBackground: #E81123;
+$titleBarIconBackground: $primaryForegroundColor;
+
+$navigationBackground: darken($primaryBackgroundColor, 8%);
+$navigationActiveBackground: #00a5a51a;
+$navigationShadowColor: $navigationBackground;
+$navigationMenuItemActiveMarkColor: #00a5a5;
+
+$popupBorder: #000000;
+$popupBackground: darken($primaryBackgroundColor, 5%);
+
+$dialogTitleBackground: darken($primaryBackgroundColor, 5%);
+$dialogTitleForeground: $primaryForegroundColor;
+$dialogContentBackground: darken($primaryBackgroundColor, 5%);
+$dialogContentForeground: $primaryForegroundColor;
+$dialogBorder: $popupBorder;
+
+$primarySelectBackgroundColor: darken($primaryBackgroundColor, 5%);
+$primarySelectForegroundColor: $primaryForegroundColor;
+$primarySelectPopupBackgroundColor: $primarySelectBackgroundColor;
+$primarySelectPopupForegroundColor: $primaryForegroundColor;
+$primarySelectInputBackgroundColor: $primaryBackgroundColor;
+$primarySelectInputForegroundColor: $primaryForegroundColor;
+
+$btnLineBackground: $popupBackground;
+$btnLineForeground: $primaryForegroundColor;
+
+$buttons: (
+    primary: (background: #00a5a5, foreground: #FAFAFA)
+);

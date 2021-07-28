@@ -1,0 +1,589 @@
+@use 'sass:meta';
+
+@use 'vars';
+@use 'mixins';
+
+//---------------------- PAGE STYLING ----------------------
+.app-page
+{
+    font-family: "SegoeUI";
+    user-select: none;
+
+    //############## PACKAGES ##############
+
+    @include meta.load-css('../../node_modules/@anglr/common/styles/light');
+
+    //############## BLOCKS ##############
+    
+    .popup-block
+    {
+        padding: vars.$sizeSm;
+        border-radius: vars.$borderRadius;
+    }
+
+    .primary-block,
+    .secondary-block
+    {
+        padding-top: vars.$sizeSm;
+        padding-bottom: vars.$sizeSm;
+    }
+
+    .highlight-block
+    {
+        padding: vars.$sizeSm;
+        border-radius: vars.$borderRadius;
+    }
+
+    //############## STYLE SAMPLE ##############
+
+    style-sample
+    {
+        .style-code pre
+        {
+            margin: 0;
+        }
+
+        .hljs
+        {
+            border-bottom-left-radius: vars.$borderRadius;
+            border-bottom-right-radius: vars.$borderRadius;
+        }
+    }
+
+    //############## TITLED DIALOG ##############
+
+    titled-dialog
+    {
+        .titled-dialog-title
+        {
+            border-top-left-radius: vars.$borderRadius;
+            border-top-right-radius: vars.$borderRadius;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .titled-dialog-content
+        {
+            border-bottom-left-radius: vars.$borderRadius;
+            border-bottom-right-radius: vars.$borderRadius;
+        }
+    }
+
+    //############## TITLES ##############
+
+    .page-title
+    {
+        padding: 20px 20px 10px;
+        font-size: 22px;
+        margin: vars.$sizeSm 0 0;
+    }
+
+    //############## DIALOG ##############
+
+    mat-dialog-container
+    {
+        padding: 0;
+        overflow: visible;
+    }
+
+    //############## BUTTONS ##############
+
+    %btn-base
+    {
+        letter-spacing: 1px;
+        background-image: none;
+        text-shadow: 0 0;
+        box-shadow: 0 0;
+        text-transform: uppercase;
+        transition: all 350ms;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: vars.$borderRadius;
+        padding: 4px 10px;
+        font-family: "SegoeUI";
+        cursor: pointer;
+        white-space: nowrap;
+        font-size: 11px;
+    }
+
+    .btn
+    {
+        @extend %btn-base;
+
+        &:active:not(.disabled)
+        {
+            box-shadow: 0 0;
+        }
+
+        &:active:not(.disabled)
+        {
+            // padding-left: 9px;
+            // padding-right: 9px;
+            // margin-left: 3px;
+            // margin-right: 3px;
+        }
+
+        span[class^="fa"],
+        span[class^="fas"],
+        span[class^="fab"],
+        span[class^="glyphicon"]
+        {
+            margin-right: vars.$sizeXs;
+        }
+    }
+
+    multi-button.btn
+    {
+        padding: 0;
+        
+        button
+        {
+            @extend %btn-base;
+        }
+    }
+
+    .btn-icon
+    {
+        border: none;
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+        cursor: pointer;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    //############## ALERTS ##############
+
+    .alert
+    {
+        padding: 6px 8px;
+        border-radius: vars.$borderRadius;
+        border-width: 1px;
+        margin-top: 10px;
+        margin-right: 10px;
+        border-style: solid;
+    }
+
+    //############## FORM ##############
+
+    .control-label
+    {
+        display: block;
+        font-size: 12px;
+    }
+
+    .form-control
+    {
+        border-radius: vars.$borderRadius;
+        border-style: solid;
+        border-width: 1px;
+        box-shadow: none;
+        font-size: 12px;
+        padding: 3px;
+        width: 100%;
+        font-family: "SegoeUI";
+
+        input-date-time-selector,
+        simple-input-date-time-selector
+        {
+            input
+            {
+                padding: 0;
+                border: none;
+                font-family: "SegoeUI";
+                font-size: 12px;
+            }
+        }
+    }
+
+    .input-group
+    {
+        display: flex;
+        flex-direction: row;
+
+        .input-group-addon
+        {
+            font-size: 0.7em;
+            align-self: center;
+            padding: 3px 4px 4px;
+            border-top-style: solid;
+            border-bottom-style: solid;
+            border-top-width: 1px;
+            border-bottom-width: 1px;
+
+            &:first-child
+            {
+                border-left-width: 1px;
+                border-left-style: solid;
+                border-top-left-radius: 4px;
+                border-bottom-left-radius: 4px;
+            }
+        }
+
+        .form-control
+        {
+            flex: 1;
+            min-width: 0;
+            min-height: 0;
+            border-radius: 0;
+
+            &:last-child
+            {
+                border-top-right-radius: 4px;
+                border-bottom-right-radius: 4px;
+            }
+        }
+    }
+
+    //############## TIGHT ##############
+
+    .tight
+    {
+        .btn
+        {
+            font-size: 0.8em;
+            padding: 4px 8px;
+
+            &:active:not(.disabled):not(.btn-select)
+            {
+                padding-left: 6px;
+                padding-right: 6px;
+                margin-left: 2px;
+                margin-right: 2px;
+            }
+        }
+
+        ng-select
+        {
+            button.btn-select,
+            div.btn-select
+            {
+                font-size: 12px;
+                padding: 3px;
+            }
+
+            .edit-normal-state
+            {
+                .btn-select
+                {
+                    padding: 0;
+
+                    .edit-control
+                    {
+                        height: auto;
+                        padding: 3px;
+                    }
+                }
+            }
+        }
+    }
+
+    //############## NG SELECT ##############
+
+    ng-select
+    {
+        button.btn-select,
+        div.btn-select
+        {
+            font-size: 12px;
+            padding: 3px;
+            letter-spacing: 0;
+            text-transform: none;
+            height: auto;
+        }
+
+        .edit-normal-state
+        {
+            .btn-select
+            {
+                padding: 0;
+
+                .edit-control
+                {
+                    height: auto;
+                    padding: 3px;
+                    font-size: 12px;
+                    font-family: "SegoeUI";
+                }
+            }
+        }
+    }
+
+    //############## GRID ##############
+
+    ng-grid
+    {
+        div.css-grid-content-renderer
+        {
+            .content-renderer-body > div > div
+            {
+                padding: 3px;
+                border-top: none;
+                line-height: initial;
+            }
+
+            .content-renderer-header > div
+            {
+                padding: 5px;
+                border-width: 1px;
+                border-style: solid;
+                line-height: initial;
+            }
+
+            .fixed-header
+            {
+                white-space: nowrap;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+        }
+
+        table
+        {
+            width: 100%;
+            max-width: 100%;
+            background-color: transparent;
+            border-spacing: 0;
+            border-collapse: collapse;
+    
+            .header-ordering
+            {
+                padding-left: 4px;
+            }
+
+            .fixed-header
+            {
+                white-space: nowrap;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+
+            & > thead > tr > th
+            {
+                padding: 5px;
+                vertical-align: bottom;
+                border-width: 1px;
+                border-style: solid;
+                text-align: left;
+            }
+    
+            & > tbody > tr > td
+            {
+                padding: 3px;
+                vertical-align: middle;
+            }
+        }
+
+        ng-basic-paging
+        {
+            margin-top: vars.$sizeSm;
+
+            &>div
+            {
+                display: flex;
+                flex-direction: row;
+
+                &>ul
+                {
+                    margin: 0;
+                    padding: 0;
+                    flex: 1;
+                    display: flex;
+
+                    li
+                    {
+                        list-style: none;
+
+                        a
+                        {
+                            padding: 5px 10px;
+                            font-size: 12px;
+                        }
+                    }
+                }
+
+                &>div
+                {
+                    display: flex;
+                    flex-direction: row;
+
+                    .items-count
+                    {
+                        align-self: center;
+                        line-height: 1em;
+                    }
+
+                    ul
+                    {
+                        display: flex;
+                        flex-direction: row;
+                        margin: 0;
+                        padding: 0;
+
+                        li
+                        {
+                            list-style: none;
+
+                            a
+                            {
+                                padding: 5px 10px;
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //############## HELP ##############
+
+    help-view
+    {
+        img
+        {
+            max-width: 100%;
+        }
+    }
+
+    //############## MISC SHARED ##############
+
+    @include meta.load-css('misc');
+
+    //############## MISC ##############
+
+    hr
+    {
+        margin-bottom: vars.$sizeXs;
+        margin-top: vars.$sizeXs;
+        border: none;
+        border-top-width: 1px;
+        border-top-style: solid;
+    }
+
+    .text-selection
+    {
+        user-select: text;
+    }
+
+    .line-height-default
+    {
+        line-height: 1em;
+    }
+    
+    .border-round
+    {
+        border-radius: vars.$borderRadius;
+    }
+
+    .top-border-round
+    {
+        border-top-left-radius: vars.$borderRadius;
+        border-top-right-radius: vars.$borderRadius;
+    }
+
+    .bottom-border-round
+    {
+        border-bottom-left-radius: vars.$borderRadius;
+        border-bottom-right-radius: vars.$borderRadius;
+    }
+
+    .left-border-round
+    {
+        border-top-left-radius: vars.$borderRadius;
+        border-bottom-left-radius: vars.$borderRadius;
+    }
+
+    .right-border-round
+    {
+        border-top-right-radius: vars.$borderRadius;
+        border-bottom-right-radius: vars.$borderRadius;
+    }
+
+    .top-left-border-round
+    {
+        border-top-left-radius: vars.$borderRadius;
+    }
+
+    .bottom-left-border-round
+    {
+        border-bottom-left-radius: vars.$borderRadius;
+    }
+
+    .top-right-border-round
+    {
+        border-top-right-radius: vars.$borderRadius;
+    }
+
+    .bottom-right-border-round
+    {
+        border-bottom-right-radius: vars.$borderRadius;
+    }
+
+    .extra-small-text
+    {
+        font-size: vars.$fontSizeXs;
+    }
+    
+    .small-text
+    {
+        font-size: vars.$fontSizeSm;
+    }
+
+    .medium-text
+    {
+        font-size: vars.$fontSizeMd;
+    }
+
+    .large-text
+    {
+        font-size: vars.$fontSizeLg;
+    }
+
+    .extra-large-text
+    {
+        font-size: vars.$fontSizeXl;
+    }
+
+    .extra-extra-large-text
+    {
+        font-size: vars.$fontSizeXxl;
+    }
+
+    @include mixins.generate-margin-padding(padding, vars.$sizes);
+    @include mixins.generate-margin-padding(margin, vars.$sizes);
+
+    .margin-none
+    {
+        margin: 0;
+    }
+
+    .padding-none
+    {
+        padding: 0;
+    }
+
+    .spread-text
+    {
+        letter-spacing: 1px;
+    }
+
+    //############## RESPONSIVE MISC ##############
+
+    .visible-md
+    {
+        display: none;
+
+        @media screen and (max-width: vars.$responsiveTrasholdMd)
+        {
+            display: block;
+        }
+    }
+
+    //############## COMPONENTS ##############
+
+    @include meta.load-css('components/merania');
+}

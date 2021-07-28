@@ -1,0 +1,6 @@
+{
+    "$schema": "./permissions.schema.json",
+    "logging-settings":      ["anyone"],
+    "debug-settings":        ["anyone"],
+    "debug-info":            ["anyone"]
+}

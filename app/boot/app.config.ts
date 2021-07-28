@@ -1,23 +1,23 @@
 import {FactoryProvider, ClassProvider} from '@angular/core';
 import {AUTH_INTERCEPTOR_PROVIDER, AUTH_INTERCEPTOR_CONFIG, AUTHENTICATION_SERVICE_OPTIONS, SUPPRESS_AUTH_INTERCEPTOR_PROVIDER} from '@anglr/authentication';
 import {LocalPermanentStorageService} from '@anglr/common/store';
-import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE} from "@anglr/common";
-import {NgxTranslateStringLocalizationService} from "@anglr/translate-extensions";
+import {PROGRESS_INTERCEPTOR_PROVIDER, GlobalizationService, STRING_LOCALIZATION, PERMANENT_STORAGE} from '@anglr/common';
+import {NgxTranslateStringLocalizationService} from '@anglr/translate-extensions';
 import {HttpErrorInterceptorOptions, HTTP_ERROR_INTERCEPTOR_PROVIDER, HttpGatewayTimeoutInterceptorOptions, NoConnectionInterceptorOptions, HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER, NO_CONNECTION_INTERCEPTOR_PROVIDER, SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER} from '@anglr/error-handling';
-import * as config from 'config/global';
 
 import {AuthConfig} from '../services/api/account/authConfig';
 import {AccountService} from '../services/api/account/account.service';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
 import {globalGridConfig} from './grid.global.conf';
 import {globalSelectConfig} from './select.global.conf';
+import {config} from '../config';
 
 /**
  * Factory for HttpErrorInterceptorOptions
  */
 export function httpErrorInterceptorOptionsFactory()
 {
-    return new HttpErrorInterceptorOptions(config.debug);
+    return new HttpErrorInterceptorOptions(config.configuration.debug);
 }
 
 /**
@@ -25,7 +25,7 @@ export function httpErrorInterceptorOptionsFactory()
  */
 export function httpGatewayTimeoutInterceptorOptionsFactory()
 {
-    return new HttpGatewayTimeoutInterceptorOptions("Server neodpovedal v stanovenom čase.");
+    return new HttpGatewayTimeoutInterceptorOptions('Server neodpovedal v stanovenom čase.');
 }
 
 /**
@@ -33,13 +33,13 @@ export function httpGatewayTimeoutInterceptorOptionsFactory()
  */
 export function noConnectionInterceptorOptionsFactory()
 {
-    return new NoConnectionInterceptorOptions("Server je mimo prevádzky.");
+    return new NoConnectionInterceptorOptions('Server je mimo prevádzky.');
 }
 
 /**
  * Array of providers that are used in app module
  */
-export var providers =
+export const providers =
 [
     //######################### HTTP INTERCEPTORS #########################
     HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER,

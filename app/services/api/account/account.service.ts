@@ -1,33 +1,45 @@
-import {Injectable, Optional, Inject, Injector} from '@angular/core';
+import {Injectable, Optional, Inject, Injector, Type} from '@angular/core';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
-import {HttpClient, HttpParams, HttpErrorResponse, HttpResponse, HttpRequest, HttpEventType} from '@angular/common/http';
-import {RESTClient, GET, BaseUrl, DefaultHeaders, ResponseTransform, RestTransferStateService, POST, FullHttpResponse, DisableInterceptor} from '@anglr/rest';
-import {SERVER_BASE_URL, SERVER_COOKIE_HEADER, SERVER_AUTH_HEADER, IgnoredInterceptorsService, HttpRequestIgnoredInterceptorId} from "@anglr/common";
+import {HttpClient, HttpParams, HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import {HTTP_REQUEST_BASE_URL} from '@anglr/common';
+import {RESTClient, GET, BaseUrl, DefaultHeaders, ResponseTransform, POST, FullHttpResponse, DisableInterceptor, REST_MIDDLEWARES_ORDER, REST_METHOD_MIDDLEWARES, RestMiddleware, Body} from '@anglr/rest';
 import {AuthenticationServiceOptions, UserIdentity, AccessToken, AuthInterceptor, SuppressAuthInterceptor} from '@anglr/authentication';
+import {ServiceUnavailableInterceptor, HttpGatewayTimeoutInterceptor, NoConnectionInterceptor} from '@anglr/error-handling';
+import {isBlank} from '@jscrpt/common';
 import {Observable, Observer, throwError} from 'rxjs';
 import {catchError, map} from 'rxjs/operators';
-import * as global from 'config/global';
+
+import {config} from '../../../config';
+import {UserInfo} from './account.interface';
+import permissions from '../../../../config/permissions.json';
 
 /**
  * Service used to access user account information
  */
 @Injectable()
-@BaseUrl(global.apiBaseUrl)
-@DefaultHeaders(global.defaultApiHeaders)
+@BaseUrl('content/')
+@DefaultHeaders(config.configuration.defaultApiHeaders)
 export class AccountService extends RESTClient implements AuthenticationServiceOptions<any>
 {
+    //######################### private fields #########################
+
+    /**
+     * Computed permissions for roles
+     */
+    private _permissions: {[role: string]: string[]} = {};
+
     //######################### constructor #########################
-    public constructor(http: HttpClient,
-                       private _injector: Injector,
-                       private _location: Location,
-                       @Optional() transferState?: RestTransferStateService,
-                       @Optional() @Inject(SERVER_BASE_URL) baseUrl?: string,
-                       @Optional() @Inject(SERVER_COOKIE_HEADER) serverCookieHeader?: string,
-                       @Optional() @Inject(SERVER_AUTH_HEADER) serverAuthHeader?: string,
-                       @Optional() ignoredInterceptorsService?: IgnoredInterceptorsService)
+    constructor(http: HttpClient,
+                injector: Injector,
+                private _location: Location,
+                @Optional() @Inject(HTTP_REQUEST_BASE_URL) baseUrl?: string,
+                @Inject(REST_MIDDLEWARES_ORDER) middlewaresOrder?: Type<RestMiddleware>[],
+                @Inject(REST_METHOD_MIDDLEWARES) methodMiddlewares?: Type<RestMiddleware>[])
     {
-        super(http, transferState, baseUrl, serverCookieHeader, serverAuthHeader, ignoredInterceptorsService, _injector);
+        super(http, baseUrl, injector, middlewaresOrder, methodMiddlewares);
+
+        this._computePermissionsForRoles();
     }
 
     //######################### public methods - implementation of AuthenticationServiceOptions #########################
@@ -39,29 +51,12 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
      */
     public login(accessToken: AccessToken): Observable<any>
     {
-        return Observable.create((observer: Observer<any>) =>
-        {
-            let req: HttpRequestIgnoredInterceptorId<any> = new HttpRequest<any>('POST',
-                                                                                 `${global.apiBaseUrl}authentication`,
-                                                                                 new HttpParams()
-                                                                                    .append("j_username", accessToken.userName)
-                                                                                    .append("j_password", accessToken.password)
-                                                                                    .append("remember-me", accessToken.rememberMe.toString()));
+        const body = new HttpParams()
+            .append('j_username', accessToken.userName)
+            .append('j_password', accessToken.password)
+            .append('remember-me', accessToken.rememberMe?.toString());
 
-            req.requestId = 'authenticate-call';
-
-            this.ignoredInterceptorsService.addInterceptor(SuppressAuthInterceptor, req);
-
-            this.http.request(req).subscribe(result =>
-                                             {
-                                                if(result.type == HttpEventType.Response)
-                                                {
-                                                    observer.next(result);
-                                                    observer.complete();
-                                                }
-                                             },
-                                             error => observer.error(error));
-        });
+        return this._login(body);
     }
 
     /**
@@ -91,7 +86,10 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
     @FullHttpResponse()
     @DisableInterceptor(SuppressAuthInterceptor)
     @DisableInterceptor(AuthInterceptor)
-    @GET("myaccount")
+    @DisableInterceptor(ServiceUnavailableInterceptor)
+    @DisableInterceptor(HttpGatewayTimeoutInterceptor)
+    @DisableInterceptor(NoConnectionInterceptor)
+    @GET('account.json')
     public getUserIdentity(): Observable<UserIdentity<any>>
     {
         return null;
@@ -102,7 +100,7 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
      */
     public showAuthPage(): Promise<boolean>
     {
-        return this._injector.get(Router).navigate(['/login'], {queryParams: {returnUrl: this._location.path()}});
+        return this.injector.get(Router).navigate(['/login'], {queryParams: {returnUrl: this._location.path()}});
     }
 
     /**
@@ -110,14 +108,24 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
      */
     public showAccessDenied(): Promise<boolean>
     {
-        return this._injector.get(Router).navigate(['/accessDenied']);
+        return this.injector.get(Router).navigate(['/accessDenied']);
     }
 
     //######################### private methods #########################
 
     /**
+     * Sends login data to server
+     */
+    @DisableInterceptor(SuppressAuthInterceptor)
+    @POST('authentication')
+    private _login(@Body _body: HttpParams): Observable<any>
+    {
+        return null;
+    }
+
+    /**
      * Method transforms response of get method
-     * @param  {Observable<IFinancialRecordResponse>} response Response to be transformed
+     * @param response Response to be transformed
      * @returns Observable Transformed response
      */
     //@ts-ignore
@@ -127,19 +135,41 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
         {
             if(error.status == 401)
             {
-                return Observable.create((observer: Observer<any>) =>
+                return new Observable((observer: Observer<any>) =>
                 {
                     observer.next(
                     {
                         isAuthenticated: false,
-                        userName: "",
-                        permissions: ["login-page"],
-                        firstName: "",
-                        surname: ""
+                        userName: '',
+                        permissions: [],
+                        firstName: '',
+                        surname: ''
                     });
                     
                     observer.complete();
                 });
+            }
+
+            switch(error.status)
+            {
+                case 503:
+                {
+                    alert('Vzdialená služba je nedostupná. Skúste opätovne neskôr.');
+
+                    break;
+                }
+                case 504:
+                {
+                    alert('Vypršal čas na spracovanie požiadavky cez http proxy. Skúste opätovne neskôr.');
+
+                    break;
+                }
+                case 0:
+                {
+                    alert('Server je mimo prevádzky. Skúste opätovne neskôr.');
+
+                    break;
+                }
             }
 
             return throwError(error);
@@ -148,14 +178,15 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
         {
             if(data instanceof HttpResponse)
             {
-                var tmp: any = data.body;
+                const body: UserInfo = data.body;
+                const privileges = this._roles2privileges(body.roles);
 
                 return {
                     isAuthenticated: true,
-                    userName: tmp.login,
-                    firstName: '',      // FIXME tmp.firstName,
-                    surname: tmp.login, // FIXME tmp.lastName,
-                    permissions: tmp.privileges
+                    userName: body.login,
+                    firstName: '',
+                    surname: body.login,
+                    permissions: privileges.concat(['authenticated'])
                 };
             }
             else
@@ -163,5 +194,42 @@ export class AccountService extends RESTClient implements AuthenticationServiceO
                 return data;
             }
         }));
+    }
+
+    /**
+     * Gets array of permissions for provided roles
+     * @param roles Array of roles to be transformed to permissions
+     */
+    private _roles2privileges(roles: string[]): string[]
+    {
+        const perms: {[permission: string]: boolean} = {};
+
+        (roles ?? []).forEach(role => (this._permissions[role] ?? []).forEach(permission => perms[permission] = true));
+
+        return Object.keys(perms);
+    }
+
+    /**
+     * Computes permissions for roles
+     */
+    private _computePermissionsForRoles()
+    {
+        Object.keys(permissions).forEach(permission =>
+        {
+            const roles = permissions[permission];
+
+            if(Array.isArray(roles))
+            {
+                roles.forEach(role =>
+                {
+                    if(isBlank(this._permissions[role]))
+                    {
+                        this._permissions[role] = [];
+                    }
+
+                    this._permissions[role].push(permission);
+                });
+            }
+        });
     }
 }

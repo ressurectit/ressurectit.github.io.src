@@ -1,0 +1,31 @@
+@use 'sass:map';
+@use 'sass:color';
+
+$theme: null !default;
+
+//############## STYLES SAMPLES VIEW ##############
+
+styles-samples-view
+{
+    .sample-content
+    {
+        background-color: map.get($theme, pageBackground);
+    }
+}
+
+//############## STYLE SAMPLE ##############
+
+style-sample
+{
+    box-shadow: 0 0 3px map.get($theme, styleSampleShadow);
+
+    .description-row
+    {
+        background-image: linear-gradient(to bottom, map.get($theme, styleSampleDescriptionBackgroundStart) 0%, color.scale(map.get($theme, styleSampleDescriptionBackgroundStart), $lightness: -10%) 60%, map.get($theme, styleSampleDescriptionBackgroundEnd) 100%);
+    }
+
+    .description-row.code
+    {
+        background-image: linear-gradient(to bottom, map.get($theme, styleSampleDescriptionCodeBackgroundStart) 0%, color.scale(map.get($theme, styleSampleDescriptionCodeBackgroundStart), $lightness: -10%) 60%, map.get($theme, styleSampleDescriptionCodeBackgroundEnd) 100%);
+    }
+}

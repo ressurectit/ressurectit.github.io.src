@@ -5,9 +5,6 @@ import {RouterModule} from '@angular/router';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {MatTabsModule} from '@angular/material/tabs';
 import {ProgressIndicatorModule} from '@anglr/common';
-import {BootstrapCoreModule} from '@anglr/bootstrap/core';
-import {DatetimepickerModule} from '@anglr/bootstrap/datetimepicker';
-import {TypeaheadModule, TypeaheadTagsModule} from '@anglr/bootstrap/typeahead';
 import {GridModule, GroupedGridModule} from '@anglr/grid';
 import {VirtualScrollTableContentRendererModule} from '@anglr/grid/material';
 import {NgSelectModule, NgSelectEditModule} from '@anglr/select';
@@ -42,10 +39,6 @@ import {SourceCodeModule} from '../modules/sourceCode';
         NumberInputModule,
         MomentModule,
         TranslateModule,
-        BootstrapCoreModule,
-        DatetimepickerModule,
-        TypeaheadModule,
-        TypeaheadTagsModule,
         NotificationsModule,
         GridModule,
         GroupedGridModule,

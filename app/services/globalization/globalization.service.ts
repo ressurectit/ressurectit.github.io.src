@@ -14,7 +14,7 @@ export class GlobalizationService extends GlobalizationServiceInterface
      */
     public get locale(): string
     {
-        return "sk";
+        return 'sk';
     }
     
     /**

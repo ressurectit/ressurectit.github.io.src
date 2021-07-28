@@ -3,7 +3,7 @@ import {BaseUrl, GET, RESTClient, Path, Query, QueryObject, ResponseTransform, P
 import {isPresent, extend} from "@jscrpt/common";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import * as moment from 'moment';
+import moment from 'moment';
 
 import {SampleFilter, SampleData} from "./sample.interface";
 
