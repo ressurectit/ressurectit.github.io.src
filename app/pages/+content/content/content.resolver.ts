@@ -1,7 +1,7 @@
-import {Injectable} from "@angular/core";
-import {Resolve, ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
+import {Injectable} from '@angular/core';
+import {Resolve, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 
-import {ContentMenu, ContentService} from "../../../services/api/content";
+import {ContentMenu, ContentService} from '../../../services/api/content';
 
 /**
  * Data for content component route

@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
-import {BaseUrl, GET, RESTClient, Path} from "@anglr/rest";
-import {Paginator, getValue, OrderByDirection} from "@jscrpt/common";
-import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {Injectable} from '@angular/core';
+import {BaseUrl, GET, RESTClient, Path} from '@anglr/rest';
+import {Paginator, getValue, OrderByDirection} from '@jscrpt/common';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import {PagedData, Pageable, Orderable, KodPopisValue} from "../../../misc/types";
-import {Address} from "./data.interface";
+import {PagedData, Pageable, Orderable, KodPopisValue} from '../../../misc/types';
+import {Address} from './data.interface';
 
 /**
  * Service used to obtain data for grid

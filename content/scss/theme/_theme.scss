@@ -45,6 +45,47 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
         }
     }
 
+    //############## HEADINGS ##############
+
+    h1, h2, h3, h4, h5, h6
+    {
+        color: map.get($theme, headingForeground);
+    }
+
+    //############## CODE ##############
+
+    code:not(.hljs)
+    {
+        color: map.get($theme, inlineCodeForeground);
+        background-color: map.get($theme, inlineCodeBackground);
+    }
+
+    //############## LINKS ##############
+
+    a,
+    a:link 
+    {
+        color: map.get($theme, anchorForeground);
+    }
+
+    a:hover,
+    a:focus,
+    a:link:hover,
+    a:link:focus 
+    {
+        text-shadow:0 0 3px map.get($theme, anchorForeground)
+    }
+
+    a.active
+    {
+        color: map.get($theme, anchorActiveForeground);
+
+        &:hover
+        {
+            text-shadow: 0 0 3px map.get($theme, anchorActiveForeground);
+        }
+    }
+
     //############## SEPARATOR ##############
     hr
     {
@@ -97,7 +138,6 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
 
     .page-title
     {
-        background-color: map.get($theme, pageTitleBackground);
         color: map.get($theme, pageTitleForeground);
     }
 

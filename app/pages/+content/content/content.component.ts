@@ -1,12 +1,12 @@
-import {Component, ChangeDetectionStrategy, OnInit, OnDestroy} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {ComponentRoute} from "@anglr/common/router";
-import {Subscription} from "rxjs";
+import {Component, ChangeDetectionStrategy, OnInit, OnDestroy} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ComponentRoute} from '@anglr/common/router';
+import {Subscription} from 'rxjs';
 
-import {DEFAULT_CONTENT} from "../../../misc/constants";
-import {ContentMenuResolver, ContentData} from "./content.resolver";
-import {ContentMenu} from "../../../services/api/content";
-import {DataResolver} from "../../../misc/resolvers";
+import {DEFAULT_CONTENT} from '../../../misc/constants';
+import {ContentMenuResolver, ContentData} from './content.resolver';
+import {ContentMenu} from '../../../services/api/content';
+import {DataResolver} from '../../../misc/resolvers';
 
 /**
  * Content component used for displaying markdowns

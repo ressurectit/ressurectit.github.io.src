@@ -3,27 +3,27 @@
 //############## AVAILABLE COLORS ##############
 
 $white: #f0f0f0;
-$black: #2A2A2A;
+$black: #1a1a1a;
 
-$gray-0: #535353;
+$gray-0: #eaeaea;
 $gray-1: #e0e0e0;
 $gray-2: #cccccc;
 $gray-3: #aaaaaa;
 $gray-4: #9d9d9d;
 $gray-5: #737373;
 $gray-6: #555555;
-$gray-7: #2b2e33;
+$gray-7: #404040;
 $gray-8: #1c232f;
 $gray-9: #1e1e1e;
 
-$green: #6aba4f;
-$lightBlue: #5bc0de;
-$blue: #337ab7;
-$assecoBlue: #00a3e0;
+$green: rgba(181,232,83,0.729412);
+$teal: #0a8;
+$lightBlue: #63c0f5;
+$blue: #569CD6;
 $red: #ec0e0e;
 $orangeRed: #e45514;
 $orange: #e4a256;
-$yellowGreen: #bbdd4f;
+$yellowGreen: #b5e853;
 $yellow: #d4da03;
 $brown: #6b4b02;
 
@@ -33,18 +33,21 @@ $pageBackground: $black;
 $primaryBackground: $gray-0;
 $secondaryBackground: $gray-7;
 $blockBackground: $black;
-$pageTitleBackground: $gray-8;
-$mainMenuBackground: $assecoBlue;
+$pageTitleBackground: $green;
+$pageTitleBackground2: $black;
+$inlineCodeBackground: $black;
 
 //############## FOREGROUNDS ##############
 
-$pageForeground: $black;
-$primaryForeground: $black;
+$pageForeground: $gray-0;
+$primaryForeground: $yellowGreen;
 $secondaryForeground: $white;
 $blockForeground: $white;
-$pageTitleForeground: $gray-1;
-$mainMenuForeground: $black;
-$mainMenuForegroundActive: $white;
+$pageTitleForeground: $gray-0;
+$headingForeground: $yellowGreen;
+$inlineCodeForeground: $blue;
+$anchorForeground: $lightBlue;
+$anchorActiveForeground: $teal;
 
 //############## DIALOG ##############
 

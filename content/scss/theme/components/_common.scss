@@ -5,6 +5,13 @@
 
 $theme: null !default;
 
+//############## PAGE TITLE ##############
+
+.page-title
+{
+    background-image: linear-gradient(to bottom, map.get($theme, pageTitleBackground), map.get($theme, pageTitleBackground2));
+}
+
 //############## MAIN MENU ##############
 
 main-menu

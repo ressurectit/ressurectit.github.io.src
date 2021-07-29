@@ -1,13 +1,15 @@
-import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, Inject} from '@angular/core';
+import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, Inject, ChangeDetectorRef} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {RouterOutlet, Router} from '@angular/router';
-import {GlobalizationService} from '@anglr/common';
+import {LOGGER, Logger} from '@anglr/common';
 import {getCurrentUrlPrefix} from '@anglr/md-help/web';
+import {nameof} from '@jscrpt/common';
 import {TranslateService} from '@ngx-translate/core';
 import {Subscription} from 'rxjs';
 
-import {config} from '../config';
+import {config, SettingsDebug, SettingsGeneral} from '../config';
 import {routeAnimationTrigger} from './app.component.animations';
+import {SettingsService} from '../services/settings';
 
 /**
  * Application entry component
@@ -30,6 +32,27 @@ export class AppComponent implements AfterViewInit, OnDestroy
     private _routerOutletActivatedSubscription: Subscription;
 
     /**
+     * Subscription for changes of general settings
+     */
+    private _settingsChangeSubscription: Subscription;
+
+    /**
+     * Subscription for changes of debugging settings
+     */
+    private _settingsDebuggingChangeSubscription: Subscription;
+
+    /**
+     * Currently active theme
+     */
+    private _theme: string;
+
+    //######################### public properties - template bindings #########################
+
+    /**
+     * Indication whether is console visible
+     */
+    public consoleVisible: boolean = false;
+
     /**
      * Name of state for routed component animation
      */
@@ -45,11 +68,42 @@ export class AppComponent implements AfterViewInit, OnDestroy
 
     //######################### constructor #########################
     constructor(translate: TranslateService,
-                globalization: GlobalizationService,
                 router: Router,
-                @Inject(DOCUMENT) document: HTMLDocument)
+                settings: SettingsService,
+                @Inject(DOCUMENT) document: HTMLDocument,
+                @Inject(LOGGER) logger: Logger,
+                private _changeDetector: ChangeDetectorRef)
     {
-        document.body.classList.add('app-page', config.general.theme);
+        logger.verbose('Application is starting, main component constructed.');
+
+        document.body.classList.add('app-page', settings.settings.theme);
+        this._theme = settings.settings.theme;        document.body.classList.add('app-page', config.general.theme);
+
+        this._settingsChangeSubscription = settings.settingsChange
+            .subscribe(itm => 
+            {
+                if(itm == nameof<SettingsGeneral>('theme'))
+                {
+                    document.body.classList.remove(this._theme);
+                    this._theme = settings.settings.theme;
+                    document.body.classList.add(this._theme);
+                }
+
+                if(itm == nameof<SettingsGeneral>('language'))
+                {
+                    translate.use(settings.settings.language);
+                    this._changeDetector.detectChanges();
+                }
+            });
+
+        this._settingsDebuggingChangeSubscription = settings.settingsDebuggingChange
+            .subscribe(itm => 
+            {
+                if(itm == nameof<SettingsDebug>('consoleEnabled'))
+                {
+                    this._toggleConsoleHotkey();
+                }
+            });
 
         translate.setDefaultLang('en');
         translate.use(config.general.language);
@@ -58,6 +112,11 @@ export class AppComponent implements AfterViewInit, OnDestroy
         if(document.location.pathname != router.url)
         {
             router.navigateByUrl(router.parseUrl(document.location.href.replace(getCurrentUrlPrefix(document), '')));
+        }
+
+        if(settings.settingsDebugging?.consoleEnabled)
+        {
+            this._toggleConsoleHotkey();
         }
     }
 
@@ -81,10 +140,41 @@ export class AppComponent implements AfterViewInit, OnDestroy
      */
     public ngOnDestroy(): void
     {
-        if(this._routerOutletActivatedSubscription)
-        {
-            this._routerOutletActivatedSubscription.unsubscribe();
-            this._routerOutletActivatedSubscription = null;
-        }
+        this._routerOutletActivatedSubscription?.unsubscribe();
+        this._routerOutletActivatedSubscription = null;
+
+        this._routerOutletActivatedSubscription?.unsubscribe();
+        this._routerOutletActivatedSubscription = null;
+
+        this._settingsChangeSubscription?.unsubscribe();
+        this._settingsChangeSubscription = null;
+
+        this._settingsDebuggingChangeSubscription?.unsubscribe();
+        this._settingsDebuggingChangeSubscription = null;
+    }
+
+    //######################### private methods #########################
+
+    /**
+     * Toggles hotkey for displaying console log
+     */
+    private _toggleConsoleHotkey()
+    {
+        // const oldHelpHotkey = this._appHotkeys.hotkeys.get('~');
+
+        // if(oldHelpHotkey)
+        // {
+        //     this._appHotkeys.hotkeys.remove(oldHelpHotkey);
+        // }
+        // else
+        // {
+        //     this._appHotkeys.hotkeys.add(new Hotkey('~', () =>
+        //     {
+        //         this.consoleVisible = !this.consoleVisible;
+        //         this._changeDetector.detectChanges();
+
+        //         return false;
+        //     }, null, 'Show console'));
+        // }
     }
 }

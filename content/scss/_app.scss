@@ -6,12 +6,28 @@
 //---------------------- PAGE STYLING ----------------------
 .app-page
 {
-    font-family: "SegoeUI";
+    font-family: "Roboto Condensed";
+    font-size: 14px;
     user-select: none;
 
     //############## PACKAGES ##############
 
     @include meta.load-css('../../node_modules/@anglr/common/styles/light');
+
+    //############## CODE ##############
+
+    code
+    {
+        font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+        font-size: 13px;
+    }
+
+    //############## LINKS ##############
+
+    a
+    {
+        cursor: pointer;
+    }
 
     //############## BLOCKS ##############
     
@@ -73,9 +89,14 @@
 
     .page-title
     {
-        padding: 20px 20px 10px;
-        font-size: 22px;
-        margin: vars.$sizeSm 0 0;
+        padding: 10px 0;
+        font-size: 24px;
+        margin: 0;
+
+        .title-text
+        {
+            padding-left: 10%;
+        }
     }
 
     //############## DIALOG ##############
