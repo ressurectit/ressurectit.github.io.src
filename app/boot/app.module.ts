@@ -2,14 +2,17 @@ import {NgModule, ClassProvider} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
 import {MatDialogModule} from '@angular/material/dialog';
+import {RouterModule} from '@angular/router';
 import {ModuleRoutes} from '@anglr/common/router';
 import {InternalServerErrorModule} from '@anglr/error-handling';
+import {ProgressIndicatorModule} from '@anglr/common';
+import {NotificationsModule} from '@anglr/notifications';
+import {ConsoleLogModule} from '@anglr/common/structured-log';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {HotkeyModule} from 'angular2-hotkeys';
 
 import {AppComponent} from './app.component';
-import {routes, routesOptions} from './app.component.routes';
-import {CommonSharedModule} from './commonShared.module';
+import {components, routesOptions} from './app.component.routes';
 import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
@@ -27,11 +30,11 @@ import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader'
         }),
         HttpClientModule,
         InternalServerErrorModule,
-        CommonSharedModule,
-        HotkeyModule.forRoot(
-        {
-            cheatSheetCloseEsc: true
-        }),
+        ProgressIndicatorModule,
+        NotificationsModule,
+        RouterModule,
+        HotkeyModule,
+        ConsoleLogModule.forRoot(),
         MatDialogModule,
         TranslateModule.forRoot(
         {
@@ -43,10 +46,14 @@ import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader'
         })
     ],
     providers: providers,
-    declarations: [AppComponent, ...routes],
+    declarations:
+    [
+        AppComponent,
+        ...components
+    ],
     exports: [AppComponent]
 })
-@ModuleRoutes(routes, routesOptions)
+@ModuleRoutes(components, routesOptions)
 export class AppModule
 {
 }

@@ -96,7 +96,7 @@ export class LocalSettingsStorage implements SettingsStorage
      * Sets logging settings object to storage
      * @param config Logging settings object to be stored
      */
-    public setLogging(config: SettingsLogging)
+    public setLogging(config: SettingsLogging): void
     {
         store.set(LOGGING_SETTINGS_STORAGE, config);
     }

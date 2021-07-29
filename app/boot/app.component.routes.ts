@@ -1,10 +1,10 @@
 import {Type} from '@angular/core';
 import {ModuleRoutesOptions} from '@anglr/common/router';
 
-import {NotFoundComponent} from "../pages/notFound/notFound.component";
+import {NotFoundComponent} from '../pages/notFound/notFound.component';
 import {DEFAULT_CONTENT} from '../misc/constants';
 
-export const routes: Type<any>[] =
+export const components: Type<any>[] =
 [
     NotFoundComponent
 ];
