@@ -7,3 +7,5 @@ export * from './wikiFeature.module';
 export * from './renderMarkdown';
 export * from './asSource';
 export * from './sourceCode';
+export * from './userSettings';
+export * from './vyberStlpcovBtn';

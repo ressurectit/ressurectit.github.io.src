@@ -2,6 +2,7 @@ import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy,
 import {DOCUMENT} from '@angular/common';
 import {RouterOutlet, Router} from '@angular/router';
 import {LOGGER, Logger} from '@anglr/common';
+import {TitledDialogService} from '@anglr/common/material';
 import {getCurrentUrlPrefix} from '@anglr/md-help/web';
 import {nameof} from '@jscrpt/common';
 import {TranslateService} from '@ngx-translate/core';
@@ -10,6 +11,7 @@ import {Subscription} from 'rxjs';
 import {config, SettingsDebug, SettingsGeneral} from '../config';
 import {routeAnimationTrigger} from './app.component.animations';
 import {SettingsService} from '../services/settings';
+import {UserSettingsComponent} from '../modules';
 
 /**
  * Application entry component
@@ -72,7 +74,8 @@ export class AppComponent implements AfterViewInit, OnDestroy
                 settings: SettingsService,
                 @Inject(DOCUMENT) document: HTMLDocument,
                 @Inject(LOGGER) logger: Logger,
-                private _changeDetector: ChangeDetectorRef)
+                private _changeDetector: ChangeDetectorRef,
+                private _dialog: TitledDialogService)
     {
         logger.verbose('Application is starting, main component constructed.');
 
@@ -151,6 +154,20 @@ export class AppComponent implements AfterViewInit, OnDestroy
 
         this._settingsDebuggingChangeSubscription?.unsubscribe();
         this._settingsDebuggingChangeSubscription = null;
+    }
+
+    //######################### public methods - template bindings #########################
+
+    /**
+     * Shows user settings
+     */
+    public showUserSettings(): void
+    {
+        this._dialog.open(UserSettingsComponent,
+        {
+            title: 'User Settings',
+            width: '35vw'
+        });
     }
 
     //######################### private methods #########################

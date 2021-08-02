@@ -30,7 +30,7 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
 
     //############## SCROLLBAR ##############
 
-    @include mixins.thin-scrollbar-color($theme, "pageBackground");
+    @include mixins.thin-scrollbar-color($theme, "pageScrollbarForeground");
 
     .thin-scrollbar::-webkit-scrollbar
     {
@@ -52,7 +52,19 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
         color: map.get($theme, headingForeground);
     }
 
+    //############## MAT TABS ##############
+
+    .mat-tab-label
+    {
+        color: map.get($theme, pageForeground);
+    }
+
     //############## CODE ##############
+
+    pre
+    {
+        border-color: map.get($theme, codeBlockBorder);
+    }
 
     code:not(.hljs)
     {
@@ -134,44 +146,6 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
         }
     }
 
-    //############## TITLES ##############
-
-    .page-title
-    {
-        color: map.get($theme, pageTitleForeground);
-    }
-
-    //############## TITLE BAR ##############
-    .title-bar
-    {
-        background-color: map.get($theme, titleBarBackground);
-
-        .icon-base
-        {
-            background-color: map.get($theme, titleBarForeground);
-        }
-
-        .title-bar-button-base:hover
-        {
-            background-color: color.scale(map.get($theme, titleBarBackground), $lightness: 10%);
-        }
-
-        .title-bar-button-base:active
-        {
-            background-color: color.scale(map.get($theme, titleBarBackground), $lightness: 15%);
-        }
-
-        .title-bar-close:hover
-        {
-            background-color: map.get($theme, "red");
-        }
-
-        .title-bar-close:active
-        {
-            background-color: map.get($theme, "red");
-        }
-    }
-
     //############## BUTTONS ##############
 
     @include mixins.generate-button(map.get($theme, buttons));
@@ -237,6 +211,7 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
         div.btn-select
         {
             color: map.get($theme, inputForeground);
+            background-color: map.get($theme, primaryInputBackground);
         }
 
         .edit-normal-state
@@ -246,6 +221,7 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
                 .edit-control
                 {
                     color: map.get($theme, inputForeground);
+                    background-color: map.get($theme, primaryInputBackground);
                 }
             }
         }
@@ -354,43 +330,8 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
         }
     }
 
-    //############## NG SELECT ##############
-
-    // ng-select
-    // {
-    //     button.btn-select
-    //     {
-    //         background-color: map.get($theme, primarySelectBackgroundColor);
-
-    //         &.btn:hover, &.btn:focus
-    //         {
-    //             color: map.get($theme, primarySelectForegroundColor);
-    //         }
-    //     }
-
-    //     .popup-div
-    //     {
-    //         background-color: map.get($theme, primarySelectPopupBackgroundColor);
-    //         color: map.get($theme, primarySelectPopupForegroundColor);
-
-    //         .option-item:hover, .option-item.selected, .option-item.active
-    //         {
-    //             background-color: lighten(map.get($theme, primarySelectBackgroundColor), 10%);
-    //             background-image: linear-gradient(to bottom, lighten(map.get($theme, primarySelectBackgroundColor), 10%) 0,lighten(map.get($theme, primarySelectBackgroundColor), 15%) 100%);
-    //             color: map.get($theme, primarySelectForegroundColor);
-    //         }
-    //     }
-
-    //     input.form-control
-    //     {
-    //         background-color: map.get($theme, primarySelectInputBackgroundColor);
-    //         color: map.get($theme, primarySelectInputForegroundColor);
-    //     }
-    // }
-
     //############## SHARED/COMMON/COMPONENTS ##############
 
     @include meta.load-css('components/shared', $with: (theme: $theme));
     @include meta.load-css('components/common', $with: (theme: $theme));
-    @include meta.load-css('components/samples', $with: (theme: $theme));
 }

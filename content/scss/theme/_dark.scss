@@ -3,18 +3,18 @@
 //############## AVAILABLE COLORS ##############
 
 $white: #f0f0f0;
-$black: #1a1a1a;
+$black: #121212;
 
 $gray-0: #eaeaea;
 $gray-1: #e0e0e0;
 $gray-2: #cccccc;
 $gray-3: #aaaaaa;
-$gray-4: #9d9d9d;
-$gray-5: #737373;
-$gray-6: #555555;
-$gray-7: #404040;
-$gray-8: #1c232f;
-$gray-9: #1e1e1e;
+$gray-4: #555555;
+$gray-5: #404040;
+$gray-6: #333333;
+$gray-7: #1e1e1e;
+$gray-8: #1a1a1a;
+$gray-9: #151515;
 
 $green: rgba(181,232,83,0.729412);
 $teal: #0a8;
@@ -29,13 +29,13 @@ $brown: #6b4b02;
 
 //############## BACKGROUNDS ##############
 
-$pageBackground: $black;
+$pageBackground: $gray-8;
 $primaryBackground: $gray-0;
 $secondaryBackground: $gray-7;
-$blockBackground: $black;
+$blockBackground: $gray-8;
 $pageTitleBackground: $green;
-$pageTitleBackground2: $black;
-$inlineCodeBackground: $black;
+$pageTitleBackground2: $gray-8;
+$inlineCodeBackground: $gray-9;
 
 //############## FOREGROUNDS ##############
 
@@ -48,6 +48,11 @@ $headingForeground: $yellowGreen;
 $inlineCodeForeground: $blue;
 $anchorForeground: $lightBlue;
 $anchorActiveForeground: $teal;
+$pageScrollbarForeground: $gray-0;
+
+//############## CODE ##############
+
+$codeBlockBorder: $gray-6;
 
 //############## DIALOG ##############
 
@@ -59,15 +64,19 @@ $dialogContentForeground: $black;
 
 //############## FORMS ##############
 
-$inputForeground: $gray-6;
-$inputBackground: $white;
-$inputBorder: $gray-2;
+$inputForeground: $gray-0;
+$inputBackground: $gray-6;
+$inputBorder: $gray-0;
 $inputGroupAddonBackground: color.scale($gray-0, $lightness: 30%);
+$primaryInputBackground: $gray-6;
+$primaryInputForeground: $gray-0;
+$primaryInputBorder: $gray-0;
+$primarySelectActive: $gray-4;
 
 //############## GRID ##############
 
-$gridEvenRowBackground: $white;
-$gridOddRowBackground: $gray-0;
+$gridEvenRowBackground: $gray-8;
+$gridOddRowBackground: $black;
 
 //############## TITLE BAR ##############
 
@@ -76,7 +85,8 @@ $titleBarForeground: $primaryForeground;
 
 //############## SEPARATOR ##############
 
-$separatorForeground: $gray-6;
+$separatorForeground: $gray-4;
+$menuSeparatorForeground: $yellowGreen;
 
 //############## LEVELS ##############
 
@@ -95,29 +105,14 @@ $weight-3: $orange;
 $weight-4: $orangeRed;
 $weight-5: $red;
 
-//############## INPUTS ##############
-
-$primaryInputBackground: $white;
-$primaryInputForeground: $gray-6;
-$primaryInputBorder: $gray-2;
-$primarySelectActive: $gray-0;
-
 //############## PAGING ##############
 
-$primaryPagingBackground: $white;
-$primaryPagingForeground: $blue;
-$secondaryPagingBackground: $blue;
-$secondaryPagingForeground: $white;
-$primaryPagingDisabledBackground: $white;
-$primaryPagingDisabledForeground: $black;
-
-//############## STYLE SAMPLES ##############
-
-$styleSampleShadow: $gray-3;
-$styleSampleDescriptionBackgroundStart: $gray-0;
-$styleSampleDescriptionBackgroundEnd: $white;
-$styleSampleDescriptionCodeBackgroundStart: $gray-0;
-$styleSampleDescriptionCodeBackgroundEnd: $gray-9;
+$primaryPagingBackground: $gray-5;
+$primaryPagingForeground: $yellowGreen;
+$secondaryPagingBackground: $yellowGreen;
+$secondaryPagingForeground: $gray-5;
+$primaryPagingDisabledBackground: $gray-5;
+$primaryPagingDisabledForeground: $yellowGreen;
 
 //############## ALERTS ##############
 
@@ -132,7 +127,7 @@ $alerts:
 
 //############## BUTTONS ##############
 
-$btnIconForeground: $gray-5;
+$btnIconForeground: $gray-4;
 $btnIconForegroundHover: $green;
 
 $buttons:

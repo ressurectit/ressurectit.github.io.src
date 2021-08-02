@@ -1,11 +1,11 @@
 import {NgModule, ClassProvider} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {HttpClientModule} from '@angular/common/http';
-import {MatDialogModule} from '@angular/material/dialog';
 import {RouterModule} from '@angular/router';
 import {ModuleRoutes} from '@anglr/common/router';
 import {InternalServerErrorModule} from '@anglr/error-handling';
 import {ProgressIndicatorModule} from '@anglr/common';
+import {TitledDialogModule} from '@anglr/common/material';
 import {NotificationsModule} from '@anglr/notifications';
 import {ConsoleLogModule} from '@anglr/common/structured-log';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
@@ -16,6 +16,7 @@ import {components, routesOptions} from './app.component.routes';
 import {APP_TRANSFER_ID} from '../misc/constants';
 import {providers} from './app.config';
 import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader';
+import {FormsFeatureModule} from '../modules';
 
 /**
  * Main module shared for both server and browser side
@@ -35,7 +36,8 @@ import {WebpackTranslateLoaderService} from '../services/webpackTranslateLoader'
         RouterModule,
         HotkeyModule,
         ConsoleLogModule.forRoot(),
-        MatDialogModule,
+        TitledDialogModule,
+        FormsFeatureModule,
         TranslateModule.forRoot(
         {
             loader: <ClassProvider>
