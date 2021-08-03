@@ -54,6 +54,11 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
 
     //############## MAT TABS ##############
 
+    .mat-tab-labels
+    {
+        background-color: map.get($theme, matTabsBackground);
+    }
+
     .mat-tab-label
     {
         color: map.get($theme, pageForeground);
@@ -212,6 +217,11 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
         {
             color: map.get($theme, inputForeground);
             background-color: map.get($theme, primaryInputBackground);
+
+            &:disabled
+            {
+                cursor: not-allowed;
+            }
         }
 
         .edit-normal-state
@@ -224,6 +234,21 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
                     background-color: map.get($theme, primaryInputBackground);
                 }
             }
+        }
+    }
+
+    .popup-div
+    {
+        background-color: map.get($theme, primaryInputBackground);
+        color: map.get($theme, inputForeground);
+
+        .active,
+        .selected,
+        .option-item:hover
+        {
+            background-color: map.get($theme, selectActive);
+            background-image: linear-gradient(to bottom, map.get($theme, selectActive) 0, map.get($theme, selectActive2) 100%);
+            color: map.get($theme, inputForeground);
         }
     }
 

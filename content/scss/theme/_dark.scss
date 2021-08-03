@@ -36,6 +36,7 @@ $blockBackground: $gray-8;
 $pageTitleBackground: $green;
 $pageTitleBackground2: $gray-8;
 $inlineCodeBackground: $gray-9;
+$matTabsBackground: $black;
 
 //############## FOREGROUNDS ##############
 
@@ -71,12 +72,13 @@ $inputGroupAddonBackground: color.scale($gray-0, $lightness: 30%);
 $primaryInputBackground: $gray-6;
 $primaryInputForeground: $gray-0;
 $primaryInputBorder: $gray-0;
-$primarySelectActive: $gray-4;
+$selectActive: $gray-5;
+$selectActive2: color.scale($selectActive, $lightness: 12%);;
 
 //############## GRID ##############
 
-$gridEvenRowBackground: $gray-8;
-$gridOddRowBackground: $black;
+$gridEvenRowBackground: $black;
+$gridOddRowBackground: $gray-8;
 
 //############## TITLE BAR ##############
 
