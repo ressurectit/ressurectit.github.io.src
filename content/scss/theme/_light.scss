@@ -5,21 +5,22 @@
 $white: #f0f0f0;
 $black: #121212;
 
-$gray-0: #eaeaea;
-$gray-1: #e0e0e0;
-$gray-2: #cccccc;
-$gray-3: #aaaaaa;
-$gray-4: #9d9d9d;
-$gray-5: #737373;
-$gray-6: #555555;
-$gray-7: #1e1e1e;
-$gray-8: #1a1a1a;
-$gray-9: #151515;
+$gray-0: #151515;
+$gray-1: #1a1a1a;
+$gray-2: #1e1e1e;
+$gray-3: #333333;
+$gray-4: #404040;
+$gray-5: #555555;
+$gray-6: #aaaaaa;
+$gray-7: #cccccc;
+$gray-8: #e0e0e0;
+$gray-9: #eaeaea;
 
 $green: rgba(181,232,83,0.729412);
 $teal: #0a8;
 $lightBlue: #63c0f5;
-$blue: #569CD6;
+$blue: #3380c0;
+$darkBlue: #0072cf;
 $red: #ec0e0e;
 $orangeRed: #e45514;
 $orange: #e4a256;
@@ -30,24 +31,30 @@ $brown: #6b4b02;
 //############## BACKGROUNDS ##############
 
 $pageBackground: $white;
-$primaryBackground: $gray-0;
-$secondaryBackground: $gray-7;
-$blockBackground: $gray-8;
-$pageTitleBackground: $green;
-$pageTitleBackground2: $gray-8;
+$primaryBackground: $white;
+$secondaryBackground: $white;
+$blockBackground: $white;
+$pageTitleBackground: $lightBlue;
+$pageTitleBackground2: $gray-5;
 $inlineCodeBackground: $gray-9;
+$matTabsBackground: $gray-7;
 
 //############## FOREGROUNDS ##############
 
-$pageForeground: $gray-0;
-$primaryForeground: $yellowGreen;
-$secondaryForeground: $white;
-$blockForeground: $white;
-$pageTitleForeground: $gray-0;
-$headingForeground: $yellowGreen;
-$inlineCodeForeground: $blue;
-$anchorForeground: $lightBlue;
+$pageForeground: $black;
+$primaryForeground: $blue;
+$secondaryForeground: $blue;
+$blockForeground: $blue;
+$pageTitleForeground: $white;
+$headingForeground: $blue;
+$inlineCodeForeground: $darkBlue;
+$anchorForeground: $darkBlue;
 $anchorActiveForeground: $teal;
+$pageScrollbarForeground: $gray-6;
+
+//############## CODE ##############
+
+$codeBlockBorder: $gray-8;
 
 //############## DIALOG ##############
 
@@ -59,24 +66,25 @@ $dialogContentForeground: $black;
 
 //############## FORMS ##############
 
-$inputForeground: $gray-6;
+$inputForeground: $black;
 $inputBackground: $white;
-$inputBorder: $gray-2;
+$inputBorder: $gray-0;
 $inputGroupAddonBackground: color.scale($gray-0, $lightness: 30%);
+$primaryInputBackground: $white;
+$primaryInputForeground: $black;
+$primaryInputBorder: $gray-0;
+$selectActive: $gray-7;
+$selectActive2: color.scale($selectActive, $lightness: 12%);;
 
 //############## GRID ##############
 
-$gridEvenRowBackground: $white;
-$gridOddRowBackground: $gray-0;
-
-//############## TITLE BAR ##############
-
-$titleBarBackground: $primaryBackground;
-$titleBarForeground: $primaryForeground;
+$gridEvenRowBackground: $gray-8;
+$gridOddRowBackground: $white;
 
 //############## SEPARATOR ##############
 
-$separatorForeground: $gray-6;
+$separatorForeground: $gray-2;
+$menuSeparatorForeground: $lightBlue;
 
 //############## LEVELS ##############
 
@@ -95,29 +103,19 @@ $weight-3: $orange;
 $weight-4: $orangeRed;
 $weight-5: $red;
 
-//############## INPUTS ##############
+//############## LIVE SAMPLE ##############
 
-$primaryInputBackground: $white;
-$primaryInputForeground: $gray-6;
-$primaryInputBorder: $gray-2;
-$primarySelectActive: $gray-0;
+$liveSampleBorder: $gray-8;
+$liveSampleTitleBackground: $gray-8;
 
 //############## PAGING ##############
 
-$primaryPagingBackground: $white;
+$primaryPagingBackground: $gray-8;
 $primaryPagingForeground: $blue;
 $secondaryPagingBackground: $blue;
-$secondaryPagingForeground: $white;
-$primaryPagingDisabledBackground: $white;
-$primaryPagingDisabledForeground: $black;
-
-//############## STYLE SAMPLES ##############
-
-$styleSampleShadow: $gray-3;
-$styleSampleDescriptionBackgroundStart: $gray-0;
-$styleSampleDescriptionBackgroundEnd: $white;
-$styleSampleDescriptionCodeBackgroundStart: $gray-0;
-$styleSampleDescriptionCodeBackgroundEnd: $gray-9;
+$secondaryPagingForeground: $gray-8;
+$primaryPagingDisabledBackground: $gray-8;
+$primaryPagingDisabledForeground: $blue;
 
 //############## ALERTS ##############
 
@@ -132,7 +130,7 @@ $alerts:
 
 //############## BUTTONS ##############
 
-$btnIconForeground: $gray-5;
+$btnIconForeground: $gray-4;
 $btnIconForegroundHover: $green;
 
 $buttons:

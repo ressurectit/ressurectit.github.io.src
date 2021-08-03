@@ -13,6 +13,7 @@ $themeName: null !default;
 $tooltipTheme: 'dark' !default;
 $datetimeTheme: 'default' !default;
 $multiButtonTheme: 'light' !default;
+$hljs: 'vs2015' !default;
 $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map.get(meta.module-variables("themes"), "#{$themeName}-theme"));
 
 //---------------------- PAGE STYLING ----------------------
@@ -27,6 +28,7 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
 
     @include meta.load-css('../../../node_modules/@anglr/datetime/src/#{$datetimeTheme}');
     @include meta.load-css("../../../node_modules/@anglr/common/styles/positions/#{$tooltipTheme}");
+    @include meta.load-css("../../../node_modules/highlight.js/styles/#{$hljs}");
 
     //############## SCROLLBAR ##############
 

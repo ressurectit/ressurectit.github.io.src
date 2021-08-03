@@ -38,11 +38,11 @@ source-code
 
 .live-sample-div
 {
-    border-color: map.get($theme, gray-6);
-    box-shadow: 0 0 1px map.get($theme, gray-6);
+    border-color: map.get($theme, liveSampleBorder);
+    box-shadow: 0 0 1px map.get($theme, liveSampleBorder);
 
     h1, h2, h3, h4, h5, h6
     {
-        background-color: map.get($theme, gray-6);
+        background-color: map.get($theme, liveSampleTitleBackground);
     }
 }

@@ -57,11 +57,11 @@ $codeBlockBorder: $gray-6;
 
 //############## DIALOG ##############
 
-$dialogBorder: $gray-7;
-$dialogTitleForeground: $gray-0;
-$dialogTitleBackground: $gray-8;
-$dialogContentBackground: $white;
-$dialogContentForeground: $black;
+$dialogBorder: $gray-3;
+$dialogTitleForeground: $gray-1;
+$dialogTitleBackground: $gray-7;
+$dialogContentBackground: $gray-6;
+$dialogContentForeground: $white;
 
 //############## FORMS ##############
 
@@ -79,11 +79,6 @@ $selectActive2: color.scale($selectActive, $lightness: 12%);;
 
 $gridEvenRowBackground: $black;
 $gridOddRowBackground: $gray-8;
-
-//############## TITLE BAR ##############
-
-$titleBarBackground: $primaryBackground;
-$titleBarForeground: $primaryForeground;
 
 //############## SEPARATOR ##############
 
@@ -106,6 +101,11 @@ $weight-2: $yellow;
 $weight-3: $orange;
 $weight-4: $orangeRed;
 $weight-5: $red;
+
+//############## LIVE SAMPLE ##############
+
+$liveSampleBorder: $gray-6;
+$liveSampleTitleBackground: $gray-6;
 
 //############## PAGING ##############
 

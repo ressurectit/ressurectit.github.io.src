@@ -1,1 +1,5 @@
-@use 'scss/theme/theme' with ($themeName: 'dark', $tooltipTheme: 'light', $datetimeTheme: 'dark', $multiButtonTheme: 'dark');
+@use 'scss/theme/theme' with ($themeName: 'dark',
+                              $tooltipTheme: 'light',
+                              $datetimeTheme: 'dark',
+                              $multiButtonTheme: 'dark',
+                              $hljs: 'vs2015');
