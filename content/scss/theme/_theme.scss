@@ -196,6 +196,7 @@ $theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map
             input
             {
                 color: map.get($theme, inputForeground);
+                background-color: map.get($theme, inputBackground);
             }
         }
     }
