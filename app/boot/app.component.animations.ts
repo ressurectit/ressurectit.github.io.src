@@ -44,3 +44,24 @@ export const routeAnimationTrigger = trigger('routeAnimations',
         ])
     ])
 ]);
+
+export const loaderTrigger = trigger('loaderAnimation',
+[
+    transition(':leave',
+    [
+        group(
+        [
+            query('.start-title', 
+            [
+                animate('350ms', style(
+                {
+                    transform: 'scale(2)'
+                }))
+            ]),
+            animate('350ms', style(
+            {
+                opacity: 0
+            }))
+        ])
+    ])
+]);

@@ -9,7 +9,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {Subscription} from 'rxjs';
 
 import {config, SettingsDebug, SettingsGeneral} from '../config';
-import {routeAnimationTrigger} from './app.component.animations';
+import {loaderTrigger, routeAnimationTrigger} from './app.component.animations';
 import {SettingsService} from '../services/settings';
 import {UserSettingsComponent} from '../modules';
 
@@ -22,7 +22,7 @@ import {UserSettingsComponent} from '../modules';
     templateUrl: 'app.component.html',
     styleUrls: ['app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [routeAnimationTrigger]
+    animations: [routeAnimationTrigger, loaderTrigger]
 })
 export class AppComponent implements AfterViewInit, OnDestroy
 {
@@ -59,6 +59,11 @@ export class AppComponent implements AfterViewInit, OnDestroy
      * Name of state for routed component animation
      */
     public routeComponentState: string = 'none';
+
+    /**
+     * Indication whether is application initialized
+     */
+    public initialized: boolean = false;
 
     //######################### public properties - children #########################
 
@@ -134,6 +139,8 @@ export class AppComponent implements AfterViewInit, OnDestroy
         {
             this.routeComponentState = this.routerOutlet.activatedRouteData['animation'] || (<any>this.routerOutlet.activatedRoute.component).name;
         });
+
+        this.initialized = true;
     }
 
     //######################### public methods - implementation of OnDestroy #########################

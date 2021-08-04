@@ -83,34 +83,46 @@ app
 
 // ---------------------- SPLASH SCREEN ----------------------
 
-.loading-indicator
+.start-indicator
 {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: #222222;
     height: 100%;
-    left: 0;
+    width: 100%;
     position: fixed;
     top: 0;
-    width: 100%;
+    left: 0;
     z-index: 23456;
     opacity: 1;
+    display: grid;
+    grid-template-rows: 1fr auto auto 1fr;
 
-    & > div
+    & > div.start-title
     {
+        grid-row: 2/3;
+        justify-self: center;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 1.8em;
+        color: #b5e853;
+        margin-bottom: 10px;
+    }
+
+    & > div.spinner
+    {
+        grid-row: 3/4;
         border: 4px solid #eee;
         border-bottom: none;
         border-top-left-radius: 48px;
         border-top-right-radius: 48px;
-        height: 24px;
-        margin-left: auto;
-        margin-right: auto;
-        position: relative;
-        top: 50%;
-        width: 48px;
+        height: 16px;
+        width: 32px;
         animation-name: rotate-loading;
-        animation-duration: 450ms;
+        animation-duration: 550ms;
         animation-iteration-count: infinite;
         animation-timing-function: linear;
-        transform-origin: calc(50%) calc(50% + 12px);
+        align-self: start;
+        justify-self: center;
+        transform-origin: calc(50%) calc(50% + 8px);
     }
 }
 

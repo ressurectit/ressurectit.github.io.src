@@ -24,3 +24,8 @@
     </div>
     <console *ngIf="consoleVisible" @consoleAnimation></console>
 </div>
+
+<div class="start-indicator" *ngIf="!initialized" @loaderAnimation>
+    <div class="start-title">ressurect it</div>
+    <div class="spinner"></div>
+</div>
