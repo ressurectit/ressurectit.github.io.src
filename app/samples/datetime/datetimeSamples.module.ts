@@ -6,6 +6,10 @@ import {DatePipesModule, DateTimeSelectorModule} from '@anglr/datetime';
 import {SamplesFeatureModule} from '../../modules';
 import {BasicComponent} from './basic/basic.component';
 import {BasicSampleComponent} from './basic/basicSample.component';
+import {SimpleSelectorSampleComponent} from './simpleSelector/simpleSelectorSample.component';
+import {SimpleSelectorComponent} from './simpleSelector/simpleSelector.component';
+import {MinMaxStaticSampleComponent} from './minMaxStatic/minMaxStaticSample.component';
+import {MinMaxStaticComponent} from './minMaxStatic/minMaxStatic.component';
 
 /**
  * Module with datetime samples components
@@ -23,7 +27,11 @@ import {BasicSampleComponent} from './basic/basicSample.component';
     declarations:
     [
         BasicSampleComponent,
-        BasicComponent
+        BasicComponent,
+        SimpleSelectorSampleComponent,
+        SimpleSelectorComponent,
+        MinMaxStaticSampleComponent,
+        MinMaxStaticComponent
     ]
 })
 export class DatetimeSamplesModule
