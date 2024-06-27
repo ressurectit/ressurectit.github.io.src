@@ -52,7 +52,7 @@
     [
         "app/**/*.ts",
         "packages/**/*.ts"
-, "app/misc/decorators"    ],
+    ],
     "exclude":
     [
         "node_modules"

@@ -1,0 +1,23 @@
+<div class="flex-row flex-1">
+    <md-menu #mdMenu baseUrl="/content" activeCssClass="active" class="thin-scrollbar overflow-vertical-auto">
+        <ng-container *ngTemplateOutlet="menuTmpl; context: {$implicit: menu}"/>
+
+        <ng-template #menuTmpl let-children>
+            <ul>
+                @for(item of children; track item)
+                {
+                    <li>
+                        <a [mdMenuItem]="item?.mdPath">{{item?.title}}</a>
+    
+                        @if(item?.children?.length)
+                        {
+                            <ng-container *ngTemplateOutlet="menuTmpl; context: {$implicit: item?.children}"/>
+                        }
+                    </li>
+                }
+            </ul>
+        </ng-template>
+    </md-menu>
+
+    <div class="flex-1 md-content thin-scrollbar overflow-vertical-scroll" renderMd [source]="mdMenu?.activePath"></div>
+</div>
