@@ -1,23 +1,26 @@
-<div class="flex-row flex-1">
-    <md-menu #mdMenu baseUrl="/content" activeCssClass="active" class="thin-scrollbar overflow-vertical-auto">
-        <ng-container *ngTemplateOutlet="menuTmpl; context: {$implicit: menu}"/>
-
-        <ng-template #menuTmpl let-children>
-            <ul>
-                @for(item of children; track item)
-                {
-                    <li>
-                        <a [mdMenuItem]="item?.mdPath">{{item?.title}}</a>
-    
-                        @if(item?.children?.length)
+<div class="flex-column flex-1">
+    <div cdkMenuBar>
+        @for(menuitem of menu(); track menuitem)
+        {
+            @if(menuitem.children?.length)
+            {
+                <ng-template #submenu>
+                    <div class="example-menu" cdkMenu>
+                        @for(submenuitem of menuitem.children; track submenuitem)
                         {
-                            <ng-container *ngTemplateOutlet="menuTmpl; context: {$implicit: item?.children}"/>
+                            <button type="button" class="example-menu-item" cdkMenuItem>{{submenuitem.title}}</button>
                         }
-                    </li>
-                }
-            </ul>
-        </ng-template>
-    </md-menu>
+                    </div>
+                </ng-template>
 
-    <div class="flex-1 md-content thin-scrollbar overflow-vertical-scroll" renderMd [source]="mdMenu?.activePath"></div>
+                <button type="button" class="example-menu-bar-item" cdkMenuItem [cdkMenuTriggerFor]="submenu">{{menuitem?.title}}</button>
+            }
+            @else
+            {
+                <button type="button" class="example-menu-bar-item" cdkMenuItem>{{menuitem?.title}}</button>
+            }
+        }
+    </div>
+
+    <div class="flex-1"></div>
 </div>

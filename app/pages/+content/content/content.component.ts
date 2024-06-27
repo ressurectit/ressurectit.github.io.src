@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, input, InputSignal} from '@angular/core';
+import {CdkMenuGroup, CdkMenu, CdkMenuTrigger, CdkMenuItem, CdkMenuBar} from '@angular/cdk/menu';
 import {NgTemplateOutlet} from '@angular/common';
 import {ComponentRoute} from '@anglr/common/router';
-import {MarkdownModule} from '@anglr/md-help/web';
 
 import {contentMenuResolver} from './content.resolver';
 import {ContentMenu, ContentService} from '../../../services/api/content';
@@ -18,9 +18,13 @@ import {RenderMarkdownDirective} from '../../../directives';
     standalone: true,
     imports:
     [
-        MarkdownModule,
         RenderMarkdownDirective,
         NgTemplateOutlet,
+        CdkMenuBar,
+        CdkMenuItem,
+        CdkMenuTrigger,
+        CdkMenu,
+        CdkMenuGroup,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

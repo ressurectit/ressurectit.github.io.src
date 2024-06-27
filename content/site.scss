@@ -1,5 +1,6 @@
 @use '@css-styles/common' as mixins;
-@use "scss/fonts";
+@use 'externalStyle';
+@use 'scss/fonts';
 @use 'scss/app';
 
 // ---------------------- COMMON ----------------------

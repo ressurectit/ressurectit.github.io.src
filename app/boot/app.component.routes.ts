@@ -6,6 +6,11 @@ export const routes: Routes =
 [
     {
         path: '',
+        redirectTo: 'home',
+        pathMatch: 'full'
+    },
+    {
+        path: '',
         loadChildren: () => import('../pages/+content/content.module')
     },
     notFoundRoute,
