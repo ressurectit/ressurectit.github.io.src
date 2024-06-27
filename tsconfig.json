@@ -1,34 +1,41 @@
 {
     "compilerOptions":
     {
-        "target": "es5",
-        "module": "esnext",
+        "target": "ES2022",
+        "module": "ES2022",
         "sourceMap": true,
-        "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
+        "declaration": false,
         "removeComments": true,
-        "noImplicitAny": false,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitOverride": true,
+        "noImplicitThis": true,
         "noUnusedLocals": true,
-        "strictNullChecks": false,
+        "noUnusedParameters": true,
+        "strict": true,
+        "strictNullChecks": true,
         "resolveJsonModule": true,
         "esModuleInterop": true,
+        "importHelpers": true,
+        "useDefineForClassFields": false,
+        "skipLibCheck": false,
+        "forceConsistentCasingInFileNames": true,
+        "newLine": "lf",
         "moduleResolution": "node",
-        "outDir": "wwwroot/app",
+        "outDir": "wwwroot/app-tsc",
+        "paths": 
+        {
+            "modernizr": ["./content/external/scripts/modernizr-custom.js"]
+        },
         "lib":
         [
-            "es2016",
+            "ES2022",
             "dom"
         ],
         "types":
         [
-            "node",
-            "konami.js",
-            "mousetrap"
-        ],
-        "typeRoots":
-        [
-            "node_modules/@types",
-            "node_modules/@anglr/types"
+            "node"
         ],
         "plugins":
         [
@@ -45,16 +52,22 @@
     [
         "app/**/*.ts",
         "packages/**/*.ts"
-    ],
+, "app/misc/decorators"    ],
     "exclude":
     [
         "node_modules"
     ],
     "angularCompilerOptions":
     {
-        "fullTemplateTypeCheck": true,
         "strictInjectionParameters": true,
         "strictInputAccessModifiers": true,
-        "strictTemplates": true
+        "strictTemplates": true,
+        "extendedDiagnostics":
+        {
+            "checks":
+            {
+                "interpolatedSignalNotInvoked": "error"
+            }
+        }
     }
 }

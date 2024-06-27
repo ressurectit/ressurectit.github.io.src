@@ -1,2 +1,13 @@
-declare let isProduction: boolean;
-declare let isNgsw: boolean;
+declare const isProduction: boolean;
+
+interface ImportMeta
+{
+    webpackHot?: boolean;
+}
+
+declare module 'xhr2'
+{
+    const anything: any;
+
+    export = anything;
+}

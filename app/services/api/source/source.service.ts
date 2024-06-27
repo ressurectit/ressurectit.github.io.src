@@ -1,6 +1,6 @@
-import {Injectable} from "@angular/core";
-import {BaseUrl, Produces, ResponseType, GET, Path, Cache, RESTClient} from "@anglr/rest";
-import {Observable} from "rxjs";
+import {Injectable} from '@angular/core';
+import {BaseUrl, Produces, ResponseType, GET, Path, Cache, RESTClient} from '@anglr/rest';
+import {NEVER, Observable} from 'rxjs';
 
 /**
  * Service used to obtain source files
@@ -18,6 +18,6 @@ export class SourceService extends RESTClient
     @GET('{path}')
     public getSource(@Path('path') _path: string): Observable<string>
     {
-        return null;
+        return NEVER;
     }
 }

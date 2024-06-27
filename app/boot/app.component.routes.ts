@@ -1,39 +1,12 @@
-import {Type} from '@angular/core';
-import {ModuleRoutesOptions} from '@anglr/common/router';
+import {Routes} from '@angular/router';
+import {extractRoutes} from '@anglr/common/router';
 
-import {NotFoundComponent} from '../pages/notFound/notFound.component';
-import {DEFAULT_CONTENT} from '../misc/constants';
+import {notFoundRoute} from '../pages/notFound/notFound.route';
 
-export const components: Type<any>[] =
+export const routes: Routes = 
 [
-    NotFoundComponent
-];
-
-export const routesOptions: ModuleRoutesOptions =
-{
-    rootModule: true,
-    rootModuleConfig:
-    {
-        enableTracing: false,
-        useHash: true,
-        anchorScrolling: 'enabled',
-        scrollPositionRestoration: 'enabled',
-        onSameUrlNavigation: 'reload'
-    },
-    staticRoutesBefore:
+    ...extractRoutes(
     [
-        {
-            path: '',
-            redirectTo: `content/${DEFAULT_CONTENT}`,
-            pathMatch: 'full'
-        },
-        {
-            path: 'content',
-            loadChildren: () => import('../pages/+content/content.module').then(({ContentModule}) => ContentModule)
-        },
-        {
-            path: 'restSamples',
-            loadChildren: () => import('../pages/+sampleRest/sampleRest.module').then(({SampleRestModule}) => SampleRestModule)
-        }
-    ]
-};
+    ]),
+    notFoundRoute,
+];

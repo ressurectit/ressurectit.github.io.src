@@ -1,5 +1,5 @@
-import {ValueProvider} from "@angular/core";
-import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, GRID_INITIALIZER_OPTIONS, PAGING_OPTIONS, BasicPagingOptions, GridInitializerOptions} from "@anglr/grid";
+import {ValueProvider} from '@angular/core';
+import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, GRID_INITIALIZER_OPTIONS, PAGING_OPTIONS, BasicPagingOptions, GridInitializerOptions} from '@anglr/grid';
 
 /**
  * Global configuration for Grid
@@ -13,9 +13,9 @@ export const globalGridConfig =
         {
             texts:
             {
-                noData: "No data found !!!",
-                loading: "Data are currently loading!",
-                notLoaded: "Data are not loaded yet"
+                noData: 'No data found !!!',
+                loading: 'Data are currently loading!',
+                notLoaded: 'Data are not loaded yet'
             }
         }
     },

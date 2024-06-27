@@ -1,12 +1,11 @@
-import moment from 'moment';
-
+import {AppInputDateTime} from '../../../misc/types';
 import {Address} from '../data/data.interface';
 
 export interface SampleFilter
 {
     name?: string;
     age?: number;
-    date?: moment.Moment;
+    date?: AppInputDateTime;
 }
 
 export interface SampleData
@@ -14,7 +13,7 @@ export interface SampleData
     user: string;
     firstName: string;
     surname: string;
-    birthDate: moment.Moment;
+    birthDate: AppInputDateTime;
     validUser: boolean;
     address: Address;
 }

@@ -1,16 +1,10 @@
+@use '@css-styles/common' as mixins;
 @use "scss/fonts";
 @use 'scss/app';
 
 // ---------------------- COMMON ----------------------
-*, *:focus
-{
-    outline: none;
-}
 
-*
-{
-    box-sizing: border-box;
-}
+@include mixins.css-reset;
 
 html
 {
@@ -20,34 +14,7 @@ html
 body
 {
     overflow: hidden;
-    margin: 0;
-    padding: 0;
     height: 100%;
-}
-
-app
-{
-    display: flex;
-    height: 100vh;
-    flex-direction: column;
-
-    router-outlet+*, router-outlet+*+*
-    {
-        @extend .thin-scrollbar;
-
-        overflow-y: hidden;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-        min-width: 0;
-        padding: 0;
-
-        &.scrollable
-        {
-            overflow-y: scroll;
-        }
-    }
 }
 
 .no-ie, .no-grid
@@ -83,57 +50,57 @@ app
 
 // ---------------------- SPLASH SCREEN ----------------------
 
-.start-indicator
-{
-    background-color: #222222;
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 23456;
-    opacity: 1;
-    display: grid;
-    grid-template-rows: 1fr auto auto 1fr;
+// .start-indicator
+// {
+//     background-color: #222222;
+//     height: 100%;
+//     width: 100%;
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     z-index: 23456;
+//     opacity: 1;
+//     display: grid;
+//     grid-template-rows: 1fr auto auto 1fr;
 
-    & > div.start-title
-    {
-        grid-row: 2/3;
-        justify-self: center;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-size: 1.8em;
-        color: #b5e853;
-        margin-bottom: 10px;
-    }
+//     & > div.start-title
+//     {
+//         grid-row: 2/3;
+//         justify-self: center;
+//         text-transform: uppercase;
+//         letter-spacing: 1px;
+//         font-size: 1.8em;
+//         color: #b5e853;
+//         margin-bottom: 10px;
+//     }
 
-    & > div.spinner
-    {
-        grid-row: 3/4;
-        border: 4px solid #eee;
-        border-bottom: none;
-        border-top-left-radius: 48px;
-        border-top-right-radius: 48px;
-        height: 16px;
-        width: 32px;
-        animation-name: rotate-loading;
-        animation-duration: 550ms;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear;
-        align-self: start;
-        justify-self: center;
-        transform-origin: calc(50%) calc(50% + 8px);
-    }
-}
+//     & > div.spinner
+//     {
+//         grid-row: 3/4;
+//         border: 4px solid #eee;
+//         border-bottom: none;
+//         border-top-left-radius: 48px;
+//         border-top-right-radius: 48px;
+//         height: 16px;
+//         width: 32px;
+//         animation-name: rotate-loading;
+//         animation-duration: 550ms;
+//         animation-iteration-count: infinite;
+//         animation-timing-function: linear;
+//         align-self: start;
+//         justify-self: center;
+//         transform-origin: calc(50%) calc(50% + 8px);
+//     }
+// }
 
-@keyframes rotate-loading
-{
-    0%
-    {
-        transform: rotate(0deg);
-    }
-    100%
-    {
-        transform: rotate(360deg);
-    }
-}
+// @keyframes rotate-loading
+// {
+//     0%
+//     {
+//         transform: rotate(0deg);
+//     }
+//     100%
+//     {
+//         transform: rotate(360deg);
+//     }
+// }

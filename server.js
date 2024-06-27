@@ -1,94 +1,123 @@
-var connect = require('connect'),
-    gzipStatic = require('connect-gzip-static'),
-    serveStatic = require('serve-static'),
-    history = require('connect-history-api-fallback'),
-    {createProxyMiddleware} = require('http-proxy-middleware'),
-    argv = require('yargs').argv,
-    path = require('path'),
-    connectExtensions = require('nodejs-connect-extensions');
+import express from 'express';
+import compression from 'compression';
+import {fileURLToPath} from 'node:url';
+import {dirname} from 'node:path';
+import path from 'path';
+import fs from 'fs';
+import {createProxyMiddleware} from 'http-proxy-middleware';
+import yargs from 'yargs/yargs';
+import {hideBin} from 'yargs/helpers';
+import {extendConnectUse} from 'nodejs-connect-extensions';
+import dotenv from 'dotenv';
 
-require('dotenv').config();
-
-var app = connect();
-
-connectExtensions.extendConnectUse(app);
-
-const wwwroot = path.join(__dirname, "wwwroot");
-const proxyUrlFile = path.join(__dirname, 'proxyUrl.js');
-var proxyUrl = "http://127.0.0.1:8080";
-
-function isRequireAvailable(path)
+async function run()
 {
-    try
+    const argv = yargs(hideBin(process.argv)).argv;
+    const server = express();
+
+    server.use(compression());
+    
+    dotenv.config();
+    
+    extendConnectUse(server);
+    
+    const dirName = dirname(fileURLToPath(import.meta.url));
+    const wwwroot = path.join(dirName, 'wwwroot', 'browser');
+    const indexHtml = path.join(wwwroot, 'index.html')
+    const serverPath = path.join(dirName, 'wwwroot', 'server', 'server.mjs');
+    const proxyUrlFile = path.join(dirName, 'proxyUrl.js');
+    let proxyUrl = "http://127.0.0.1:8080";
+    let port = process.env['PORT'] || 8888;
+
+    if(fs.existsSync(proxyUrlFile))
     {
-        require.resolve(path);
+        proxyUrl = (await import('./proxyUrl.js')).default;
     }
-    catch(e)
+    
+    if(process.env.SERVER_PROXY_HOST)
     {
-        return false;
+        proxyUrl = process.env.SERVER_PROXY_HOST;
     }
-
-    return true;
-}
-
-if(isRequireAvailable(proxyUrlFile))
-{
-    proxyUrl = require(proxyUrlFile);
-}
-
-if(process.env.SERVER_PROXY_HOST)
-{
-    proxyUrl = process.env.SERVER_PROXY_HOST;
-}
-
-console.log(`Using proxy url '${proxyUrl}'`);
-
-//enable webpack only if run with --webpack param
-if(!!argv.webpack)
-{
-    //WEBPACK 5 DEV SERVER
-    app.use(createProxyMiddleware(['/bin'],
+    
+    console.log(`Using proxy url '${proxyUrl}'`);
+    
+    //start with dev port
+    if(!!argv.devPort)
     {
-        target: 'http://localhost:9000',
-        ws: true
+        port = 8880;
+    }
+    
+    function error(err, req, res)
+    {
+        if(err.code == "ECONNREFUSED" || err.code == "ECONNRESET")
+        {
+            res.writeHead(503,
+            {
+                'Content-Type': 'text/plain'
+            });
+    
+            res.end('Remote server is offline.');
+    
+            return;
+        }
+    
+        res.writeHead(504,
+        {
+            'Content-Type': 'text/plain'
+        });
+    
+        res.end('Failed to proxy request.');
+    }
+    
+    //proxy special requests to other location
+    server.use(createProxyMiddleware(['/api'],
+                                     {
+                                         target: proxyUrl,
+                                         ws: true,
+                                         secure: false,
+                                         changeOrigin: true,
+                                         on:
+                                         {
+                                             error,
+                                         },
+                                     }));
+    
+    server.set('view engine', 'html');
+    server.set('views', wwwroot);
+    
+    // Serve static files from /browser
+    server.get('*.*', express.static(wwwroot, 
+    {
+        maxAge: '1y',
+        setHeaders: (res, path) => 
+        {
+            if (express.static.mime.lookup(path) === 'text/html') 
+            {
+                // Skip cache on html to load new builds.
+                res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+                res.setHeader('Expires', '-1');
+                res.setHeader('Pragma', 'no-cache');
+            }
+        }
     }));
 
-    // var webpack = require('webpack'),
-    //     webpackConfig = require('./webpack.config.js')[0]({hmr: true, dll: true, aot: true, css: true}),
-    //     webpackDev = require('webpack-dev-middleware'),
-    //     hmr = require("webpack-hot-middleware");
-
-    // var compiler = webpack(webpackConfig);
-
-    // //enables webpack dev middleware
-    // app.use(webpackDev(compiler,
-    // {
-    //     publicPath: webpackConfig.output.publicPath,
-    // }));
-
-    // app.use(hmr(compiler));
+    
+    if(fs.existsSync(serverPath) && !argv.devPort)
+    {
+        const {applyServerSideRendering} = await import('./wwwroot/server/server.mjs');
+        
+        applyServerSideRendering(server);
+    }
+    else
+    {
+        server.get('/*', (_, res) => res.sendFile(indexHtml));
+    }
+    
+    //create node.js http server and listen on port
+    server.listen(port, () =>
+    {
+        console.log(`Listening on port ${port} => http://localhost:${port}`);
+    });
 }
 
-//custom rest api
-require('./server.rest')(app);
-
-//enable html5 routing
-app.use(history());
-
-//return static files
-app.use(gzipStatic(wwwroot, 
-                   {
-                       maxAge: '1d',
-                       setHeaders: function setCustomCacheControl (res, path) 
-                       {
-                           if (serveStatic.mime.lookup(path) === 'text/html') 
-                           {
-                               // Custom Cache-Control for HTML files
-                               res.setHeader('Cache-Control', 'public, max-age=0');
-                           }
-                       }
-                   }));
-
-console.log("Listening on port 8888 => http://localhost:8888");
-//create node.js http server and listen on port
-app.listen(8888);
+run();

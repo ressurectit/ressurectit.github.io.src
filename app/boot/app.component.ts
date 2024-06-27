@@ -1,17 +1,18 @@
-import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, Inject, ChangeDetectorRef} from '@angular/core';
+import {Component, OnDestroy, AfterViewInit, ViewChild, ChangeDetectionStrategy, Inject, signal, WritableSignal} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
-import {RouterOutlet, Router} from '@angular/router';
-import {LOGGER, Logger} from '@anglr/common';
-import {TitledDialogService} from '@anglr/common/material';
-import {getCurrentUrlPrefix} from '@anglr/md-help/web';
+import {RouterOutlet} from '@angular/router';
+import {consoleAnimationTrigger, ConsoleSAComponent, LOGGER, Logger, ProgressIndicatorModule} from '@anglr/common';
+import {AppHotkeysService, HotkeysCheatsheetComponent} from '@anglr/common/hotkeys';
+import {InternalServerErrorSAComponent} from '@anglr/error-handling';
+import {NotificationsGlobalModule} from '@anglr/notifications';
 import {nameof} from '@jscrpt/common';
 import {TranslateService} from '@ngx-translate/core';
+import {Hotkey} from 'angular2-hotkeys';
 import {Subscription} from 'rxjs';
 
-import {config, SettingsDebug, SettingsGeneral} from '../config';
-import {loaderTrigger, routeAnimationTrigger} from './app.component.animations';
+import {SettingsDebug, SettingsGeneral} from '../config';
 import {SettingsService} from '../services/settings';
-import {UserSettingsComponent} from '../modules';
+import version from '../../config/version.json';
 
 /**
  * Application entry component
@@ -20,9 +21,20 @@ import {UserSettingsComponent} from '../modules';
 {
     selector: 'app',
     templateUrl: 'app.component.html',
-    styleUrls: ['app.component.scss'],
+    styleUrl: 'app.component.scss',
+    standalone: true,
+    imports:
+    [
+        RouterOutlet,
+        InternalServerErrorSAComponent,
+        ProgressIndicatorModule,
+        NotificationsGlobalModule,
+        ConsoleSAComponent,
+        HotkeysCheatsheetComponent,
+    ],    
+    providers: [AppHotkeysService],
+    animations: [consoleAnimationTrigger],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [routeAnimationTrigger, loaderTrigger]
 })
 export class AppComponent implements AfterViewInit, OnDestroy
 {
@@ -31,7 +43,7 @@ export class AppComponent implements AfterViewInit, OnDestroy
     /**
      * Subscription for router outlet activation changes
      */
-    private _routerOutletActivatedSubscription: Subscription;
+    private _routerOutletActivatedSubscription: Subscription|undefined|null;
 
     /**
      * Subscription for changes of general settings
@@ -53,12 +65,27 @@ export class AppComponent implements AfterViewInit, OnDestroy
     /**
      * Indication whether is console visible
      */
-    public consoleVisible: boolean = false;
+    public consoleVisible: WritableSignal<boolean> = signal(false);
 
     /**
      * Name of state for routed component animation
      */
     public routeComponentState: string = 'none';
+
+    /**
+     * Current version of gui
+     */
+    public guiVersion: string = version.version;
+
+    /**
+     * Version of server
+     */
+    public serverVersion: string = '';
+
+    /**
+     * Name of server
+     */
+    public serverName: string = '';
 
     /**
      * Indication whether is application initialized
@@ -70,22 +97,20 @@ export class AppComponent implements AfterViewInit, OnDestroy
     /**
      * Router outlet that is used for loading routed components
      */
-    @ViewChild('outlet', {static: false})
-    public routerOutlet: RouterOutlet;
+    @ViewChild('outlet')
+    public routerOutlet: RouterOutlet|undefined|null;
 
     //######################### constructor #########################
-    constructor(translate: TranslateService,
-                router: Router,
+    constructor(translateSvc: TranslateService,
+                private _appHotkeys: AppHotkeysService,
                 settings: SettingsService,
-                @Inject(DOCUMENT) document: HTMLDocument,
                 @Inject(LOGGER) logger: Logger,
-                private _changeDetector: ChangeDetectorRef,
-                private _dialog: TitledDialogService)
+                @Inject(DOCUMENT) document: Document,)
     {
         logger.verbose('Application is starting, main component constructed.');
 
         document.body.classList.add('app-page', settings.settings.theme);
-        this._theme = settings.settings.theme;        document.body.classList.add('app-page', config.general.theme);
+        this._theme = settings.settings.theme;
 
         this._settingsChangeSubscription = settings.settingsChange
             .subscribe(itm => 
@@ -99,8 +124,7 @@ export class AppComponent implements AfterViewInit, OnDestroy
 
                 if(itm == nameof<SettingsGeneral>('language'))
                 {
-                    translate.use(settings.settings.language);
-                    this._changeDetector.detectChanges();
+                    translateSvc.use(settings.settings.language);
                 }
             });
 
@@ -113,14 +137,8 @@ export class AppComponent implements AfterViewInit, OnDestroy
                 }
             });
 
-        translate.setDefaultLang('en');
-        translate.use(config.general.language);
-
-        //handle route to html5 routing
-        if(document.location.pathname != router.url)
-        {
-            router.navigateByUrl(router.parseUrl(document.location.href.replace(getCurrentUrlPrefix(document), '')));
-        }
+        translateSvc.setDefaultLang('en');
+        translateSvc.use(settings.settings.language);
 
         if(settings.settingsDebugging?.consoleEnabled)
         {
@@ -135,9 +153,9 @@ export class AppComponent implements AfterViewInit, OnDestroy
      */
     public ngAfterViewInit(): void
     {
-        this._routerOutletActivatedSubscription = this.routerOutlet.activateEvents.subscribe(() =>
+        this._routerOutletActivatedSubscription = this.routerOutlet?.activateEvents.subscribe(() =>
         {
-            this.routeComponentState = this.routerOutlet.activatedRouteData['animation'] || (<any>this.routerOutlet.activatedRoute.component).name;
+            this.routeComponentState = this.routerOutlet?.activatedRouteData['animation'] || (<any>this.routerOutlet?.activatedRoute.component).name;
         });
 
         this.initialized = true;
@@ -153,28 +171,24 @@ export class AppComponent implements AfterViewInit, OnDestroy
         this._routerOutletActivatedSubscription?.unsubscribe();
         this._routerOutletActivatedSubscription = null;
 
-        this._routerOutletActivatedSubscription?.unsubscribe();
-        this._routerOutletActivatedSubscription = null;
-
         this._settingsChangeSubscription?.unsubscribe();
-        this._settingsChangeSubscription = null;
-
         this._settingsDebuggingChangeSubscription?.unsubscribe();
-        this._settingsDebuggingChangeSubscription = null;
+
+        this._appHotkeys.destroy();
     }
 
-    //######################### public methods - template bindings #########################
+    //######################### protected methods - template bindings #########################
 
     /**
      * Shows user settings
      */
-    public showUserSettings(): void
+    protected showUserSettings(): void
     {
-        this._dialog.open(UserSettingsComponent,
-        {
-            title: 'User Settings',
-            width: '35vw'
-        });
+        // this._dialog.open(UserSettingsComponent,
+        // {
+        //     title: 'User Settings',
+        //     width: '35vw'
+        // });
     }
 
     //######################### private methods #########################
@@ -184,21 +198,20 @@ export class AppComponent implements AfterViewInit, OnDestroy
      */
     private _toggleConsoleHotkey()
     {
-        // const oldHelpHotkey = this._appHotkeys.hotkeys.get('~');
+        const oldHelpHotkey = this._appHotkeys.hotkeys.get('~');
 
-        // if(oldHelpHotkey)
-        // {
-        //     this._appHotkeys.hotkeys.remove(oldHelpHotkey);
-        // }
-        // else
-        // {
-        //     this._appHotkeys.hotkeys.add(new Hotkey('~', () =>
-        //     {
-        //         this.consoleVisible = !this.consoleVisible;
-        //         this._changeDetector.detectChanges();
+        if(oldHelpHotkey)
+        {
+            this._appHotkeys.hotkeys.remove(oldHelpHotkey);
+        }
+        else
+        {
+            this._appHotkeys.hotkeys.add(new Hotkey('~', () =>
+            {
+                this.consoleVisible.update(val => !val);
 
-        //         return false;
-        //     }, null, 'Show console'));
-        // }
+                return false;
+            }, undefined, 'Show console'));
+        }
     }
 }

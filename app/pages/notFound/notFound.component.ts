@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {ComponentRoute} from '@anglr/common/router';
 import {StatusCodeService} from '@anglr/common';
+
+import {WithScrollableCssClass} from '../../misc/decorators';
 
 /**
  * Page displayed when url was not found
@@ -9,10 +10,11 @@ import {StatusCodeService} from '@anglr/common';
 {
     selector: 'not-found-view',
     templateUrl: 'notFound.component.html',
+    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-@ComponentRoute({path: '**'})
-export class NotFoundComponent
+@WithScrollableCssClass()
+export default class NotFoundComponent
 {
     //######################### constructor #########################
     constructor(statusCodeService: StatusCodeService)

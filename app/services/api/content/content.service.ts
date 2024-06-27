@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BaseUrl, Produces, ResponseType, GET, Path, Cache, RESTClient} from '@anglr/rest';
 import {HelpService as HelpServiceBase} from '@anglr/md-help/web';
-import {Observable} from 'rxjs';
+import {NEVER, Observable} from 'rxjs';
 
 import {ContentMenu} from './content.interface';
 
@@ -21,7 +21,7 @@ export class ContentService extends RESTClient implements HelpServiceBase
     @GET('{path}.md')
     public get(@Path('path') _path: string): Observable<string>
     {
-        return null;
+        return NEVER;
     }
 
     /**
@@ -31,6 +31,6 @@ export class ContentService extends RESTClient implements HelpServiceBase
     @GET('menu.json')
     public getMenu(): Observable<ContentMenu[]>
     {
-        return null;
+        return NEVER;
     }
 }

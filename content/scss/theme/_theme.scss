@@ -1,365 +1,44 @@
-@use 'sass:meta';
-@use 'sass:map';
-@use 'sass:color';
+@use '@css-styles/common' as vars;
+@use '@css-styles/common' as mixins;
+@use '@css-styles/themes' as themes;
+@use '@anglr/common/styles' as anglrCommon;
+@use '@anglr/datetime/styles' as datetime;
+@use '@anglr/grid/styles' as grid;
 
-@use '../vars';
-@use '../mixins';
-@use '../themes';
+@use './themeColors';
 
-@use '../../../node_modules/@anglr/common/styles/dark-colors-vars';
-@use '../../../node_modules/@anglr/common/styles/light-colors-vars';
-
+$fontSize: 14px !default;
+$theme: () !default;
+$appTheme: () !default;
 $themeName: null !default;
-$tooltipTheme: 'dark' !default;
-$datetimeTheme: 'default' !default;
-$multiButtonTheme: 'light' !default;
-$hljs: 'vs2015' !default;
-$theme: map.merge(map.get(meta.module-variables("themes"), "default-theme"), map.get(meta.module-variables("themes"), "#{$themeName}-theme"));
+$dateTimeTheme: null !default;
+$anglrCommonTheme: null !default;
+$gridTheme: null !default;
 
 //---------------------- PAGE STYLING ----------------------
 .app-page.#{$themeName}
 {
-    @extend .multibutton-#{$multiButtonTheme}-theme;
+    //############## FLUID FONT ##############
 
-    background-color: map.get($theme, pageBackground);
-    color: map.get($theme, pageForeground);
+    @include mixins.fluid-type(vars.$rootMinFontSizeWidth, vars.$rootMaxFontSizeWidth, vars.$rootMinFontSize, $fontSize);
+
+    //############## SIZES ##############
+
+    @include mixins.buildSizes(mixins.strip-unit($fontSize));
+
+    //############## THEME ##############
+
+    @include themes.buildThemeColors($theme);
+
+    //############## APP THEME ##############
+
+    @include themeColors.buildThemeColors($appTheme);
 
     //############## PACKAGES ##############
 
-    @include meta.load-css('../../../node_modules/@anglr/datetime/src/#{$datetimeTheme}');
-    @include meta.load-css("../../../node_modules/@anglr/common/styles/positions/#{$tooltipTheme}");
-    @include meta.load-css("../../../node_modules/highlight.js/styles/#{$hljs}");
-
-    //############## SCROLLBAR ##############
-
-    @include mixins.thin-scrollbar-color($theme, "pageScrollbarForeground");
-
-    .thin-scrollbar::-webkit-scrollbar
-    {
-        background-color: transparent;
-    }
-
-    app
-    {
-        router-outlet+*, router-outlet+*+*
-        {
-            @extend .thin-scrollbar;
-        }
-    }
-
-    //############## HEADINGS ##############
-
-    h1, h2, h3, h4, h5, h6
-    {
-        color: map.get($theme, headingForeground);
-    }
-
-    //############## MAT TABS ##############
-
-    .mat-tab-labels
-    {
-        background-color: map.get($theme, matTabsBackground);
-    }
-
-    .mat-tab-label
-    {
-        color: map.get($theme, pageForeground);
-    }
-
-    //############## CODE ##############
-
-    pre
-    {
-        border-color: map.get($theme, codeBlockBorder);
-    }
-
-    code:not(.hljs)
-    {
-        color: map.get($theme, inlineCodeForeground);
-        background-color: map.get($theme, inlineCodeBackground);
-    }
-
-    //############## LINKS ##############
-
-    a,
-    a:link 
-    {
-        color: map.get($theme, anchorForeground);
-    }
-
-    a:hover,
-    a:focus,
-    a:link:hover,
-    a:link:focus 
-    {
-        text-shadow:0 0 3px map.get($theme, anchorForeground)
-    }
-
-    a.active
-    {
-        color: map.get($theme, anchorActiveForeground);
-
-        &:hover
-        {
-            text-shadow: 0 0 3px map.get($theme, anchorActiveForeground);
-        }
-    }
-
-    //############## SEPARATOR ##############
-    hr
-    {
-        border-top-color: map.get($theme, separatorForeground);
-    }
-
-    //############## BLOCKS ##############
-
-    .popup-block
-    {
-        box-shadow: 0 0 3px map.get($theme, popupBorder);
-        background-color: map.get($theme, popupBackground);
-    }
-
-    .primary-block
-    {
-        @include mixins.thin-scrollbar-color($theme, "primaryBackground");
-
-        background-color: map.get($theme, primaryBackground);
-        color: map.get($theme, primaryForeground);
-    }
-
-    .secondary-block
-    {
-        @include mixins.thin-scrollbar-color($theme, "secondaryBackground");
-
-        background-color: map.get($theme, secondaryBackground);
-        color: map.get($theme, secondayForeground);
-    }
-
-    .highlight-block
-    {
-        @include mixins.thin-scrollbar-color($theme, "blockBackground");
-
-        background-color: map.get($theme, blockBackground);
-        color: map.get($theme, blockForeground);
-    }
-
-    .primary-block,
-    .secondary-block
-    {
-        &.thin-scrollbar,
-        .thin-scrollbar
-        {
-            overflow-y: scroll;
-        }
-    }
-
-    //############## BUTTONS ##############
-
-    @include mixins.generate-button(map.get($theme, buttons));
-
-    .btn-icon
-    {
-        color: map.get($theme, btnIconForeground);
-
-        &:hover,
-        &:focus
-        {
-            color: map.get($theme, btnIconForegroundHover);
-
-            .double-right-icon
-            {
-                div
-                {
-                    border-color: map.get($theme, btnIconForegroundHover);
-                }
-            }
-        }
-
-        &:active
-        {
-            color: color.scale(map.get($theme, btnIconForegroundHover), $lightness: -10%);
-            transform: scale(105%);
-        }
-    }
-
-    //############## FORMS ##############
-
-    .form-control
-    {
-        color: map.get($theme, inputForeground);
-        border-color: map.get($theme, inputBorder);
-        background-color: map.get($theme, inputBackground);
-
-        input-date-time-selector,
-        simple-input-date-time-selector
-        {
-            input
-            {
-                color: map.get($theme, inputForeground);
-                background-color: map.get($theme, inputBackground);
-            }
-        }
-    }
-
-    .input-group
-    {
-        .input-group-addon
-        {
-            color: map.get($theme, inputForeground);
-            background-color: map.get($theme, inputGroupAddonBackground);
-            border-color: map.get($theme, inputBorder);
-        }
-    }
-
-    //############## NG SELECT ##############
-
-    ng-select
-    {
-        button.btn-select,
-        div.btn-select
-        {
-            color: map.get($theme, inputForeground);
-            background-color: map.get($theme, primaryInputBackground);
-
-            &:disabled
-            {
-                cursor: not-allowed;
-            }
-        }
-
-        .edit-normal-state
-        {
-            .btn-select
-            {
-                .edit-control
-                {
-                    color: map.get($theme, inputForeground);
-                    background-color: map.get($theme, primaryInputBackground);
-                }
-            }
-        }
-    }
-
-    .popup-div
-    {
-        background-color: map.get($theme, primaryInputBackground);
-        color: map.get($theme, inputForeground);
-
-        .active,
-        .selected,
-        .option-item:hover
-        {
-            background-color: map.get($theme, selectActive);
-            background-image: linear-gradient(to bottom, map.get($theme, selectActive) 0, map.get($theme, selectActive2) 100%);
-            color: map.get($theme, inputForeground);
-        }
-    }
-
-    //############## ALERTS ##############
-
-    @include mixins.generate-alert(map.get($theme, alerts));
-
-    //############## GRID ##############
-
-    ng-grid
-    {
-        div.css-grid-content-renderer
-        {
-            .fixed-header
-            {
-                background-color: map.get($theme, gridOddRowBackground);
-            }
-
-            .content-renderer-body > div:nth-of-type(2n+1) > div
-            {
-                background-color: map.get($theme, gridEvenRowBackground);
-            }
-
-
-            .content-renderer-header > div
-            {
-                border-color: map.get($theme, gridOddRowBackground);
-            }
-        }
-
-        table
-        {
-            .fixed-header
-            {
-                background-color: map.get($theme, gridOddRowBackground);
-            }
-
-            & > thead > tr > th
-            {
-                border-color: map.get($theme, gridOddRowBackground);
-            }
-    
-            & > tbody > tr:nth-of-type(2n+1)
-            {
-                background-color: map.get($theme, gridEvenRowBackground);
-            }
-        }
-
-        ng-basic-paging
-        {
-            &>div
-            {
-                &>ul
-                {
-                    li
-                    {
-                        a
-                        {
-                            background-color: map.get($theme, primaryPagingBackground);
-                            color: map.get($theme, primaryPagingForeground);
-                        }
-
-                        &.disabled a
-                        {
-                            background-color: map.get($theme, primaryPagingDisabledBackground);
-                            color: map.get($theme, primaryPagingDisabledForeground);
-                        }
-
-                        &.active a
-                        {
-                            background-color: map.get($theme, secondaryPagingBackground);
-                            color: map.get($theme, secondaryPagingForeground);
-                        }
-                    }
-                }
-
-                &>div
-                {
-                    ul
-                    {
-                        li
-                        {
-                            a
-                            {
-                                background-color: map.get($theme, primaryPagingBackground);
-                                color: map.get($theme, primaryPagingForeground);
-                            }
-
-                            &.disabled a
-                            {
-                                background-color: map.get($theme, primaryPagingDisabledBackground);
-                                color: map.get($theme, primaryPagingDisabledForeground);
-                            }
-
-                            &.active a
-                            {
-                                background-color: map.get($theme, secondaryPagingBackground);
-                                color: map.get($theme, secondaryPagingForeground);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    //############## SHARED/COMMON/COMPONENTS ##############
-
-    @include meta.load-css('components/shared', $with: (theme: $theme));
-    @include meta.load-css('components/common', $with: (theme: $theme));
+    @include anglrCommon.buildThemeColorsTooltip($anglrCommonTheme);
+    @include anglrCommon.buildThemeColorsMultiButton($anglrCommonTheme);
+    @include anglrCommon.buildThemeColorsDebugData($anglrCommonTheme);
+    @include datetime.buildThemeColors($dateTimeTheme);
+    @include grid.buildThemeColors($gridTheme);
 }

@@ -1,31 +1,27 @@
-<div class="flex-row page-title">
-    <div class="title-text flex-1">Ressurect IT</div>
+<progress-indicator class="fullscreen"/>
+<internal-server-error class="fullscreen"/>
+<global-notifications class="fullscreen"/>
+<hotkeys-cheatsheet class="fullscreen"/>
 
-    <div>
-        <a class="btn-icon margin-right-small" (click)="showUserSettings()">
-            <span class="fas fa-cog"></span>
-        </a>
-
-        <a class="margin-right-small" href="https://github.com/ressurectit/ressurectit.github.io">
-            <span class="fab fa-github"></span>
-        </a>
-    </div>
+<div class="page-content page-subgrid">
+    <router-outlet/>
 </div>
 
-<div class="container main relative">
-    <progress-indicator></progress-indicator>
-    <internal-server-error></internal-server-error>
-    <global-notifications></global-notifications>
+<div class="page-footer extra-small-text text-center">GUI version: {{guiVersion}}</div>
 
-    <div class="content relative" [@routeAnimations]="routeComponentState">
-        <div class="main-content">
-            <router-outlet #outlet="outlet"></router-outlet>
+@if(consoleVisible())
+{
+    <console class="fullscreen" @consoleAnimation/>
+}
+
+<!-- @if(!initialized)
+{
+    <div class="loading-indicator">
+        <div class="loading-header">
+            <div class="loading-title">APP</div>
         </div>
-    </div>
-    <console *ngIf="consoleVisible" @consoleAnimation></console>
-</div>
 
-<div class="start-indicator" *ngIf="!initialized" @loaderAnimation>
-    <div class="start-title">ressurect it</div>
-    <div class="spinner"></div>
-</div>
+        <div class="loading-card"></div>
+        <div class="loading-spinner"></div>
+    </div>
+} -->

@@ -1,18 +1,6 @@
 export interface KodPopisValue
 {
-    kod?: string;
+    kod: string;
 
-    popis?: string;
-
-    original?: any;
-}
-
-export interface KodPopisValueServer extends KodPopisValue
-{
-    kodServer?: string;
-}
-
-export interface KodPopisValueText extends KodPopisValue
-{
-    text?: string;
+    popis: string;
 }

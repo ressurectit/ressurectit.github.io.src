@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {BaseUrl, GET, RESTClient} from '@anglr/rest';
-import {Paginator} from '@jscrpt/common';
-import {Observable} from 'rxjs';
+import {Pageable, PagedData, Paginator} from '@jscrpt/common';
+import {NEVER, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
-import {PagedData, Pageable} from '../../../misc/types';
 import {GalleryItem} from './gallery.interface';
 
 /**
@@ -18,7 +17,7 @@ export class GalleryService extends RESTClient
      * Gets gallery data 
      * @param paging Paging for obtaining specific page
      */
-    public getGallery(paging?: Pageable): Observable<PagedData<GalleryItem>>
+    public getGallery(paging: Pageable): Observable<PagedData<GalleryItem>>
     {
         return this.getAllGallery()
             .pipe(map(data =>
@@ -43,6 +42,6 @@ export class GalleryService extends RESTClient
     @GET('gallery.json')
     public getAllGallery(): Observable<GalleryItem[]>
     {
-        return null;
+        return NEVER;
     }
 }

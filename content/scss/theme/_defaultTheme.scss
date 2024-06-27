@@ -1,0 +1,33 @@
+@use 'sass:color';
+@use 'sass:map';
+
+@use '@css-styles/common' as mixins;
+
+//############## FONT ##############
+
+$fontSize: 14px;
+
+//############## DEFAULT THEME ##############
+
+$_defaultTheme:
+(
+    page:
+    (
+        side:
+        (
+            width: 2%,
+        ),
+        content:
+        (
+            width: 1280px,
+        )
+    ),
+);
+
+@function defineTheme($theme: (), $customization: ())
+{
+    $theme: map.deep-merge($_defaultTheme, $theme);
+    $theme: map.deep-merge($theme, $customization);
+
+    @return $theme;
+}

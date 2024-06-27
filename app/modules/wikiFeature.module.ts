@@ -1,8 +1,6 @@
 import {NgModule} from '@angular/core';
 import {MarkdownModule} from '@anglr/md-help/web';
 
-import {RenderMarkdownModule} from './renderMarkdown';
-
 /**
  * Common module for enabling usage of Wiki features (markdown)
  */
@@ -11,7 +9,7 @@ import {RenderMarkdownModule} from './renderMarkdown';
     exports:
     [
         MarkdownModule,
-        RenderMarkdownModule
+        // RenderMarkdownModule
     ]
 })
 export class WikiFeatureModule

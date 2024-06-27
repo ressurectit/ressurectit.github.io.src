@@ -1,5 +1,15 @@
-@use 'scss/theme/theme' with ($themeName: 'light',
-                              $tooltipTheme: 'dark',
-                              $datetimeTheme: 'default',
-                              $multiButtonTheme: 'light',
-                              $hljs: 'vs');
+@use '@anglr/common/styles/themes/light' as anglrCommonTheme;
+@use '@anglr/datetime/styles/themes/light' as dateTimeTheme;
+@use '@anglr/grid/styles/themes/light' as gridTheme;
+@use '@css-styles/themes' as themes;
+
+@use './scss/theme/defaultTheme' as defaultTheme;
+@use './scss/theme/light' as appTheme;
+
+@use 'scss/theme/theme' with ($fontSize: appTheme.$fontSize,
+                              $theme: themes.defineTheme(appTheme.$appTheme),
+                              $appTheme: defaultTheme.defineTheme(appTheme.$appTheme),
+                              $themeName: 'light',
+                              $anglrCommonTheme: anglrCommonTheme.defineTheme(),
+                              $dateTimeTheme: dateTimeTheme.defineTheme(),
+                              $gridTheme: gridTheme.defineTheme());
