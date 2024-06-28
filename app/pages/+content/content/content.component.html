@@ -6,9 +6,14 @@
             {
                 <ng-template #submenu>
                     <div class="example-menu" cdkMenu>
+                        @if(menuitem.mdPath)
+                        {
+                            <button type="button" class="example-menu-item" cdkMenuItem [mdMenuItem]="menuitem.mdPath">Homepage</button>
+                        }
+
                         @for(submenuitem of menuitem.children; track submenuitem)
                         {
-                            <button type="button" class="example-menu-item" cdkMenuItem>{{submenuitem.title}}</button>
+                            <button type="button" class="example-menu-item" cdkMenuItem [mdMenuItem]="submenuitem.mdPath">{{submenuitem.title}}</button>
                         }
                     </div>
                 </ng-template>
@@ -17,10 +22,10 @@
             }
             @else
             {
-                <button type="button" class="example-menu-bar-item" cdkMenuItem>{{menuitem?.title}}</button>
+                <button type="button" class="example-menu-bar-item" cdkMenuItem [mdMenuItem]="menuitem.mdPath">{{menuitem?.title}}</button>
             }
         }
     </div>
 
-    <div class="flex-1"></div>
+    <div class="flex-1" renderMd [renderMarkdown]="markdown()"></div>
 </div>

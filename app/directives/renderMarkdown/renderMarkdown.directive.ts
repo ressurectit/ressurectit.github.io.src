@@ -51,7 +51,7 @@ export class RenderMarkdownDirective extends RenderMarkdownIncludeDirective impl
     /**
      * Called when component is destroyed
      */
-    public ngOnDestroy()
+    public ngOnDestroy(): void
     {
         this._fadeInAnimationPlayer?.destroy();
     }
@@ -74,11 +74,8 @@ export class RenderMarkdownDirective extends RenderMarkdownIncludeDirective impl
 
         while((matches = /@SAMPLE#(.*?)&(.*?)\/(.*?)@/.exec(md)))
         {
-            const [componentId, componentGroup, componentName] = matches;
-
-            const components = await import(
-                /* webpackInclude: /index\.ts$/ */
-                `../../samples/${componentGroup}`);
+            const [,componentId, componentGroup, componentName] = matches;
+            const components = await import(`../../samples/${componentGroup}/index.ts`);
 
             this._components[componentId] = this._viewContainer.createComponent(components[componentName]);
             (this._components[componentId].location.nativeElement as HTMLElement).style.display = 'none';
@@ -97,7 +94,7 @@ export class RenderMarkdownDirective extends RenderMarkdownIncludeDirective impl
      * Renders markdown
      * @param markdown - Markdown to be rendered
      */
-    protected override async _renderMarkdown(markdown: string)
+    protected override async _renderMarkdown(markdown: string): Promise<void>
     {
         await super._renderMarkdown(markdown);
 

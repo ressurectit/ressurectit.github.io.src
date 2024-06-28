@@ -1,12 +1,14 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {FormGroup, FormBuilder} from '@angular/forms';
+import {FormGroup, FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {DebugDataEnabledService, LogLevel} from '@anglr/common';
+import {AuthorizeDirective} from '@anglr/authentication';
+import {NgSelectModule} from '@anglr/select';
 import {ValueNamePair} from '@jscrpt/common';
+import {TranslateModule} from '@ngx-translate/core';
 
 import {config, SettingsGeneral, SettingsDebug, LanguageDef} from '../../config';
 import {SettingsService} from '../../services/settings';
-import {DisplayingFeatureModule} from '../../modules/displayingFeature.module';
-import {FormsFeatureModule} from '../../modules/formsFeature.module';
 
 /**
  * Available sections for user settings
@@ -44,12 +46,15 @@ interface SettingsLoggingEnum
 {
     selector: 'user-settings',
     templateUrl: 'userSettings.component.html',
-    styleUrls: ['userSettings.component.scss'],
+    styleUrl: 'userSettings.component.scss',
     standalone: true,
     imports:
     [
-        DisplayingFeatureModule,
-        FormsFeatureModule,
+        TranslateModule,
+        AuthorizeDirective,
+        ReactiveFormsModule,
+        NgSelectModule,
+        MatSlideToggleModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

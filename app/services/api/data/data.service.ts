@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BaseUrl, GET, RESTClient, Path} from '@anglr/rest';
 import {SimpleOrdering} from '@anglr/grid';
-import {Paginator, Pageable, PagedData} from '@jscrpt/common';
+import {Paginator, Pageable, PagedData, getValue, OrderByDirection} from '@jscrpt/common';
 import {NEVER, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -19,7 +19,7 @@ export class DataService extends RESTClient
      * Gets data 
      */
     public getData(paging: Pageable,
-                   _ordering: SimpleOrdering,): Observable<PagedData<Address>>
+                   ordering: SimpleOrdering|undefined|null,): Observable<PagedData<Address>>
     {
         return this.getAllData()
             .pipe(map(data =>
@@ -30,33 +30,33 @@ export class DataService extends RESTClient
                     .setItemsPerPage(paging.size)
                     .setItemCount(data.length);
 
-                // if(ordering)
-                // {
-                //     data = data.sort((a, b) =>
-                //     {
-                //         let aValue = getValue(a, ordering.sort);
-                //         let bValue = getValue(b, ordering.sort);
-                //         const aValueNum = +aValue;
-                //         const bValueNum = +bValue;
+                if(ordering)
+                {
+                    data = data.sort((a, b) =>
+                    {
+                        let aValue = getValue<number>(a as Record<string, unknown>, ordering.orderBy);
+                        let bValue = getValue<number>(b as Record<string, unknown>, ordering.orderBy);
+                        const aValueNum = +aValue;
+                        const bValueNum = +bValue;
 
-                //         if(!isNaN(aValueNum) && !isNaN(bValueNum))
-                //         {
-                //             aValue = aValueNum;
-                //             bValue = bValueNum;
-                //         }
+                        if(!isNaN(aValueNum) && !isNaN(bValueNum))
+                        {
+                            aValue = aValueNum;
+                            bValue = bValueNum;
+                        }
 
-                //         if(aValue < bValue)
-                //         {
-                //             return ordering.direction == OrderByDirection.Ascendant ? -1 : 1;
-                //         }
-                //         else if(aValue > bValue)
-                //         {
-                //             return ordering.direction == OrderByDirection.Ascendant ? 1 : -1;
-                //         }
+                        if(aValue < bValue)
+                        {
+                            return ordering.orderByDirection == OrderByDirection.Ascending ? -1 : 1;
+                        }
+                        else if(aValue > bValue)
+                        {
+                            return ordering.orderByDirection == OrderByDirection.Ascending ? 1 : -1;
+                        }
             
-                //         return 0;
-                //     });
-                // }
+                        return 0;
+                    });
+                }
 
                 return <PagedData<Address>>{
                     content: data.slice(paginator.getOffset(), paginator.getOffset() + paging.size),

@@ -12,7 +12,7 @@
     ],
     "include": 
     [
-        "src/**/*.d.ts",
-        "app/samples/*/index.ts"
+        "app/**/*.d.ts",
+        "app/samples/**/*.ts"
     ]
 }

@@ -1,6 +1,6 @@
 export interface ContentMenu
 {
-    mdPath: string;
+    mdPath: string|null;
     title: string;
     children?: ContentMenu[];
 }

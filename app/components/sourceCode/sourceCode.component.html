@@ -1,0 +1,10 @@
+@if(showSources)
+{
+    <div class="flex-1" @slideInOut>
+        <ng-content/>
+    </div>
+}
+
+<a class="show-icon" [class.absolute]="showSources" tooltip="Show / hide sources" (click)="showSources = !showSources">
+    <span class="fas fa-code"></span>
+</a>
