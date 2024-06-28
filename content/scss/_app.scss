@@ -6,6 +6,7 @@
 @use '@anglr/grid/styles' as gridPackage;
 
 @use 'parts/app' as app;
+@use 'parts/content' as content;
 
 //---------------------- PAGE STYLING ----------------------
 .app-page
@@ -36,6 +37,7 @@
     @include themes.css-grid;
     @include themes.css-titles;
     @include app.css;
+    @include content.css;
 
     //############## MISC ##############
 

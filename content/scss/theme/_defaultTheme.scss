@@ -7,10 +7,58 @@
 
 $fontSize: 14px;
 
+//############## AVAILABLE COLORS ##############
+
+$gray-0: #e5e5e5;
+$gray-1: #e0e0e0;
+$gray-2: #cccccc;
+$gray-3: #aaaaaa;
+$gray-4: #9d9d9d;
+$gray-5: #737373;
+$gray-6: #555555;
+$gray-7: #444444;
+$gray-8: #383838;
+$gray-9: #1e1e1e;
+
+$white: #fff;
+$lightBlue: #28b8ff;
+$darkBlue: #004e75;
+$blue: #007ebd;
+$darkGreen: #0b7e01;
+
+$primary: $lightBlue;
+$primaryAlt: $blue;
+$secondary: $darkBlue;
+
 //############## DEFAULT THEME ##############
 
 $_defaultTheme:
 (
+    color:
+    (
+        primary: $primary,
+        primaryAlt: $primaryAlt,
+    ),
+    anchor:
+    (
+        foreground: $darkBlue,
+        visited:
+        (
+            foreground: var(--anchor-foreground),
+        ),
+        active:
+        (
+            foreground: $darkGreen,
+        ),
+        hover:
+        (
+            foreground: var(--anchor-foreground),
+        ),
+        focus:
+        (
+            foreground: var(--anchor-active-foreground),
+        ),
+    ),
     page:
     (
         side:
@@ -20,7 +68,25 @@ $_defaultTheme:
         content:
         (
             width: 1280px,
-        )
+        ),
+    ),
+    grid:
+    (
+        header:
+        (
+            background: $secondary,
+            foreground: $white,
+        ),
+        evenRow:
+        (
+            background: $gray-1,
+            foreground: inherit,
+        ),
+        oddRow:
+        (
+            background: $gray-3,
+            foreground: inherit,
+        ),
     ),
 );
 

@@ -2,6 +2,13 @@
 
 @mixin buildThemeColors($theme)
 {
+    --color-primary: #{map.get(map.get($theme, 'color'), 'primary')};
+    --color-primaryAlt: #{map.get(map.get($theme, 'color'), 'primaryAlt')};
+    --anchor-foreground: #{map.get(map.get($theme, 'anchor'), 'foreground')};
+    --anchor-visited-foreground: #{map.get(map.get(map.get($theme, 'anchor'), 'visited'), 'foreground')};
+    --anchor-active-foreground: #{map.get(map.get(map.get($theme, 'anchor'), 'active'), 'foreground')};
+    --anchor-hover-foreground: #{map.get(map.get(map.get($theme, 'anchor'), 'hover'), 'foreground')};
+    --anchor-focus-foreground: #{map.get(map.get(map.get($theme, 'anchor'), 'focus'), 'foreground')};
     --page-side-width: #{map.get(map.get(map.get($theme, 'page'), 'side'), 'width')};
     --page-content-width: #{map.get(map.get(map.get($theme, 'page'), 'content'), 'width')};
 }

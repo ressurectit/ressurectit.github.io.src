@@ -1,3 +1,10 @@
+.menu-bar
+{
+    display: grid;
+    grid-template-rows: 26px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
 .example-menu-bar-item 
 {
     cursor: pointer;

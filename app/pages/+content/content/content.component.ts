@@ -6,6 +6,7 @@ import {ComponentRoute} from '@anglr/common/router';
 import {contentMarkdownResolver, contentMenuResolver} from './content.resolver';
 import {ContentMenu, ContentService} from '../../../services/api/content';
 import {MdMenuItemDirective, RenderMarkdownDirective} from '../../../directives';
+import {WithScrollableCssClass} from '../../../misc/decorators';
 
 /**
  * Content component used for displaying markdowns
@@ -30,6 +31,7 @@ import {MdMenuItemDirective, RenderMarkdownDirective} from '../../../directives'
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: '**', resolve: {menu: contentMenuResolver, markdown: contentMarkdownResolver}, providers: [ContentService]})
+@WithScrollableCssClass()
 export class ContentComponent
 {
     //######################### protected properties - template bindings #########################
