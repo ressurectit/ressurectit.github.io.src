@@ -1,0 +1,25 @@
+<div class="flex-row">
+    <div class="flex-1 margin-right-small overflow-vertical-auto thin-scrollbar full-height">
+        <div><span class="bold">Absolute: false</span> Value: {{selectControl.value | json}}</div>
+
+        <ng-select [formControl]="selectControl">
+            <ng-option value="first" text="First value text"/>
+            <ng-option value="second" text="Second value text"/>
+            <ng-option value="third" text="Third value text"/>
+            <ng-option value="fourth" text="Fourth value text"/>
+            <ng-option value="fifth" text="Fifth value text"/>
+        </ng-select>
+    </div>
+
+    <div class="flex-1 margin-left-small overflow-vertical-auto thin-scrollbar full-height">
+        <div><span class="bold">Absolute: true</span> Value: {{selectControl.value | json}}</div>
+
+        <ng-select [formControl]="selectControl" absolute>
+            <ng-option value="first" text="First value text"/>
+            <ng-option value="second" text="Second value text"/>
+            <ng-option value="third" text="Third value text"/>
+            <ng-option value="fourth" text="Fourth value text"/>
+            <ng-option value="fifth" text="Fifth value text"/>
+        </ng-select>
+    </div>
+</div>

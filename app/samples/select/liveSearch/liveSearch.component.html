@@ -1,0 +1,19 @@
+<h3>Live Search Select</h3>
+
+<source-code>
+    <mat-tab-group>
+        <mat-tab label="liveSearchSample.component.ts">
+            <div [renderMarkdown]="'samples/select/liveSearch/liveSearchSample.component.ts' | asSource | async"></div>
+        </mat-tab>
+
+        <mat-tab label="liveSearchSample.component.html">
+            <div [renderMarkdown]="'samples/select/liveSearch/liveSearchSample.component.html' | asSource: 'html' | async"></div>
+        </mat-tab>
+
+        <mat-tab label="kodPopisValue.interface.ts">
+            <div [renderMarkdown]="'misc/types/kodPopisValue.interface.ts' | asSource | async"></div>
+        </mat-tab>
+    </mat-tab-group>
+</source-code>
+
+<live-search-sample/>
