@@ -1,25 +1,25 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
 
-import {BasicSampleComponent} from './basicSample.component';
+import {BasicPickerSampleComponent} from './basicPickerSample.component';
 import {SamplesFeatureModule} from '../../../modules';
 
 /**
- * Basic sample for datetime directives
+ * Basic sample for datetime with picker directives 
  */
 @Component(
 {
-    selector: 'basic-view',
-    templateUrl: 'basic.component.html',
+    selector: 'basic-picker-view',
+    templateUrl: 'basicPicker.component.html',
     standalone: true,
     imports:
     [
-        BasicSampleComponent,
+        BasicPickerSampleComponent,
         SamplesFeatureModule,
         AsyncPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicComponent
+export class BasicPickerComponent
 {
 }
