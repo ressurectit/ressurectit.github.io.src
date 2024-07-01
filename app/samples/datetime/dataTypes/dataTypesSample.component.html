@@ -1,0 +1,13 @@
+<div class="flex-row column-gap-medium margin-bottom-extra-small">
+    <div class="flex-1">Raw value: {{datetimeControl.value | json}}</div>
+    <div class="flex-1">Raw value: {{timestampControl.value | json}}</div>
+    <div class="flex-1">Raw value: {{stringControl.value | json}}</div>
+    <div class="flex-1">Raw value: {{customStringControl.value | json}}</div>
+</div>
+
+<div class="flex-row column-gap-medium">
+    <input class="flex-1 form-control" dateTime dateTimeInput withPicker [formControl]="datetimeControl" valueFormat="DateInstance">
+    <input class="flex-1 form-control" dateTime dateTimeInput withPicker [formControl]="timestampControl" valueFormat="UnixTimestamp">
+    <input class="flex-1 form-control" dateTime dateTimeInput withPicker [formControl]="stringControl" valueFormat="FormattedString" customFormat="yyyyMMdd">
+    <input class="flex-1 form-control" dateTime dateTimeInput withPicker [formControl]="customStringControl" valueFormat="DataString" dataFormat="yyyy MM dd">
+</div>
