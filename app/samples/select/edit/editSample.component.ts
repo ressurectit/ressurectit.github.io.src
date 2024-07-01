@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {NgSelectModule} from '@anglr/select';
+import {NgSelectEditModule, NgSelectModule} from '@anglr/select';
 
 /**
  * Edit sample for select component
@@ -15,6 +15,7 @@ import {NgSelectModule} from '@anglr/select';
     [
         ReactiveFormsModule,
         NgSelectModule,
+        NgSelectEditModule,
         JsonPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
