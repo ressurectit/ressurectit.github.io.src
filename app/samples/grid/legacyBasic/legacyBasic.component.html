@@ -1,0 +1,19 @@
+<h3>Basic Grid</h3>
+
+<source-code>
+    <mat-tab-group>
+        <mat-tab label="legacyBasicSample.component.ts">
+            <div [renderMarkdown]="'samples/grid/basic/legacyBasicSample.component.ts' | asSource | async"></div>
+        </mat-tab>
+
+        <mat-tab label="legacyBasicSample.component.html">
+            <div [renderMarkdown]="'samples/grid/basic/legacyBasicSample.component.html' | asSource: 'html' | async"></div>
+        </mat-tab>
+
+        <mat-tab label="data.interface.ts">
+            <div [renderMarkdown]="'services/api/data/data.interface.ts' | asSource | async"></div>
+        </mat-tab>
+    </mat-tab-group>
+</source-code>
+
+<legacy-basic-sample/>

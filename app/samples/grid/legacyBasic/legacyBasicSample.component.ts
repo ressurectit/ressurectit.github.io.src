@@ -6,12 +6,12 @@ import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {Address, DataService} from '../../../services/api/data';
 
 /**
- * Basic sample for grid component
+ * Legacy grid basic sample for grid component
  */
 @Component(
 {
-    selector: 'basic-sample',
-    templateUrl: 'basicSample.component.html',
+    selector: 'legacy-basic-sample',
+    templateUrl: 'legacyBasicSample.component.html',
     standalone: true,
     imports:
     [
@@ -23,7 +23,7 @@ import {Address, DataService} from '../../../services/api/data';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicSampleComponent
+export class LegacyBasicSampleComponent
 {
     //######################### protected properties - template bindings #########################
 

@@ -9,7 +9,6 @@ import {MarkdownModule} from '@anglr/md-help/web';
     exports:
     [
         MarkdownModule,
-        // RenderMarkdownModule
     ]
 })
 export class WikiFeatureModule
