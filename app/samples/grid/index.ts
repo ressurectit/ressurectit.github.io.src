@@ -1,3 +1,4 @@
+export * from './basic/basic.component';
 export * from './legacyBasic/legacyBasic.component';
 // export * from './basicMetadata/basicMetadata.component';
 // export * from './basicSync/basicSync.component';

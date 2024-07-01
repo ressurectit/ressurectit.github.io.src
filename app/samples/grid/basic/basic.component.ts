@@ -2,24 +2,24 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
 
 import {SamplesFeatureModule} from '../../../modules';
-import {LegacyBasicSampleComponent} from './legacyBasicSample.component';
+import {BasicSampleComponent} from './basicSample.component';
 
 /**
- * Basic sample for legacy grid component
+ * Basic sample for new matrix grid component
  */
 @Component(
 {
-    selector: 'legacy-basic-view',
-    templateUrl: 'legacyBasic.component.html',
+    selector: 'basic-view',
+    templateUrl: 'basic.component.html',
     standalone: true,
     imports:
     [
         SamplesFeatureModule,
-        LegacyBasicSampleComponent,
+        BasicSampleComponent,
         AsyncPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LegacyBasicComponent
+export class BasicComponent
 {
 }
