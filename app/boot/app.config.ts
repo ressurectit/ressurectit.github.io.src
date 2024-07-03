@@ -23,7 +23,7 @@ export const appConfig: ApplicationConfig =
         },
         provideServiceWorker('ngsw-worker.js', 
         {
-            enabled: isProduction,
+            enabled: false,
             registrationStrategy: 'registerWhenStable:15000',
         }),
         importProvidersFrom(HotkeyModule.forRoot(
