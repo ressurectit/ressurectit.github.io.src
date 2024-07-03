@@ -6,8 +6,23 @@
 </div>
 
 <div class="flex-row column-gap-medium">
-    <input class="flex-1 form-control" dateTime dateTimeInput withPicker [formControl]="datetimeControl" valueFormat="DateInstance">
-    <input class="flex-1 form-control" dateTime dateTimeInput withPicker [formControl]="timestampControl" valueFormat="UnixTimestamp">
-    <input class="flex-1 form-control" dateTime dateTimeInput withPicker [formControl]="stringControl" valueFormat="FormattedString" customFormat="yyyyMMdd">
-    <input class="flex-1 form-control" dateTime dateTimeInput withPicker [formControl]="customStringControl" valueFormat="DataString" dataFormat="yyyy MM dd">
+    <div class="form-group flex-1">
+        <label class="control-label">type DateInstance</label>
+        <input class="form-control" dateTime dateTimeInput withPicker [formControl]="datetimeControl" valueFormat="DateInstance">
+    </div>
+    
+    <div class="form-group flex-1">
+        <label class="control-label">type UnixTimestamp</label>
+        <input class="form-control" dateTime dateTimeInput withPicker [formControl]="timestampControl" valueFormat="UnixTimestamp">
+    </div>
+
+    <div class="form-group flex-1">
+        <label class="control-label">type FormattedString</label>
+        <input class="form-control" dateTime dateTimeInput withPicker [formControl]="stringControl" valueFormat="FormattedString" customFormat="yyyyMMdd">
+    </div>
+
+    <div class="form-group flex-1">
+        <label class="control-label">type DataString</label>
+        <input class="form-control" dateTime dateTimeInput withPicker [formControl]="customStringControl" valueFormat="DataString" dataFormat="yyyy MM dd">
+    </div>
 </div>

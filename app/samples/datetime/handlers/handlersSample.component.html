@@ -1,0 +1,16 @@
+<div class="flex-row column-gap-small margin-bottom-extra-small">
+    <div class="flex-1">Date value: {{datetimeControl.value | dateFormat}}</div>
+    <div class="flex-1">Date value: {{datetimeControl2.value | dateFormat}}</div>
+</div>
+
+<div class="flex-row column-gap-small">
+    <div class="form-group flex-1">
+        <label class="control-label">simple handler</label>
+        <input class="form-control" dateTime dateTimeInput withPicker withSimpleHandler [formControl]="datetimeControl">
+    </div>
+
+    <div class="form-group flex-1">
+        <label class="control-label">handler</label>
+        <input class="form-control" dateTime dateTimeInput withPicker withHandler [formControl]="datetimeControl">
+    </div>
+</div>

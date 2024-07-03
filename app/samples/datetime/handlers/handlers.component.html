@@ -1,0 +1,15 @@
+<h4>Datetime with handlers</h4>
+
+<source-code>
+    <mat-tab-group>
+        <mat-tab label="handlersSample.component.ts">
+            <div [renderMarkdown]="'samples/datetime/handlers/handlersSample.component.ts' | asSource | async"></div>
+        </mat-tab>
+
+        <mat-tab label="handlersSample.component.html">
+            <div [renderMarkdown]="'samples/datetime/handlers/handlersSample.component.html' | asSource: 'html' | async"></div>
+        </mat-tab>
+    </mat-tab-group>
+</source-code>
+
+<handlers-sample/>
