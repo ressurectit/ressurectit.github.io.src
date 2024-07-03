@@ -1,6 +1,6 @@
 <div class="flex-row margin-bottom-extra-small">
     <div class="flex-1">Raw value: {{datetimeControl.value | json}}</div>
-    <div class="flex-1">Date value: {{datetimeControl.value | dateFormat}}</div>
+    <div class="flex-1">Date value: {{datetimeControl.value | dateFormat: 'dateTime'}}</div>
 </div>
 
 <input class="form-control" dateTime dateTimeInput withPicker withTime [formControl]="datetimeControl">

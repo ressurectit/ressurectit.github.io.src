@@ -1,31 +1,32 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {JsonPipe} from '@angular/common';
-import {DatePipesModule, DateTimeInputHandlerSADirective, DateTimeModule, DateTimePickerModule, SimpleDateTimeInputHandlerSADirective} from '@anglr/datetime';
+import {DatePipesModule, DateTimeModule, DateTimePickerModule, WithNowSADirective, WithTimeSADirective, WithTodaySADirective} from '@anglr/datetime';
 
 import {AppInputDateTime} from '../../../misc/types';
 
 /**
- * Sample for datetime with picker and handlers directives
+ * Sample for datetime with picker, time and now/today directives
  */
 @Component(
 {
-    selector: 'handlers-sample',
-    templateUrl: 'handlersSample.component.html',
+    selector: 'today-vs-now-sample',
+    templateUrl: 'todayVsNowSample.component.html',
     standalone: true,
     imports:
     [
-        SimpleDateTimeInputHandlerSADirective,
-        DateTimeInputHandlerSADirective,
+        WithTimeSADirective,
+        WithTodaySADirective,
         DateTimePickerModule,
         ReactiveFormsModule,
+        WithNowSADirective,
         DatePipesModule,
         DateTimeModule,
         JsonPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HandlersSampleComponent
+export class TodayVsNowSampleComponent
 {
     //######################### public properties - template bindings #########################
 

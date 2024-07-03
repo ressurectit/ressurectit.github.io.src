@@ -1,8 +1,23 @@
 <div class="flex-row column-gap-medium margin-bottom-extra-small">
-    <div class="flex-1">Raw value: {{datetimeControl.value | json}}</div>
-    <div class="flex-1">Raw value: {{timestampControl.value | json}}</div>
-    <div class="flex-1">Raw value: {{stringControl.value | json}}</div>
-    <div class="flex-1">Raw value: {{customStringControl.value | json}}</div>
+    <div class="flex-1">
+        <div>Raw value: {{datetimeControl.value | json}}</div>
+        <div>Date value: {{datetimeControl.value | dateFormat}}</div>
+    </div>
+    
+    <div class="flex-1">
+        <div>Raw value: {{timestampControl.value | json}}</div>
+        <div>Date value: {{timestampControl.value | dateFormat}}</div>
+    </div>
+    
+    <div class="flex-1">
+        <div>Raw value: {{stringControl.value | json}}</div>
+        <div>Date value: {{stringControl.value | dateFormat: 'date' : 'yyyyMMdd'}}</div>
+    </div>
+    
+    <div class="flex-1">
+        <div>Raw value: {{customStringControl.value | json}}</div>
+        <div>Date value: {{customStringControl.value | dateFormat: 'date' : 'yyyy-MM-dd'}}</div>
+    </div>
 </div>
 
 <div class="flex-row column-gap-medium">
@@ -23,6 +38,6 @@
 
     <div class="form-group flex-1">
         <label class="control-label">type DataString</label>
-        <input class="form-control" dateTime dateTimeInput withPicker [formControl]="customStringControl" valueFormat="DataString" dataFormat="yyyy MM dd">
+        <input class="form-control" dateTime dateTimeInput withPicker [formControl]="customStringControl" valueFormat="DataString" dataFormat="yyyy-MM-dd">
     </div>
 </div>
