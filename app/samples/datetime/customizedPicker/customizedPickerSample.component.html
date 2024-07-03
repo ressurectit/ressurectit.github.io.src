@@ -1,0 +1,6 @@
+<div class="flex-row margin-bottom-extra-small">
+    <div class="flex-1">Raw value: {{datetimeControl.value | json}}</div>
+    <div class="flex-1">Date value: {{datetimeControl.value | dateFormat: 'date': 'yyyyMM'}}</div>
+</div>
+
+<input class="form-control" dateTime dateTimeInput withPicker [formControl]="datetimeControl" [pickerOptions]="pickerOptions" valueFormat="FormattedString" customFormat="yyyyMM">

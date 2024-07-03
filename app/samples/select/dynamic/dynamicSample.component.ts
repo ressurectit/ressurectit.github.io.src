@@ -29,17 +29,17 @@ import {DataService} from '../../../services/api/data';
 })
 export class DynamicSampleComponent
 {
-    //######################### public properties - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Select options that are used for select initialization, custom readonly
      */
-    public selectOptions: NgSelectOptions<string>;
+    protected selectOptions: NgSelectOptions<string>;
     
     /**
      * Control bound to select
      */
-    public selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectControl: FormControl<string|null> = new FormControl(null);
 
     //######################### constructor #########################
     constructor(private _dataSvc: DataService)

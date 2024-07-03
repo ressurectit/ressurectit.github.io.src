@@ -25,25 +25,25 @@ import {AppInputDateTime} from '../../../misc/types';
 })
 export class DataTypesSampleComponent
 {
-    //######################### public properties - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Control bound to datetime
      */
-    public datetimeControl: FormControl<AppInputDateTime|null> = new FormControl(null);
+    protected datetimeControl: FormControl<AppInputDateTime|null> = new FormControl(null);
     
     /**
      * Control bound to datetime of type number
      */
-    public timestampControl: FormControl<number|null> = new FormControl(null);
+    protected timestampControl: FormControl<number|null> = new FormControl(null);
 
     /**
      * Control bound to datetime of type string
      */
-    public stringControl: FormControl<string|null> = new FormControl(null);
+    protected stringControl: FormControl<string|null> = new FormControl(null);
 
     /**
      * Control bound to datetime of type string with custom display and value format
      */
-    public customStringControl: FormControl<string|null> = new FormControl(null);
+    protected customStringControl: FormControl<string|null> = new FormControl(null);
 }

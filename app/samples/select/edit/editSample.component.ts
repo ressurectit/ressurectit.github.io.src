@@ -22,15 +22,15 @@ import {NgSelectEditModule, NgSelectModule} from '@anglr/select';
 })
 export class EditSampleComponent
 {
-    //######################### public properties - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Control bound to select
      */
-    public selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectControl: FormControl<string|null> = new FormControl(null);
 
     /**
      * Control bound to multi select
      */
-    public selectMultipleControl: FormControl<string|null> = new FormControl(null);
+    protected selectMultipleControl: FormControl<string|null> = new FormControl(null);
 }

@@ -21,15 +21,15 @@ import {NgSelectModule} from '@anglr/select';
 })
 export class ReadonlySampleComponent
 {
-    //######################### public properties - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Control bound to select
      */
-    public selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectControl: FormControl<string|null> = new FormControl(null);
 
     /**
      * Indication whether is NgSelect readonly
      */
-    public readonly: boolean = false;
+    protected readonly: boolean = false;
 }

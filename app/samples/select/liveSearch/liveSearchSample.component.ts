@@ -23,17 +23,17 @@ import {KodPopisValue} from '../../../misc/types';
 })
 export class LiveSearchSampleComponent
 {
-    //######################### public properties - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Control bound to select
      */
-    public selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectControl: FormControl<string|null> = new FormControl(null);
 
     /**
      * Select options that are used for select initialization, live search
      */
-    public selectOptions: NgSelectOptions<KodPopisValue>;
+    protected selectOptions: NgSelectOptions<KodPopisValue>;
 
     //######################### constructor #########################
     constructor()

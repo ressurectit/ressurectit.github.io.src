@@ -23,17 +23,17 @@ import {KodPopisValue} from '../../../misc/types';
 })
 export class BasicLazySampleComponent
 {
-    //######################### public properties - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Control bound to select
      */
-    public selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectControl: FormControl<string|null> = new FormControl(null);
 
     /**
      * Array of lazy options
      */
-    public lazyOptions: WritableSignal<KodPopisValue[]> = signal([]);
+    protected lazyOptions: WritableSignal<KodPopisValue[]> = signal([]);
 
     //######################### constructor #########################
     constructor()

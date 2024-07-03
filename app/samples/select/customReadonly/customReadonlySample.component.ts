@@ -24,22 +24,22 @@ import {CustomReadonlyStateComponent} from './customReadonlyState.component';
 })
 export class CustomReadonlySampleComponent
 {
-    //######################### public properties - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Control bound to select
      */
-    public selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectControl: FormControl<string|null> = new FormControl(null);
 
     /**
      * Indication whether is NgSelect readonly
      */
-    public readonly: boolean = false;
+    protected readonly: boolean = false;
 
     /**
      * Select options that are used for select initialization
      */
-    public selectOptions: NgSelectOptions<KodPopisValue>;
+    protected selectOptions: NgSelectOptions<KodPopisValue>;
     
     //######################### constructor #########################
     constructor()

@@ -24,10 +24,10 @@ import {ExternalSourceDirective} from './externalSource.directive';
 })
 export class ExternalSampleComponent
 {
-    //######################### public properties - template bindings #########################
+    //######################### protected properties - template bindings #########################
 
     /**
      * Control bound to select
      */
-    public selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectControl: FormControl<string|null> = new FormControl(null);
 }
