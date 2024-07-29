@@ -1,7 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {StatusCodeService} from '@anglr/common';
-
-import {WithScrollableCssClass} from '../../misc/decorators';
+import {StatusCodeService, WithScrollableCssClass} from '@anglr/common';
 
 /**
  * Page displayed when url was not found

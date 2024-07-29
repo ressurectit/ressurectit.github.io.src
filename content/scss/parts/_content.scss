@@ -19,16 +19,20 @@
 
         h1
         {
-            padding-block: var(--size-lg) var(--size-sm);
+            padding-block: var(--size-lg) var(--size-xs);
             font-size: var(--size-24px);
             font-weight: 600;
+            border-bottom: var(--size-1px) solid;
+            margin-block-end: var(--size-sm);
         }
 
         h2
         {
-            padding-block: var(--size-md) var(--size-sm);
+            padding-block-start: var(--size-md);
             font-size: var(--size-20px);
             font-weight: 600;
+            border-bottom: var(--size-1px) solid;
+            margin-block-end: var(--size-sm);
         }
 
         h3
