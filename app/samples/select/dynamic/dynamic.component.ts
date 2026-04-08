@@ -11,7 +11,6 @@ import {SamplesFeatureModule} from '../../../modules';
 {
     selector: 'dynamic-view',
     templateUrl: 'dynamic.component.html',
-    standalone: true,
     imports:
     [
         DynamicSampleComponent,

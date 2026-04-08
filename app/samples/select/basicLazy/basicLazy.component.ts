@@ -11,7 +11,6 @@ import {SamplesFeatureModule} from '../../../modules';
 {
     selector: 'basic-lazy-view',
     templateUrl: 'basicLazy.component.html',
-    standalone: true,
     imports:
     [
         BasicLazySampleComponent,

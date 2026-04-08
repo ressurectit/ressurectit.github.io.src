@@ -11,7 +11,6 @@ import {SamplesFeatureModule} from '../../../modules';
 {
     selector: 'multiple-view',
     templateUrl: 'multiple.component.html',
-    standalone: true,
     imports:
     [
         MultipleSampleComponent,

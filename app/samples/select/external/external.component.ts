@@ -11,7 +11,6 @@ import {SamplesFeatureModule} from '../../../modules';
 {
     selector: 'external-view',
     templateUrl: 'external.component.html',
-    standalone: true,
     imports:
     [
         ExternalSampleComponent,

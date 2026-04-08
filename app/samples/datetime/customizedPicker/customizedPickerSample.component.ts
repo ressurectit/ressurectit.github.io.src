@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {JsonPipe} from '@angular/common';
-import {DatePipesModule, DateTimeModule, DateTimePickerModule, DateTimePickerOptions, MonthPickerSAComponent, YearPickerSAComponent} from '@anglr/datetime';
+import {DatePipesModule, DateTimeModule, DateTimePickerModule, DateTimePickerOptions, MonthPickerComponent, YearPickerComponent} from '@anglr/datetime';
 
 import {AppInputDateTime} from '../../../misc/types';
 
@@ -12,7 +12,6 @@ import {AppInputDateTime} from '../../../misc/types';
 {
     selector: 'customized-picker-sample',
     templateUrl: 'customizedPickerSample.component.html',
-    standalone: true,
     imports:
     [
         DateTimePickerModule,
@@ -44,8 +43,8 @@ export class CustomizedPickerSampleComponent
         {
             periodsDefinition:
             {
-                'month': MonthPickerSAComponent,
-                'year': YearPickerSAComponent,
+                month: MonthPickerComponent,
+                year: YearPickerComponent,
             },
             defaultPeriod: 'month',
         };

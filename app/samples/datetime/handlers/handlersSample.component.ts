@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {JsonPipe} from '@angular/common';
-import {DatePipesModule, DateTimeInputHandlerSADirective, DateTimeModule, DateTimePickerModule, SimpleDateTimeInputHandlerSADirective} from '@anglr/datetime';
+import {DatePipesModule, DateTimeInputHandlerDirective, DateTimeModule, DateTimePickerModule, SimpleDateTimeInputHandlerDirective} from '@anglr/datetime';
 
 import {AppInputDateTime} from '../../../misc/types';
 
@@ -12,11 +12,10 @@ import {AppInputDateTime} from '../../../misc/types';
 {
     selector: 'handlers-sample',
     templateUrl: 'handlersSample.component.html',
-    standalone: true,
     imports:
     [
-        SimpleDateTimeInputHandlerSADirective,
-        DateTimeInputHandlerSADirective,
+        SimpleDateTimeInputHandlerDirective,
+        DateTimeInputHandlerDirective,
         DateTimePickerModule,
         ReactiveFormsModule,
         DatePipesModule,

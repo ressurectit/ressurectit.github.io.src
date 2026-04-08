@@ -11,7 +11,6 @@ import {LegacyBasicSampleComponent} from './legacyBasicSample.component';
 {
     selector: 'legacy-basic-view',
     templateUrl: 'legacyBasic.component.html',
-    standalone: true,
     imports:
     [
         SamplesFeatureModule,

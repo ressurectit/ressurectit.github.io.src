@@ -12,12 +12,11 @@ import {Address, DataService} from '../../../services/api/data';
 {
     selector: 'basic-sample',
     templateUrl: 'basicSample.component.html',
-    standalone: true,
     imports:
     [
         MatrixGridModule,
     ],
-    providers: 
+    providers:
     [
         DataService,
     ],
@@ -73,7 +72,7 @@ export class BasicSampleComponent
     {
         const result = await lastValueFrom(this._dataSvc.getData(
             {
-                page: page, 
+                page: page,
                 size: itemsPerPage
             },
             ordering));

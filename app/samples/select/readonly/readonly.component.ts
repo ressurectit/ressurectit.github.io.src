@@ -11,7 +11,6 @@ import {SamplesFeatureModule} from '../../../modules';
 {
     selector: 'readonly-view',
     templateUrl: 'readonly.component.html',
-    standalone: true,
     imports:
     [
         ReadonlySampleComponent,

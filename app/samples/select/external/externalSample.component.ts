@@ -1,7 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {NgSelectModule} from '@anglr/select';
 
 import {ExternalSourceDirective} from './externalSource.directive';
 
@@ -12,11 +11,9 @@ import {ExternalSourceDirective} from './externalSource.directive';
 {
     selector: 'external-sample',
     templateUrl: 'externalSample.component.html',
-    standalone: true,
     imports:
     [
         JsonPipe,
-        NgSelectModule,
         ReactiveFormsModule,
         ExternalSourceDirective,
     ],

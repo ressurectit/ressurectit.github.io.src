@@ -11,7 +11,6 @@ import {SamplesFeatureModule} from '../../../modules';
 {
     selector: 'basic-view',
     templateUrl: 'basic.component.html',
-    standalone: true,
     imports:
     [
         BasicSampleComponent,

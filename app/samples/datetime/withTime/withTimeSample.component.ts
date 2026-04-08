@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {JsonPipe} from '@angular/common';
-import {DatePipesModule, DateTimeModule, DateTimePickerModule, WithTimeSADirective} from '@anglr/datetime';
+import {DatePipesModule, DateTimeModule, DateTimePickerModule, WithTimeDirective} from '@anglr/datetime';
 
 import {AppInputDateTime} from '../../../misc/types';
 
@@ -12,11 +12,10 @@ import {AppInputDateTime} from '../../../misc/types';
 {
     selector: 'with-time-sample',
     templateUrl: 'withTimeSample.component.html',
-    standalone: true,
     imports:
     [
         DateTimePickerModule,
-        WithTimeSADirective,
+        WithTimeDirective,
         ReactiveFormsModule,
         DatePipesModule,
         DateTimeModule,

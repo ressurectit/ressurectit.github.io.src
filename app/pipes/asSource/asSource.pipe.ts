@@ -9,7 +9,6 @@ import {SourceService} from '../../services/api/source';
 @Pipe(
 {
     name: 'asSource',
-    standalone: true,
 })
 export class AsSourcePipe implements PipeTransform
 {

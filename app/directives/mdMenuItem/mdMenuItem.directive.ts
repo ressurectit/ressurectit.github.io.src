@@ -9,7 +9,6 @@ import {Router} from '@angular/router';
 @Directive(
 {
     selector: '[mdMenuItem]',
-    standalone: true,
 })
 export class MdMenuItemDirective
 {
@@ -25,7 +24,7 @@ export class MdMenuItemDirective
     constructor(private _router: Router,)
     {
     }
-    
+
     //######################### protected methods - host #########################
 
     /**
@@ -42,7 +41,7 @@ export class MdMenuItemDirective
         {
             return;
         }
-        
+
         this._router.navigate([`/${this.path}`]);
     }
 }

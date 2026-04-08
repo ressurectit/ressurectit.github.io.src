@@ -11,7 +11,6 @@ import {CustomTemplateSampleComponent} from './customTemplateSample.component';
 {
     selector: 'custom-template-view',
     templateUrl: 'customTemplate.component.html',
-    standalone: true,
     imports:
     [
         SamplesFeatureModule,

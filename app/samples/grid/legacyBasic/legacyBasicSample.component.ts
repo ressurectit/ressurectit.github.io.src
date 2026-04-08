@@ -12,12 +12,11 @@ import {Address, DataService} from '../../../services/api/data';
 {
     selector: 'legacy-basic-sample',
     templateUrl: 'legacyBasicSample.component.html',
-    standalone: true,
     imports:
     [
         GridModule,
     ],
-    providers: 
+    providers:
     [
         DataService,
     ],
@@ -73,7 +72,7 @@ export class LegacyBasicSampleComponent
     {
         const result = await lastValueFrom(this._dataSvc.getData(
             {
-                page: page, 
+                page: page,
                 size: itemsPerPage
             },
             ordering));

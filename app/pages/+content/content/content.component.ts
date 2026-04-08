@@ -1,12 +1,11 @@
 import {Component, ChangeDetectionStrategy, input, InputSignal} from '@angular/core';
-import {CdkMenuGroup, CdkMenu, CdkMenuTrigger, CdkMenuItem, CdkMenuBar} from '@angular/cdk/menu';
-import {RouterLink} from '@angular/router';
+import {CdkMenu, CdkMenuTrigger, CdkMenuItem, CdkMenuBar} from '@angular/cdk/menu';
 import {WithScrollableCssClass} from '@anglr/common';
 import {ComponentRoute} from '@anglr/common/router';
 
 import {contentMarkdownResolver, contentMenuResolver} from './content.resolver';
 import {ContentMenu, ContentService} from '../../../services/api/content';
-import {MdMenuItemDirective, RenderMarkdownDirective} from '../../../directives';
+import {MdMenuItemDirective} from '../../../directives';
 
 /**
  * Content component used for displaying markdowns
@@ -16,17 +15,13 @@ import {MdMenuItemDirective, RenderMarkdownDirective} from '../../../directives'
     selector: 'content-view',
     templateUrl: 'content.component.html',
     styleUrl: 'content.component.scss',
-    standalone: true,
     imports:
     [
-        RenderMarkdownDirective,
         MdMenuItemDirective,
-        RouterLink,
         CdkMenuBar,
         CdkMenuItem,
         CdkMenuTrigger,
         CdkMenu,
-        CdkMenuGroup,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -1,7 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {NgSelectModule} from '@anglr/select';
 
 /**
  * Readonly sample for select component
@@ -10,11 +9,9 @@ import {NgSelectModule} from '@anglr/select';
 {
     selector: 'readonly-sample',
     templateUrl: 'readonlySample.component.html',
-    standalone: true,
     imports:
     [
         ReactiveFormsModule,
-        NgSelectModule,
         JsonPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

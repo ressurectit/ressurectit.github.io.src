@@ -11,7 +11,6 @@ import {AbsoluteSampleComponent} from './absoluteSample.component';
 {
     selector: 'absolute-view',
     templateUrl: 'absolute.component.html',
-    standalone: true,
     imports:
     [
         AbsoluteSampleComponent,

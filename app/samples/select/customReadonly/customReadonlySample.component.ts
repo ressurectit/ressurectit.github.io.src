@@ -1,10 +1,9 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {NgSelectModule, NgSelectOptions} from '@anglr/select';
+import {SelectOptions} from '@anglr/select';
 
 import {KodPopisValue} from '../../../misc/types';
-import {CustomReadonlyStateComponent} from './customReadonlyState.component';
 
 /**
  * Custom readonly sample for select component
@@ -13,11 +12,9 @@ import {CustomReadonlyStateComponent} from './customReadonlyState.component';
 {
     selector: 'custom-readonly-sample',
     templateUrl: 'customReadonlySample.component.html',
-    standalone: true,
     imports:
     [
         ReactiveFormsModule,
-        NgSelectModule,
         JsonPipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -39,20 +36,20 @@ export class CustomReadonlySampleComponent
     /**
      * Select options that are used for select initialization
      */
-    protected selectOptions: NgSelectOptions<KodPopisValue>;
-    
+    protected selectOptions: SelectOptions<KodPopisValue>;
+
     //######################### constructor #########################
     constructor()
     {
-        this.selectOptions =
-        {
-            plugins:
-            {
-                readonlyState:
-                {
-                    type: CustomReadonlyStateComponent
-                }
-            }
-        };
+    //     this.selectOptions =
+    //     {
+    //         plugins:
+    //         {
+    //             readonlyState:
+    //             {
+    //                 type: CustomReadonlyStateComponent,
+    //             }
+    //         }
+    //     };
     }
 }

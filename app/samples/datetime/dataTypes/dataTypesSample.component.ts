@@ -12,7 +12,6 @@ import {AppInputDateTime} from '../../../misc/types';
 {
     selector: 'data-types-sample',
     templateUrl: 'dataTypesSample.component.html',
-    standalone: true,
     imports:
     [
         DateTimePickerModule,
@@ -31,7 +30,7 @@ export class DataTypesSampleComponent
      * Control bound to datetime
      */
     protected datetimeControl: FormControl<AppInputDateTime|null> = new FormControl(null);
-    
+
     /**
      * Control bound to datetime of type number
      */

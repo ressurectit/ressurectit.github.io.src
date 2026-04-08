@@ -1,7 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {JsonPipe} from '@angular/common';
-import {NgSelectModule} from '@anglr/select';
 
 /**
  * Basic sample for select component
@@ -10,10 +9,8 @@ import {NgSelectModule} from '@anglr/select';
 {
     selector: 'basic-sample',
     templateUrl: 'basicSample.component.html',
-    standalone: true,
     imports:
     [
-        NgSelectModule,
         ReactiveFormsModule,
         JsonPipe,
     ],

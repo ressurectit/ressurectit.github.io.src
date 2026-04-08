@@ -11,7 +11,6 @@ import {SamplesFeatureModule} from '../../../modules';
 {
     selector: 'today-vs-now-view',
     templateUrl: 'todayVsNow.component.html',
-    standalone: true,
     imports:
     [
         TodayVsNowSampleComponent,

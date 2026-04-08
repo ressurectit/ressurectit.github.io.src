@@ -1,8 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {NgSelectOptions, GetOptionsCallback, NgSelectOption, BasicLiveSearchComponent, DynamicValueHandlerComponent, DynamicValueHandlerOptions, DynamicOptionsGatherer, NgSelectModule} from '@anglr/select';
-import {lastValueFrom} from '@jscrpt/common/rxjs';
+import {SelectOptions} from '@anglr/select';
 
 import {DataService} from '../../../services/api/data';
 
@@ -13,15 +12,13 @@ import {DataService} from '../../../services/api/data';
 {
     selector: 'dynamic-sample',
     templateUrl: 'dynamicSample.component.html',
-    standalone: true,
     imports:
     [
         ReactiveFormsModule,
-        NgSelectModule,
         JsonPipe,
 
     ],
-    providers: 
+    providers:
     [
         DataService
     ],
@@ -34,8 +31,8 @@ export class DynamicSampleComponent
     /**
      * Select options that are used for select initialization, custom readonly
      */
-    protected selectOptions: NgSelectOptions<string>;
-    
+    protected selectOptions: SelectOptions<string>;
+
     /**
      * Control bound to select
      */
@@ -44,51 +41,51 @@ export class DynamicSampleComponent
     //######################### constructor #########################
     constructor(private _dataSvc: DataService)
     {
-        this.selectOptions =
-        {
-            plugins:
-            {
-                liveSearch:
-                {
-                    type: BasicLiveSearchComponent
-                },
-                valueHandler:
-                {
-                    type: DynamicValueHandlerComponent,
-                    options: <DynamicValueHandlerOptions<string>>
-                    {
-                        dynamicOptionsCallback: this._getData
-                    }
-                }
-            },
-            optionsGatherer: new DynamicOptionsGatherer({dynamicOptionsCallback: this._getData})
-        };
+        // this.selectOptions =
+        // {
+        //     plugins:
+        //     {
+        //         liveSearch:
+        //         {
+        //             type: FilteringLiveSearch
+        //         },
+        //         valueHandler:
+        //         {
+        //             type: DynamicValueHandler,
+        //             options: <DynamicValueHandlerOptions<string>>
+        //             {
+        //                 dynamicOptionsCallback: this._getData
+        //             }
+        //         }
+        //     },
+        //     optionsGatherer: new DynamicOptionsGatherer({dynamicOptionsCallback: this._getData})
+        // };
     }
 
     //######################### private methods #########################
-    
+
     //TODO: update split search and obtaining values
 
-    /**
-     * Used for obtaining dynamic options
-     */
-    private _getData: GetOptionsCallback<string> = (async value =>
-    {
-        const result = await lastValueFrom(this._dataSvc
-            .getCis(value));
+    // /**
+    //  * Used for obtaining dynamic options
+    //  */
+    // private _getData: GetOptionsCallback<string> = (async value =>
+    // {
+    //     const result = await lastValueFrom(this._dataSvc
+    //         .getCis(value));
 
-        if(!result || !result.content || !result.content.length)
-        {
-            return [];
-        }
+    //     if(!result || !result.content || !result.content.length)
+    //     {
+    //         return [];
+    //     }
 
-        return result.content.map(itm =>
-        {
-            return <NgSelectOption<string>>
-            {
-                value: itm.kod,
-                text: itm.popis
-            };
-        });
-    });
+    //     return result.content.map(itm =>
+    //     {
+    //         return <NgSelectOption<string>>
+    //         {
+    //             value: itm.kod,
+    //             text: itm.popis
+    //         };
+    //     });
+    // });
 }

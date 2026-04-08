@@ -12,7 +12,6 @@ import {AppInputDateTime} from '../../../misc/types';
 {
     selector: 'basic-sample',
     templateUrl: 'basicSample.component.html',
-    standalone: true,
     imports:
     [
         ReactiveFormsModule,

@@ -1,6 +1,5 @@
 import {Directive, OnInit, Input} from '@angular/core';
-import {NgSelectComponent, CodeOptionsGatherer, NgSelectOption} from '@anglr/select';
-import {reinitializeOptions} from '@anglr/select/extensions';
+import {CodeOptionsGatherer, Select} from '@anglr/select';
 import {isPresent, isString, ValueNamePair, isBlank} from '@jscrpt/common';
 
 import {DataService} from '../../../services/api/data';
@@ -12,10 +11,9 @@ import {NOTHING_SELECTED} from '../../../misc/constants';
 @Directive(
 {
     selector: 'ng-select[external]',
-    standalone: true,
-    providers: 
+    providers:
     [
-        DataService
+        DataService,
     ]
 })
 export class ExternalSourceDirective implements OnInit
@@ -61,11 +59,10 @@ export class ExternalSourceDirective implements OnInit
 
     //######################### constructor #########################
     constructor(private _enums: DataService,
-                private _select: NgSelectComponent<string>)
+                private _select: Select<string>)
     {
         this._select.selectOptions =
         {
-            autoInitialize: false
         };
     }
 
@@ -133,7 +130,7 @@ export class ExternalSourceDirective implements OnInit
                         text: itm.name
                     };
                 });
-        
+
                 this._codeOptionsGatherer.optionsChange.emit();
                 this._codeOptionsGatherer.availableOptionsChange.emit();
             });

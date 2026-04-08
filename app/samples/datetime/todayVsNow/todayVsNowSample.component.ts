@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {JsonPipe} from '@angular/common';
-import {DatePipesModule, DateTimeModule, DateTimePickerModule, WithNowSADirective, WithTimeSADirective, WithTodaySADirective} from '@anglr/datetime';
+import {DatePipesModule, DateTimeModule, DateTimePickerModule, WithNowDirective, WithTimeDirective, WithTodayDirective} from '@anglr/datetime';
 
 import {AppInputDateTime} from '../../../misc/types';
 
@@ -12,14 +12,13 @@ import {AppInputDateTime} from '../../../misc/types';
 {
     selector: 'today-vs-now-sample',
     templateUrl: 'todayVsNowSample.component.html',
-    standalone: true,
     imports:
     [
-        WithTimeSADirective,
-        WithTodaySADirective,
+        WithTimeDirective,
+        WithTodayDirective,
         DateTimePickerModule,
         ReactiveFormsModule,
-        WithNowSADirective,
+        WithNowDirective,
         DatePipesModule,
         DateTimeModule,
         JsonPipe,

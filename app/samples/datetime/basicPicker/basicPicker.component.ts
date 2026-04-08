@@ -5,13 +5,12 @@ import {BasicPickerSampleComponent} from './basicPickerSample.component';
 import {SamplesFeatureModule} from '../../../modules';
 
 /**
- * Basic sample for datetime with picker directives 
+ * Basic sample for datetime with picker directives
  */
 @Component(
 {
     selector: 'basic-picker-view',
     templateUrl: 'basicPicker.component.html',
-    standalone: true,
     imports:
     [
         BasicPickerSampleComponent,

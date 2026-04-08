@@ -12,7 +12,6 @@ import {AppInputDateTime} from '../../../misc/types';
 {
     selector: 'basic-picker-sample',
     templateUrl: 'basicPickerSample.component.html',
-    standalone: true,
     imports:
     [
         DateTimePickerModule,

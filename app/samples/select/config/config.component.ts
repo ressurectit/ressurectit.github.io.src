@@ -11,7 +11,6 @@ import {ConfigSampleComponent} from './configSample.component';
 {
     selector: 'config-view',
     templateUrl: 'config.component.html',
-    standalone: true,
     imports:
     [
         ConfigSampleComponent,

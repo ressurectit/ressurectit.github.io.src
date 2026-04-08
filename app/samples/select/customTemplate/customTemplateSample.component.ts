@@ -1,7 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {NgSelectModule} from '@anglr/select';
 
 /**
  * Custom template sample for select component
@@ -10,12 +9,10 @@ import {NgSelectModule} from '@anglr/select';
 {
     selector: 'custom-template-sample',
     templateUrl: 'customTemplateSample.component.html',
-    standalone: true,
     imports:
     [
         ReactiveFormsModule,
         JsonPipe,
-        NgSelectModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

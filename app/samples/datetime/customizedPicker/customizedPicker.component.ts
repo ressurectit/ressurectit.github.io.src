@@ -11,7 +11,6 @@ import {SamplesFeatureModule} from '../../../modules';
 {
     selector: 'customized-picker-view',
     templateUrl: 'customizedPicker.component.html',
-    standalone: true,
     imports:
     [
         CustomizedPickerSampleComponent,

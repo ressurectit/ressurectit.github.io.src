@@ -11,7 +11,6 @@ import {SamplesFeatureModule} from '../../../modules';
 {
     selector: 'edit-view',
     templateUrl: 'edit.component.html',
-    standalone: true,
     imports:
     [
         SamplesFeatureModule,

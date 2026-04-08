@@ -11,7 +11,6 @@ import {SamplesFeatureModule} from '../../../modules';
 {
     selector: 'live-search-view',
     templateUrl: 'liveSearch.component.html',
-    standalone: true,
     imports:
     [
         LiveSearchSampleComponent,

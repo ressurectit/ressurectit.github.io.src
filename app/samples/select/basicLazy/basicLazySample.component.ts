@@ -1,7 +1,6 @@
 import {Component, ChangeDetectionStrategy, WritableSignal, signal} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {NgSelectModule} from '@anglr/select';
 
 import {KodPopisValue} from '../../../misc/types';
 
@@ -12,11 +11,9 @@ import {KodPopisValue} from '../../../misc/types';
 {
     selector: 'basic-lazy-sample',
     templateUrl: 'basicLazySample.component.html',
-    standalone: true,
     imports:
     [
         JsonPipe,
-        NgSelectModule,
         ReactiveFormsModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -40,27 +37,27 @@ export class BasicLazySampleComponent
     {
         setTimeout(() =>
         {
-            this.lazyOptions.set( 
+            this.lazyOptions.set(
             [
                 {
                     kod: 'first-x',
-                    popis: 'First value text'
+                    popis: 'First value text',
                 },
                 {
                     kod: 'second-x',
-                    popis: 'Second value text'
+                    popis: 'Second value text',
                 },
                 {
                     kod: 'third-x',
-                    popis: 'Third value text'
+                    popis: 'Third value text',
                 },
                 {
                     kod: 'fourth-x',
-                    popis: 'Fourth value text'
+                    popis: 'Fourth value text',
                 },
                 {
                     kod: 'fifth-x',
-                    popis: 'Fifth value text'
+                    popis: 'Fifth value text',
                 }
             ]);
         }, 2500);

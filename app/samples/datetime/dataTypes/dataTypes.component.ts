@@ -11,7 +11,6 @@ import {SamplesFeatureModule} from '../../../modules';
 {
     selector: 'data-types-view',
     templateUrl: 'dataTypes.component.html',
-    standalone: true,
     imports:
     [
         DataTypesSampleComponent,

@@ -11,7 +11,6 @@ import {CustomReadonlySampleComponent} from './customReadonlySample.component';
 {
     selector: 'custom-readonly-view',
     templateUrl: 'customReadonly.component.html',
-    standalone: true,
     imports:
     [
         SamplesFeatureModule,

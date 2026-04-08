@@ -11,7 +11,6 @@ import {SamplesFeatureModule} from '../../../modules';
 {
     selector: 'handlers-view',
     templateUrl: 'handlers.component.html',
-    standalone: true,
     imports:
     [
         HandlersSampleComponent,
