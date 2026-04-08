@@ -1,7 +1,8 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {SelectOptions} from '@anglr/select';
+import {Option, provideSelectOptions, Select, SelectOptions} from '@anglr/select';
+import {RecursivePartial} from '@jscrpt/common';
 
 import {KodPopisValue} from '../../../misc/types';
 
@@ -14,22 +15,17 @@ import {KodPopisValue} from '../../../misc/types';
     templateUrl: 'configSample.component.html',
     imports:
     [
-        ReactiveFormsModule,
+        Select,
+        Option,
         JsonPipe,
+        ReactiveFormsModule,
     ],
     providers:
     [
-        // <ValueProvider>
-        // {
-        //     provide: NORMAL_STATE_OPTIONS,
-        //     useValue: <NormalStateOptions>
-        //     {
-        //         texts:
-        //         {
-        //             nothingSelected: 'There is nothing :)'
-        //         }
-        //     }
-        // }
+        provideSelectOptions(
+        {
+            placeholder: 'There is nothing :)',
+        }),
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -45,26 +41,14 @@ export class ConfigSampleComponent
     /**
      * Select options that are used for select initialization, live search
      */
-    protected selectOptions: SelectOptions<KodPopisValue>;
+    protected selectOptions: RecursivePartial<SelectOptions<KodPopisValue>>;
 
     //######################### constructor #########################
     constructor()
     {
-        // this.selectOptions =
-        // {
-        //     plugins:
-        //     {
-        //         normalState:
-        //         {
-        //             options: <NormalStateOptions>
-        //             {
-        //                 texts:
-        //                 {
-        //                     nothingSelected: 'Nič nevybraté'
-        //                 }
-        //             }
-        //         }
-        //     }
-        // };
+        this.selectOptions =
+        {
+            placeholder: 'Nothing selected yet',
+        };
     }
 }

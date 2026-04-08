@@ -13,9 +13,9 @@ import {SamplesFeatureModule} from '../../../modules';
     templateUrl: 'multiple.component.html',
     imports:
     [
-        MultipleSampleComponent,
-        SamplesFeatureModule,
         AsyncPipe,
+        SamplesFeatureModule,
+        MultipleSampleComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

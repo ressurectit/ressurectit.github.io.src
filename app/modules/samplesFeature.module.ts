@@ -21,7 +21,7 @@ import {AsSourcePipe} from '../pipes';
         SourceCodeComponent,
         AsSourcePipe,
         MatTabsModule,
-    ]
+    ],
 })
 export class SamplesFeatureModule
 {

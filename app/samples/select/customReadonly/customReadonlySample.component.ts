@@ -1,7 +1,8 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {SelectOptions} from '@anglr/select';
+import {Option, Select, SelectOptions} from '@anglr/select';
+import {RecursivePartial} from '@jscrpt/common';
 
 import {KodPopisValue} from '../../../misc/types';
 
@@ -14,8 +15,10 @@ import {KodPopisValue} from '../../../misc/types';
     templateUrl: 'customReadonlySample.component.html',
     imports:
     [
-        ReactiveFormsModule,
+        Select,
+        Option,
         JsonPipe,
+        ReactiveFormsModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -36,7 +39,7 @@ export class CustomReadonlySampleComponent
     /**
      * Select options that are used for select initialization
      */
-    protected selectOptions: SelectOptions<KodPopisValue>;
+    protected selectOptions: RecursivePartial<SelectOptions<KodPopisValue>>;
 
     //######################### constructor #########################
     constructor()

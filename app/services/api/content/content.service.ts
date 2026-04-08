@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {BaseUrl, Produces, ResponseType, GET, Path, Cache, RESTClient} from '@anglr/rest';
-import {HelpService as HelpServiceBase} from '@anglr/md-help/web';
 import {NEVER, Observable} from 'rxjs';
 
 import {ContentMenu} from './content.interface';
@@ -10,7 +9,7 @@ import {ContentMenu} from './content.interface';
  */
 @Injectable()
 @BaseUrl('content/')
-export class ContentService extends RESTClient implements HelpServiceBase
+export class ContentService extends RESTClient
 {
     /**
      * Gets content file from path

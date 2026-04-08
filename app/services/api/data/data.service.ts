@@ -16,7 +16,7 @@ import {Address} from './data.interface';
 export class DataService extends RESTClient
 {
     /**
-     * Gets data 
+     * Gets data
      */
     public getData(paging: Pageable,
                    ordering: SimpleOrdering|undefined|null,): Observable<PagedData<Address>>
@@ -53,20 +53,20 @@ export class DataService extends RESTClient
                         {
                             return ordering.orderByDirection == OrderByDirection.Ascending ? 1 : -1;
                         }
-            
+
                         return 0;
                     });
                 }
 
                 return <PagedData<Address>>{
                     content: data.slice(paginator.getOffset(), paginator.getOffset() + paging.size),
-                    totalElements: data.length
+                    totalElements: data.length,
                 };
             }));
     }
 
     /**
-     * Gets cis data 
+     * Gets cis data
      * @param search Search string
      */
     public getCis(search: string): Observable<PagedData<KodPopisValue>>
@@ -78,7 +78,7 @@ export class DataService extends RESTClient
 
                 return <PagedData<KodPopisValue>>{
                     content: data,
-                    totalElements: data.length
+                    totalElements: data.length,
                 };
             }));
     }

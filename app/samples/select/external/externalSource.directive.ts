@@ -1,6 +1,7 @@
-import {Directive, OnInit, Input} from '@angular/core';
-import {CodeOptionsGatherer, Select} from '@anglr/select';
-import {isPresent, isString, ValueNamePair, isBlank} from '@jscrpt/common';
+import {Directive, input, InputSignal, InputSignalWithTransform, booleanAttribute, effect, signal} from '@angular/core';
+import {CodeOptionsGatherer, Select, SelectOption, SelectOptions} from '@anglr/select';
+import {isPresent, isString, ValueNamePair, RecursivePartial} from '@jscrpt/common';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {DataService} from '../../../services/api/data';
 import {NOTHING_SELECTED} from '../../../misc/constants';
@@ -14,126 +15,98 @@ import {NOTHING_SELECTED} from '../../../misc/constants';
     providers:
     [
         DataService,
-    ]
+    ],
 })
-export class ExternalSourceDirective implements OnInit
+export class ExternalSourceDirective
 {
-    //######################### private fields #########################
+    //######################### protected fields #########################
 
     /**
      * Enum options gatherer instance
      */
-    private _codeOptionsGatherer: CodeOptionsGatherer<string> = new CodeOptionsGatherer<string>();
+    protected codeOptionsGatherer: CodeOptionsGatherer<string> = new CodeOptionsGatherer<string>();
 
     //######################### public properties - input #########################
 
     /**
      * Name of enum which values will be filled into select
      */
-    @Input('external')
-    public externalSourceName: string|undefined;
+    public externalSourceName: InputSignal<string> = input.required<string>({alias: 'external'});
 
     /**
      * If this is not empty, empty value with this text will be added
      */
-    @Input()
-    public emptyValueText: string|boolean|undefined;
+    public emptyValueText: InputSignal<string|undefined> = input<string|undefined>(undefined);
 
     /**
      * Indication that use codes also for description of value
      */
-    @Input()
-    public onlyCodes: boolean|undefined;
+    public onlyCodes: InputSignalWithTransform<boolean|undefined, boolean|undefined> = input<boolean|undefined, boolean|undefined>(undefined, {transform: booleanAttribute});
 
     /**
      * Indication that use texts also for value
      */
-    @Input()
-    public onlyTexts: boolean|undefined;
-
-    /**
-     * Transform mapping function for item
-     */
-    @Input()
-    public mappingCallback: ((item: unknown) => ValueNamePair)|undefined;
+    public onlyTexts: InputSignalWithTransform<boolean|undefined, boolean|undefined> = input<boolean|undefined, boolean|undefined>(undefined, {transform: booleanAttribute});
 
     //######################### constructor #########################
-    constructor(private _enums: DataService,
-                private _select: Select<string>)
+    constructor(enums: DataService,
+                select: Select<string>)
     {
-        this._select.selectOptions =
+        const opts: RecursivePartial<SelectOptions<string>> =
         {
+            optionsGatherer: this.codeOptionsGatherer,
         };
-    }
 
-    //######################### public methods - implementation of OnInit #########################
+        select.selectOptions = opts as SelectOptions<string>;
 
-    /**
-     * Initialize component
-     */
-    public ngOnInit()
-    {
-        if(isBlank(this.externalSourceName))
+        effect(async () =>
         {
-            throw new Error('No name was provided for external directive!');
-        }
+            const onlyCodes = this.onlyCodes();
+            const onlyTexts = this.onlyTexts();
+            const emptyValueText = this.emptyValueText();
+            const data = await lastValueFrom(enums.getEnum(this.externalSourceName()));
 
-        this._select.execute(reinitializeOptions(
-        {
-            optionsGatherer: this._codeOptionsGatherer
-        }));
-
-        const dataObservable = this._enums.getEnum(this.externalSourceName);
-
-        dataObservable
-            .subscribe(data =>
+            if(!data)
             {
-                let tmp: ValueNamePair[];
+                throw new Error(`No data obtained for enum '${this.externalSourceName()}'`);
+            }
 
-                if(this.mappingCallback)
-                {
-                    tmp = data.map(this.mappingCallback);
-                }
-                else
-                {
-                    tmp = data.map(itm => { return {value: itm.kod, name: itm.popis}; });
-                }
+            let tmp: ValueNamePair[];
 
-                if(this.onlyCodes)
-                {
-                    tmp = tmp.map(itm => { return {value: itm.value, name: itm.value}; });
-                }
-                else if(this.onlyTexts)
-                {
-                    tmp = tmp.map(itm => { return {value: itm.name, name: itm.name}; });
-                }
+            tmp = data.map(itm => ({value: itm.kod, name: itm.popis}));
 
-                tmp = tmp.filter(itm => isPresent(itm));
+            if(onlyCodes)
+            {
+                tmp = tmp.map(itm => ({value: itm.value, name: itm.value}));
+            }
+            else if(onlyTexts)
+            {
+                tmp = tmp.map(itm => ({value: itm.name, name: itm.name}));
+            }
 
-                if(this.emptyValueText)
-                {
-                    tmp =
-                    [
-                        {
-                            value: '',
-                            name: isString(this.emptyValueText) ? this.emptyValueText : NOTHING_SELECTED
-                        },
-                        ...tmp
-                    ];
-                }
+            tmp = tmp.filter(itm => isPresent(itm));
 
-                this._codeOptionsGatherer.options = tmp.map(itm =>
-                {
-                    return <NgSelectOption<string>>
+            if(emptyValueText)
+            {
+                tmp =
+                [
                     {
-                        value: itm.value,
-                        text: itm.name
-                    };
-                });
+                        value: '',
+                        name: isString(emptyValueText) ? emptyValueText : NOTHING_SELECTED,
+                    },
+                    ...tmp,
+                ];
+            }
 
-                this._codeOptionsGatherer.optionsChange.emit();
-                this._codeOptionsGatherer.availableOptionsChange.emit();
-            });
+            this.codeOptionsGatherer.setAvailableOptions(tmp.map(itm =>
+            {
+                return <SelectOption<string>>
+                {
+                    value: signal(itm.value),
+                    text: signal(itm.name),
+                    group: signal(null),
+                };
+            }));
+        });
     }
 }
-

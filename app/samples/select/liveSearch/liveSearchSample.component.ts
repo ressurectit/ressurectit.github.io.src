@@ -1,7 +1,8 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {JsonPipe} from '@angular/common';
-import {SelectOptions} from '@anglr/select';
+import {Option, Select, SelectOptions, FilterLiveSearch} from '@anglr/select';
+import {RecursivePartial} from '@jscrpt/common';
 
 import {KodPopisValue} from '../../../misc/types';
 
@@ -14,8 +15,10 @@ import {KodPopisValue} from '../../../misc/types';
     templateUrl: 'liveSearchSample.component.html',
     imports:
     [
-        ReactiveFormsModule,
+        Select,
+        Option,
         JsonPipe,
+        ReactiveFormsModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -31,7 +34,7 @@ export class LiveSearchSampleComponent
     /**
      * Select options that are used for select initialization, live search
      */
-    protected selectOptions: SelectOptions<KodPopisValue>;
+    protected selectOptions: RecursivePartial<SelectOptions<KodPopisValue>>;
 
     //######################### constructor #########################
     constructor()
@@ -42,9 +45,9 @@ export class LiveSearchSampleComponent
             {
                 liveSearch:
                 {
-                    type: FilteringLiveSearch,
-                }
-            }
+                    type: FilterLiveSearch,
+                },
+            },
         };
     }
 }

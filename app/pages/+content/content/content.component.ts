@@ -1,6 +1,7 @@
 import {Component, ChangeDetectionStrategy, input, InputSignal} from '@angular/core';
 import {CdkMenu, CdkMenuTrigger, CdkMenuItem, CdkMenuBar} from '@angular/cdk/menu';
 import {WithScrollableCssClass} from '@anglr/common';
+import {RenderMarkdownDirective} from '@anglr/md-help';
 import {ComponentRoute} from '@anglr/common/router';
 
 import {contentMarkdownResolver, contentMenuResolver} from './content.resolver';
@@ -17,11 +18,12 @@ import {MdMenuItemDirective} from '../../../directives';
     styleUrl: 'content.component.scss',
     imports:
     [
-        MdMenuItemDirective,
+        CdkMenu,
         CdkMenuBar,
         CdkMenuItem,
         CdkMenuTrigger,
-        CdkMenu,
+        MdMenuItemDirective,
+        RenderMarkdownDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
