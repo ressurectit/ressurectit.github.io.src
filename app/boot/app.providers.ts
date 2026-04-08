@@ -51,10 +51,16 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideClientHydration(),
 
     //######################### HTTP CLIENT #########################
-    provideHttpClient(withInterceptorsFromDi(),),
-
-    //######################### ZONELESS #########################
-    provideExperimentalZonelessChangeDetection(),
+    provideHttpClient(withInterceptors(
+                      [
+                          httpGatewayTimeoutInterceptor,
+                          serviceUnavailableInterceptor,
+                          httpServerErrorInterceptor,
+                          noConnectionInterceptor,
+                          suppressAuthInterceptor,
+                          authInterceptor,
+                          progressInterceptor,
+                      ])),
 
     //######################### TRANSLATIONS #########################
     importProvidersFrom(TranslateModule.forRoot(
@@ -62,56 +68,47 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         loader: <ClassProvider>
         {
             provide: TranslateLoader,
-            useClass: WebpackTranslateLoaderService
+            useClass: StaticBuildTranslateLoaderService,
         },
         ...config.configuration.debugTranslations ?
             {
                 missingTranslationHandler:
                 {
                     provide: MissingTranslationHandler,
-                    useClass: ReportMissingTranslationService
-                }
+                    useClass: ReportMissingTranslationService,
+                },
             } :
             {
             },
         useDefaultLang: !config.configuration.debugTranslations
     })),
 
-    //######################### HTTP INTERCEPTORS #########################
-    HTTP_GATEWAY_TIMEOUT_INTERCEPTOR_PROVIDER,
-    SERVICE_UNAVAILABLE_INTERCEPTOR_PROVIDER,
-    HTTP_SERVER_ERROR_INTERCEPTOR_PROVIDER,
-    NO_CONNECTION_INTERCEPTOR_PROVIDER,
-    SUPPRESS_AUTH_INTERCEPTOR_PROVIDER,
-    AUTH_INTERCEPTOR_PROVIDER,
-    PROGRESS_INTERCEPTOR_PROVIDER,
-
     //######################### NO CONNECTION INTERCEPTOR OPTIONS #########################
     <FactoryProvider>
     {
         useFactory: () => new NoConnectionInterceptorOptions('Server je mimo prevádzky.'),
-        provide: NoConnectionInterceptorOptions
+        provide: NoConnectionInterceptorOptions,
     },
 
     //######################### HTTP GATEWAY TIMEOUT INTERCEPTOR OPTIONS #########################
     <FactoryProvider>
     {
         useFactory: () => new HttpGatewayTimeoutInterceptorOptions('Server neodpovedal v stanovenom čase.'),
-        provide: HttpGatewayTimeoutInterceptorOptions
+        provide: HttpGatewayTimeoutInterceptorOptions,
     },
 
     //######################### GLOBALIZATION SERVICE #########################
     <ClassProvider>
     {
         provide: GlobalizationService,
-        useClass: GlobalizationServiceImpl
+        useClass: GlobalizationServiceImpl,
     },
 
     //######################### AUTHENTICATION & AUTHORIZATION #########################
     <ClassProvider>
     {
         provide: AuthenticationServiceOptions,
-        useClass: AccountAuthOptions
+        useClass: AccountAuthOptions,
     },
 
     //######################### ERROR HANDLING #########################
@@ -123,24 +120,16 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideInternalServerErrorRenderer(DialogInternalServerErrorRenderer),
 
     //######################### APP INITIALIZER #########################
-    <FactoryProvider>
+    provideAppInitializer(async () =>
     {
-        provide: APP_INITIALIZER,
-        multi: true,
-        useFactory: () =>
-        {
-            const swUpdate = inject(VersionUpdateService);
+        const swUpdate = inject(VersionUpdateService);
 
-            return async () =>
-            {
-                await swUpdate.initialize();
-            };
-        }
-    },
+        await swUpdate.initialize();
+    }),
 
     //######################### GRID GLOBAL OPTIONS #########################
     provideGridInitializerType(QueryGridInitializerComponent),
-    provideMetadataSelectorType(DialogMetadataSelectorSAComponent),
+    provideMetadataSelectorType(DialogMetadataSelectorComponent),
     provideNoDataRendererOptions(
     {
         texts:
@@ -177,7 +166,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         {
             cssClasses:
             {
-                thDefault: 'header-default fixed-header'
+                thDefault: 'header-default fixed-header',
             }
         }
     },
@@ -188,20 +177,19 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         provide: NORMAL_STATE_OPTIONS,
         useValue: <NormalStateOptions>
         {
+            cssClasses:
+            {
+                normalStateElement: 'form-control-select',
+            },
             texts:
             {
-                nothingSelected: NOTHING_SELECTED
-            }
-        }
+                nothingSelected: NOTHING_SELECTED,
+            },
+        },
     },
 
     //######################### STRING LOCALIZATION #########################
-    //TODO
-    <ClassProvider>
-    {
-        provide: STRING_LOCALIZATION,
-        useClass: NgxTranslateStringLocalizationService
-    },
+    provideStringLocalization(NgxTranslateStringLocalizationService),
 
     //######################### PERMANENT STORAGE #########################
     providePermanentStorage(LocalPermanentStorage),
@@ -292,18 +280,13 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     DEFAULT_NOTIFICATIONS,
     <ExistingProvider>
     {
-        provide: MD_HELP_NOTIFICATIONS,
-        useExisting: NOTIFICATIONS
-    },
-    <ExistingProvider>
-    {
         provide: ERROR_HANDLING_NOTIFICATIONS,
-        useExisting: NOTIFICATIONS
+        useExisting: NOTIFICATIONS,
     },
     <ExistingProvider>
     {
         provide: CLIENT_ERROR_NOTIFICATIONS,
-        useExisting: NOTIFICATIONS
+        useExisting: NOTIFICATIONS,
     },
 
     //######################### TITLED DIALOG #########################
@@ -312,7 +295,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     <ValueProvider>
     {
         provide: TitledDialogServiceOptions,
-        useValue: new TitledDialogServiceOptions(MovableTitledDialogComponent)
+        useValue: new TitledDialogServiceOptions(MovableTitledDialogComponent),
     },
 
     //######################### CONFIRMATION DIALOG #########################
@@ -331,26 +314,23 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     providePosition(FloatingUiDomPosition),
 
     //######################### MARKDOWN #########################
-    <ValueProvider>
-    {
-        provide: RENDER_MARKDOWN_CONFIG,
-        useValue: <RenderMarkdownConfig>
-        {
-            assetsPathPrefix: 'md',
-            baseUrl: '/pomoc'
-        }
-    },
+    provideMarkdownRendererExtensions(GfmHeadingIdExtension,
+                                      HighlightJsExtension,
+                                      baseUrlExtension('pomoc/'),
+                                      MermaidExtension,
+                                      assetsPathPrefixExtension('md'),
+                                      IncludeMarkdownExtension,),
 
     //######################### REST CONFIG #########################
     provideRestDateTime(),
     REST_ERROR_HANDLING_MIDDLEWARE_ORDER,
     provideRestMethodMiddlewares(
     [
-        LoggerMiddleware,
-        ResponseTypeMiddleware,
-        ReportProgressMiddleware,
-        HttpClientErrorProcessingMiddleware,
-        CatchHttpClientErrorMiddleware,
+        LoggerMiddleware as RestMiddlewareType,
+        ResponseTypeMiddleware as RestMiddlewareType,
+        ReportProgressMiddleware as RestMiddlewareType,
+        HttpClientErrorProcessingMiddleware as RestMiddlewareType,
+        CatchHttpClientErrorMiddleware as RestMiddlewareType,
     ]),
     provideHttpClientErrorResponseMapper(err =>
     {
@@ -375,13 +355,30 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
 
         return null;
     }),
-    provideHttpClientErrorMessages(
+    provideHttpClientErrorConfigs(
     {
-        400: 'Chyba spracovania dát!',
-        404: 'Záznam pre požadované ID sa nenašiel!',
+        400:
+        {
+            message: 'Chyba spracovania dát!',
+        },
+        404:
+        {
+            message: 'Záznam pre požadované ID sa nenašiel!',
+        },
     }),
     provideHttpClientErrorHandlers(
     {
         404: handleHttp404Error,
     }),
+
+    //######################### CDK OVERLAY #########################
+    <ValueProvider>
+    {
+        provide: OVERLAY_DEFAULT_CONFIG,
+        useValue: <OverlayDefaultConfig>
+        {
+            usePopover: false,
+        },
+    },
+
 ];

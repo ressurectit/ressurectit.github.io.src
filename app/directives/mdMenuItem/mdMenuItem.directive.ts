@@ -1,6 +1,8 @@
 import {Directive, HostListener, Input} from '@angular/core';
 import {Router} from '@angular/router';
 
+//TODO: move into common
+
 /**
  * Directive that is used for applying markdown navigation
  */

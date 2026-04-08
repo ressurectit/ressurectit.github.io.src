@@ -7,7 +7,8 @@
 @use '@anglr/datetime/styles' as datetime;
 @use '@anglr/grid/styles' as grid;
 
-@use './themeColors';
+@use 'themeColors';
+@use '../animations' as animations;
 
 $fontSize: 14px !default;
 $theme: () !default;
@@ -16,21 +17,28 @@ $themeName: null !default;
 $dateTimeTheme: null !default;
 $anglrCommonTheme: null !default;
 $gridTheme: null !default;
+$hljs: null !default;
 
 //---------------------- PAGE STYLING ----------------------
 .app-page.#{$themeName}
 {
     //############## FLUID FONT ##############
 
-    @include mixins.fluid-type(vars.$rootMinFontSizeWidth, vars.$rootMaxFontSizeWidth, vars.$rootMinFontSize, $fontSize);
+    @include mixins.fluid-type(768px, 1024px, 12px, $fontSize);
 
-    //############## SIZES ##############
+    //############## SIZES AND COMMON ##############
 
-    @include mixins.buildSizes(mixins.strip-unit($fontSize));
+    @include mixins.buildSizes($fontSize, vars.$sizes);
+    @include mixins.buildFontSizeCss($fontSize, vars.$fontSizes);
+    @include mixins.buildFixedSizes($fontSize);
+    @include mixins.buildGapsCss($fontSize, vars.$sizes);
+    @include mixins.buildBorderRadiusCss($fontSize, vars.$sizes);
+    @include mixins.buildPaddingCss($fontSize, vars.$sizes);
+    @include mixins.buildMarginCss($fontSize, vars.$sizes);
 
     //############## THEME ##############
 
-    @include themes.buildThemeColors($theme);
+    @include themes.buildThemeVars($theme);
 
     //############## APP THEME ##############
 
@@ -46,5 +54,10 @@ $gridTheme: null !default;
 
     //############## EXTERNALS ##############
 
-    @include meta.load-css("highlight.js/styles/vs.css");
+    @include meta.load-css("highlight.js/styles/#{$hljs}.css");
+
+    //############## ANIMATIONS ##############
+
+    @include animations.css;
+    @include themes.provideAllAnimations;
 }

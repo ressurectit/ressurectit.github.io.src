@@ -22,28 +22,21 @@ import version from '../../config/version.json';
     selector: 'app',
     templateUrl: 'app.component.html',
     styleUrl: 'app.component.scss',
-    standalone: true,
     imports:
     [
         RouterOutlet,
-        InternalServerErrorSAComponent,
+        InternalServerErrorComponent,
         ProgressIndicatorModule,
         NotificationsGlobalModule,
-        ConsoleSAComponent,
+        ConsoleComponent,
         HotkeysCheatsheetComponent,
     ],    
     providers: [AppHotkeysService],
-    animations: [consoleAnimationTrigger],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements AfterViewInit, OnDestroy
 {
     //######################### private fields #########################
-
-    /**
-     * Subscription for router outlet activation changes
-     */
-    private _routerOutletActivatedSubscription: Subscription|undefined|null;
 
     /**
      * Subscription for changes of general settings
@@ -68,37 +61,15 @@ export class AppComponent implements AfterViewInit, OnDestroy
     public consoleVisible: WritableSignal<boolean> = signal(false);
 
     /**
-     * Name of state for routed component animation
-     */
-    public routeComponentState: string = 'none';
-
-    /**
      * Current version of gui
      */
     public guiVersion: string = version.version;
-
-    /**
-     * Version of server
-     */
-    public serverVersion: string = '';
-
-    /**
-     * Name of server
-     */
-    public serverName: string = '';
 
     /**
      * Indication whether is application initialized
      */
     public initialized: boolean = false;
 
-    //######################### public properties - children #########################
-
-    /**
-     * Router outlet that is used for loading routed components
-     */
-    @ViewChild('outlet')
-    public routerOutlet: RouterOutlet|undefined|null;
 
     //######################### constructor #########################
     constructor(translateSvc: TranslateService,
@@ -146,21 +117,6 @@ export class AppComponent implements AfterViewInit, OnDestroy
         }
     }
 
-    //######################### public methods - implementation of AfterViewInit #########################
-
-    /**
-     * Called when view was initialized
-     */
-    public ngAfterViewInit(): void
-    {
-        this._routerOutletActivatedSubscription = this.routerOutlet?.activateEvents.subscribe(() =>
-        {
-            this.routeComponentState = this.routerOutlet?.activatedRouteData['animation'] || (<any>this.routerOutlet?.activatedRoute.component).name;
-        });
-
-        this.initialized = true;
-    }
-
     //######################### public methods - implementation of OnDestroy #########################
 
     /**
@@ -168,27 +124,10 @@ export class AppComponent implements AfterViewInit, OnDestroy
      */
     public ngOnDestroy(): void
     {
-        this._routerOutletActivatedSubscription?.unsubscribe();
-        this._routerOutletActivatedSubscription = null;
-
         this._settingsChangeSubscription?.unsubscribe();
         this._settingsDebuggingChangeSubscription?.unsubscribe();
 
         this._appHotkeys.destroy();
-    }
-
-    //######################### protected methods - template bindings #########################
-
-    /**
-     * Shows user settings
-     */
-    protected showUserSettings(): void
-    {
-        // this._dialog.open(UserSettingsComponent,
-        // {
-        //     title: 'User Settings',
-        //     width: '35vw'
-        // });
     }
 
     //######################### private methods #########################

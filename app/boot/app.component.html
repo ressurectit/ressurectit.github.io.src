@@ -3,15 +3,15 @@
 <global-notifications class="fullscreen"/>
 <hotkeys-cheatsheet class="fullscreen"/>
 
-<div class="fullscreen grid-subgrid">
-    <router-outlet/>
+<div class="full page-content page">
+    <router-outlet class="hidden"/>
 </div>
 
 <div class="page-footer extra-small-text text-center">GUI version: {{guiVersion}}</div>
 
 @if(consoleVisible())
 {
-    <console class="fullscreen" @consoleAnimation/>
+    <console class="fullscreen"/>
 }
 
 <!-- @if(!initialized)

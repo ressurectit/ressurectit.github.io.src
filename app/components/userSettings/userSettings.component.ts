@@ -1,11 +1,10 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {FormGroup, FormBuilder, ReactiveFormsModule} from '@angular/forms';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {DebugDataEnabledService, LogLevel} from '@anglr/common';
+import {FormGroup, FormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {DebugDataEnabledService, LocalizePipe, LogLevel} from '@anglr/common';
 import {AuthorizeDirective} from '@anglr/authentication';
 import {NgSelectModule} from '@anglr/select';
 import {ValueNamePair} from '@jscrpt/common';
-import {TranslateModule} from '@ngx-translate/core';
 
 import {config, SettingsGeneral, SettingsDebug, LanguageDef} from '../../config';
 import {SettingsService} from '../../services/settings';
@@ -28,7 +27,7 @@ enum UserSettingsSections
     /**
      * Debugging settings
      */
-    Debugging
+    Debugging,
 }
 
 interface SettingsLoggingEnum
@@ -47,18 +46,17 @@ interface SettingsLoggingEnum
     selector: 'user-settings',
     templateUrl: 'userSettings.component.html',
     styleUrl: 'userSettings.component.scss',
-    standalone: true,
     imports:
     [
-        TranslateModule,
+        LocalizePipe,
+        NgSelectModule,
         AuthorizeDirective,
         ReactiveFormsModule,
-        NgSelectModule,
         MatSlideToggleModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserSettingsSAComponent
+export class UserSettingsComponent
 {
     //######################### public properties - template bindings #########################
 

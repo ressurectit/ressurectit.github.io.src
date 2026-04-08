@@ -9,6 +9,7 @@ import yargs from 'yargs/yargs';
 import {hideBin} from 'yargs/helpers';
 import {extendConnectUse} from 'nodejs-connect-extensions';
 import dotenv from 'dotenv';
+import mime from 'mime-types';
 
 async function run()
 {
@@ -49,11 +50,11 @@ async function run()
     
     function error(err, req, res)
     {
-        if(err.code == "ECONNREFUSED" || err.code == "ECONNRESET")
+        if(err.code == 'ECONNREFUSED' || err.code == 'ECONNRESET')
         {
-            res.writeHead(503,
+            res.writeHead?.(503,
             {
-                'Content-Type': 'text/plain'
+                'Content-Type': 'text/plain',
             });
     
             res.end('Remote server is offline.');
@@ -61,17 +62,17 @@ async function run()
             return;
         }
     
-        res.writeHead(504,
+        res.writeHead?.(504,
         {
-            'Content-Type': 'text/plain'
+            'Content-Type': 'text/plain',
         });
     
         res.end('Failed to proxy request.');
     }
     
     //proxy special requests to other location
-    server.use(createProxyMiddleware(['/api'],
-                                     {
+    server.use(createProxyMiddleware({
+                                         pathFilter: ['/api'],
                                          target: proxyUrl,
                                          ws: true,
                                          secure: false,
@@ -86,12 +87,13 @@ async function run()
     server.set('views', wwwroot);
     
     // Serve static files from /browser
-    server.get('*.*', express.static(wwwroot, 
+    server.use(express.static(wwwroot,
     {
         maxAge: '1y',
         setHeaders: (res, path) => 
         {
-            if (express.static.mime.lookup(path) === 'text/html') 
+            if (mime.lookup(path) === 'text/html' ||
+                path.indexOf('configBrowserOverride') >= 0) 
             {
                 // Skip cache on html to load new builds.
                 res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -101,7 +103,6 @@ async function run()
         }
     }));
 
-    
     if(fs.existsSync(serverPath) && !argv.devPort)
     {
         const {applyServerSideRendering} = await import('./wwwroot/server/server.mjs');
@@ -110,14 +111,35 @@ async function run()
     }
     else
     {
-        server.get('/*', (_, res) => res.sendFile(indexHtml));
+        server.use((_, res) =>
+        {
+            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+            res.setHeader('Expires', '-1');
+            res.setHeader('Pragma', 'no-cache');
+
+            return res.sendFile(indexHtml);
+        });
     }
     
     //create node.js http server and listen on port
-    server.listen(port, () =>
+    const runningServer = server.listen(port, () =>
     {
         console.log(`Listening on port ${port} => http://localhost:${port}`);
     });
+
+    process.on('SIGINT', shutdown);
+
+    // Do graceful shutdown
+    function shutdown()
+    {
+        console.log('Shutting down server!');
+
+        runningServer.close(() =>
+        {
+            console.log('Server has stopped, closing application');
+            process.exit();
+        });
+    }
 }
 
 run();

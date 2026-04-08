@@ -41,11 +41,12 @@
                             "mousetrap",
                             "extend",
                             "sourcemapped-stacktrace",
-                            "marked",
-                            "highlight.js",
                             "store",
-                            "store/plugins/expire",
-                            "store/storages/sessionStorage"
+                            "dayjs",
+                            "@braintree/sanitize-url",
+                            "dompurify",
+                            "elkjs",
+                            "cytoscape-cose-bilkent"
                         ],
                         "scripts":
                         [
@@ -54,7 +55,11 @@
                                 "bundleName": "configBrowserOverride"
                             }
                         ],
-                        "serviceWorker": false
+                        "serviceWorker": false,
+                        "security": 
+                        {
+                            "autoCsp": false
+                        }
                     },
                     "configurations":
                     {
@@ -69,8 +74,8 @@
                             [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "1mb",
-                                    "maximumError": "2mb"
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "4mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
