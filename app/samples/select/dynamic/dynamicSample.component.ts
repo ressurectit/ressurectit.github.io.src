@@ -1,11 +1,24 @@
-import {Component, ChangeDetectionStrategy, effect} from '@angular/core';
+import {Component, ChangeDetectionStrategy, effect, Signal, viewChild, signal} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {CodeOptionsGatherer, DynamicValueHandler, DynamicValueHandlerOptions, FilterLiveSearch, Select, SelectOptions} from '@anglr/select';
+import {CodeOptionsGatherer, DynamicValueHandler, DynamicValueHandlerOptions, FilterLiveSearch, Select, SelectFunction, SelectOption, SelectOptions, SelectPluginType} from '@anglr/select';
 import {RecursivePartial} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {DataService} from '../../../services/api/data';
+
+/**
+ * Gets current search value of Select (LiveSearch plugin), its reactive
+ */
+export function getSearch<TValue, TCssClasses>(): SelectFunction<string, TValue, TCssClasses>
+{
+    return select =>
+    {
+        const liveSearch = select.getPlugin(SelectPluginType.LiveSearch);
+
+        return liveSearch.search();
+    };
+}
 
 /**
  * Dynamic sample for select component
@@ -29,6 +42,13 @@ import {DataService} from '../../../services/api/data';
 })
 export class DynamicSampleComponent
 {
+    //######################### protected fields #########################
+
+    /**
+     * Options gatherer used for select options, allows to dynamically change options of select
+     */
+    protected optionsGatherer: CodeOptionsGatherer<string> = new CodeOptionsGatherer<string>();
+
     //######################### protected properties - template bindings #########################
 
     /**
@@ -40,6 +60,13 @@ export class DynamicSampleComponent
      * Control bound to select
      */
     protected selectControl: FormControl<string|null> = new FormControl(null);
+
+    //######################### protected properties - children #########################
+
+    /**
+     * Instance of select
+     */
+    protected select: Signal<Select<string>> = viewChild.required<Select<string>>('select');
 
     //######################### constructor #########################
     constructor(dataSvc: DataService)
@@ -60,29 +87,32 @@ export class DynamicSampleComponent
                     },
                 },
             },
-            optionsGatherer: new CodeOptionsGatherer<string>(),
+            optionsGatherer: this.optionsGatherer,
         };
 
         effect(async () =>
         {
-            const search = this
+            const search = this.select().executeAndReturn(getSearch());
 
-            const result = await lastValueFrom(this._dataSvc
-            .getCis(value));
+            const result = await lastValueFrom(dataSvc
+                .getCis(search));
 
-        if(!result || !result.content || !result.content.length)
-        {
-            return [];
-        }
-
-        return result.content.map(itm =>
-        {
-            return <NgSelectOption<string>>
+            if(!result?.content?.length)
             {
-                value: itm.kod,
-                text: itm.popis
-            };
-        });
+                this.optionsGatherer.setAvailableOptions([]);
+
+                return;
+            }
+
+            this.optionsGatherer.setAvailableOptions(result.content.map(itm =>
+            {
+                return <SelectOption<string>>
+                {
+                    value: signal(itm.kod),
+                    text: signal(itm.popis),
+                    group: signal(null),
+                };
+            }));
         });
     }
 }

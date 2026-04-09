@@ -1,5 +1,6 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {SimpleNormalState, ReadonlyStateOptions, SelectPlugin, ReadonlyState} from '@anglr/select';
+import {SimpleNormalState, ReadonlyState, DisplayValue} from '@anglr/select';
+import {LocalizePipe} from '@anglr/common';
 
 /**
  * Custom readonly state component
@@ -10,9 +11,11 @@ import {SimpleNormalState, ReadonlyStateOptions, SelectPlugin, ReadonlyState} fr
     templateUrl: 'customReadonlyState.component.html',
     imports:
     [
+        DisplayValue,
+        LocalizePipe,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CustomReadonlyStateComponent extends SimpleNormalState implements ReadonlyState, SelectPlugin<ReadonlyStateOptions>
+export class CustomReadonlyStateComponent<TValue = unknown> extends SimpleNormalState<TValue> implements ReadonlyState<TValue>
 {
 }

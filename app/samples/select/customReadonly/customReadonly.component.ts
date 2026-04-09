@@ -13,8 +13,8 @@ import {CustomReadonlySampleComponent} from './customReadonlySample.component';
     templateUrl: 'customReadonly.component.html',
     imports:
     [
-        SamplesFeatureModule,
         AsyncPipe,
+        SamplesFeatureModule,
         CustomReadonlySampleComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush

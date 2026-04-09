@@ -7,6 +7,6 @@
     <ng-option value="fourth" text="Fourth value text"/>
     <ng-option value="fifth" text="Fifth value text"/>
 
-    <ng-template #normalStateTemplate let-normalState>{{normalState?.valueHandler?.selectedOptions?.value}} => {{normalState?.valueHandler?.selectedOptions | ngSelectValue: normalState?.texts?.nothingSelected}}</ng-template>
-    <ng-template #optionTemplate let-option>{{option?.value}} - {{option?.text}}</ng-template>
+    <span *normalStateTemplate="let normalState">=&gt; {{normalState.selectBus.selectedOptions() | displayValue}} &lt;=</span>
+    <span *optionTemplate="let option">{{option.value()}} - {{option.text()}}</span>
 </ng-select>

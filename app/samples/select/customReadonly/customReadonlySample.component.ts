@@ -5,6 +5,7 @@ import {Option, Select, SelectOptions} from '@anglr/select';
 import {RecursivePartial} from '@jscrpt/common';
 
 import {KodPopisValue} from '../../../misc/types';
+import {CustomReadonlyStateComponent} from './customReadonlyState.component';
 
 /**
  * Custom readonly sample for select component
@@ -44,15 +45,15 @@ export class CustomReadonlySampleComponent
     //######################### constructor #########################
     constructor()
     {
-    //     this.selectOptions =
-    //     {
-    //         plugins:
-    //         {
-    //             readonlyState:
-    //             {
-    //                 type: CustomReadonlyStateComponent,
-    //             }
-    //         }
-    //     };
+        this.selectOptions =
+        {
+            plugins:
+            {
+                readonlyState:
+                {
+                    type: CustomReadonlyStateComponent,
+                },
+            },
+        };
     }
 }

@@ -36,17 +36,17 @@ export class ExternalSourceDirective
     /**
      * If this is not empty, empty value with this text will be added
      */
-    public emptyValueText: InputSignal<string|undefined> = input<string|undefined>(undefined);
+    public emptyValueText: InputSignal<string|boolean|undefined> = input<string|boolean|undefined>(undefined);
 
     /**
      * Indication that use codes also for description of value
      */
-    public onlyCodes: InputSignalWithTransform<boolean|undefined, boolean|undefined> = input<boolean|undefined, boolean|undefined>(undefined, {transform: booleanAttribute});
+    public onlyCodes: InputSignalWithTransform<boolean|undefined, string|boolean|undefined> = input<boolean|undefined, string|boolean|undefined>(undefined, {transform: booleanAttribute});
 
     /**
      * Indication that use texts also for value
      */
-    public onlyTexts: InputSignalWithTransform<boolean|undefined, boolean|undefined> = input<boolean|undefined, boolean|undefined>(undefined, {transform: booleanAttribute});
+    public onlyTexts: InputSignalWithTransform<boolean|undefined, string|boolean|undefined> = input<boolean|undefined, string|boolean|undefined>(undefined, {transform: booleanAttribute});
 
     //######################### constructor #########################
     constructor(enums: DataService,
