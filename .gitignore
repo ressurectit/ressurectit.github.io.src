@@ -2,6 +2,7 @@
 node_modules/
 wwwroot/
 packages/
+content/content
 **/mockLogger/mocks/
 **/config/version.json
 **/config/config.*.json

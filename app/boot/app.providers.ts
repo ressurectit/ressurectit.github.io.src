@@ -20,6 +20,7 @@ import {DATE_API} from '@anglr/datetime';
 import {DateFnsDateApi, DateFnsLocale, DATE_FNS_DATE_API_OBJECT_TYPE, DATE_FNS_FORMAT_PROVIDER, DATE_FNS_LOCALE} from '@anglr/datetime/date-fns';
 import {LoggerMiddleware, provideRestMethodMiddlewares, ReportProgressMiddleware, ResponseTypeMiddleware, RestMiddlewareType} from '@anglr/rest';
 import {assetsPathPrefixExtension, GfmHeadingIdExtension, IncludeMarkdownExtension, provideMarkdownRendererExtensions} from '@anglr/md-help';
+import {CommonPositionerOptions, providePositionerOptions} from '@anglr/select';
 import {baseUrlExtension} from '@anglr/md-help/baseurl';
 import {HighlightJsExtension} from '@anglr/md-help/highlightjs';
 import {MermaidExtension} from '@anglr/md-help/mermaid';
@@ -135,28 +136,28 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         {
             loading: 'Nahrávam dáta ...',
             noData: 'Neboli nájdené dáta odpovedajúce zadaným parametrom',
-            notLoaded: 'Neboli načítané žiadne dáta zatiaľ'
+            notLoaded: 'Neboli načítané žiadne dáta zatiaľ',
         }
     }),
     providePagingOptions<BasicPagingOptions>(
     {
         itemsPerPageValues: [15, 30, 60],
-        initialItemsPerPage: 15
+        initialItemsPerPage: 15,
     }),
     provideMetadataSelectorOptions<DialogMetadataSelectorOptions>(
     {
-        showButtonVisible: false
+        showButtonVisible: false,
     }),
     provideGridInitializerOptions<QueryPermanentStorageGridInitializerOptions>(
     {
-        storageIppName: 'all-grid-ipp'
+        storageIppName: 'all-grid-ipp',
     }),
     provideContentRendererOptions<TableContentRendererOptions>(
     {
         cssClasses:
         {
-            containerDiv: 'table-container thin-scrollbar'
-        }
+            containerDiv: 'table-container thin-scrollbar',
+        },
     }),
     <ValueProvider>
     {
@@ -166,9 +167,15 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
             cssClasses:
             {
                 thDefault: 'header-default fixed-header',
-            }
-        }
+            },
+        },
     },
+
+    //######################### SELECT GLOBAL OPTIONS #########################
+    providePositionerOptions<CommonPositionerOptions>(
+    {
+        zIndex: 1,
+    }),
 
     //######################### STRING LOCALIZATION #########################
     provideStringLocalization(NgxTranslateStringLocalizationService),
