@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {DisplayValue, NormalStateTemplate, Option, OptionTemplate, Select} from '@anglr/select';
+import {DisplayValue, NormalStateTemplate, Option, OptionTemplate, Select, SelectControlValueAccessor} from '@anglr/select';
 
 /**
  * Custom template sample for select component
@@ -18,6 +18,7 @@ import {DisplayValue, NormalStateTemplate, Option, OptionTemplate, Select} from 
     OptionTemplate,
     NormalStateTemplate,
     ReactiveFormsModule,
+    SelectControlValueAccessor,
 ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

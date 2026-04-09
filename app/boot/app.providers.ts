@@ -1,5 +1,4 @@
 import {FactoryProvider, ClassProvider, ValueProvider, Provider, ExistingProvider, EnvironmentProviders, inject, importProvidersFrom, provideAppInitializer} from '@angular/core';
-import {provideClientHydration} from '@angular/platform-browser';
 import {provideHttpClient, withInterceptors} from '@angular/common/http';
 import {provideRouter, withComponentInputBinding, withHashLocation} from '@angular/router';
 import {MatDialogModule} from '@angular/material/dialog';
@@ -38,6 +37,7 @@ import {AccountAuthOptions} from '../services/api/account/accountAuth.options';
 import {ReportMissingTranslationService} from '../services/missingTranslation';
 import {VersionUpdateService} from '../services/versionUpdate';
 import {StaticBuildTranslateLoaderService} from '../services/staticBuildTranslateLoader';
+import {IncludeSampleExtension} from '../misc/markdownExtensions';
 
 /**
  * Array of providers that are used in app module
@@ -48,9 +48,6 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideRouter(routes,
                   withComponentInputBinding(),
                   withHashLocation(),),
-
-    //######################### CLIENT HYDRATION #########################
-    provideClientHydration(),
 
     //######################### HTTP CLIENT #########################
     provideHttpClient(withInterceptors(
@@ -304,7 +301,8 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
                                       baseUrlExtension('pomoc/'),
                                       MermaidExtension,
                                       assetsPathPrefixExtension('md'),
-                                      IncludeMarkdownExtension,),
+                                      IncludeMarkdownExtension,
+                                      IncludeSampleExtension,),
 
     //######################### REST CONFIG #########################
     provideRestDateTime(),

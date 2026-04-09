@@ -1,24 +1,12 @@
 import {Component, ChangeDetectionStrategy, effect, Signal, viewChild, signal} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {CodeOptionsGatherer, DynamicValueHandler, DynamicValueHandlerOptions, FilterLiveSearch, Select, SelectFunction, SelectOption, SelectOptions, SelectPluginType} from '@anglr/select';
+import {CodeOptionsGatherer, DynamicValueHandler, DynamicValueHandlerOptions, FilterLiveSearch, Select, SelectControlValueAccessor, SelectOption, SelectOptions} from '@anglr/select';
+import {getSearch} from '@anglr/select/extensions';
 import {RecursivePartial} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {DataService} from '../../../services/api/data';
-
-/**
- * Gets current search value of Select (LiveSearch plugin), its reactive
- */
-export function getSearch<TValue, TCssClasses>(): SelectFunction<string, TValue, TCssClasses>
-{
-    return select =>
-    {
-        const liveSearch = select.getPlugin(SelectPluginType.LiveSearch);
-
-        return liveSearch.search();
-    };
-}
 
 /**
  * Dynamic sample for select component
@@ -32,7 +20,7 @@ export function getSearch<TValue, TCssClasses>(): SelectFunction<string, TValue,
         Select,
         JsonPipe,
         ReactiveFormsModule,
-
+        SelectControlValueAccessor,
     ],
     providers:
     [

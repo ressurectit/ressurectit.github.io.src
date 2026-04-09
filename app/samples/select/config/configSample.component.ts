@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {Option, provideSelectOptions, Select, SelectOptions} from '@anglr/select';
+import {Option, provideSelectOptions, Select, SelectControlValueAccessor, SelectOptions} from '@anglr/select';
 import {RecursivePartial} from '@jscrpt/common';
 
 import {KodPopisValue} from '../../../misc/types';
@@ -19,6 +19,7 @@ import {KodPopisValue} from '../../../misc/types';
         Option,
         JsonPipe,
         ReactiveFormsModule,
+        SelectControlValueAccessor,
     ],
     providers:
     [

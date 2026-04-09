@@ -17,37 +17,37 @@ async function run()
     const server = express();
 
     server.use(compression());
-    
+
     dotenv.config();
-    
+
     extendConnectUse(server);
-    
+
     const dirName = dirname(fileURLToPath(import.meta.url));
     const wwwroot = path.join(dirName, 'wwwroot', 'browser');
     const indexHtml = path.join(wwwroot, 'index.html')
     const serverPath = path.join(dirName, 'wwwroot', 'server', 'server.mjs');
     const proxyUrlFile = path.join(dirName, 'proxyUrl.js');
-    let proxyUrl = "http://127.0.0.1:8080";
+    let proxyUrl = 'http://127.0.0.1:8080';
     let port = process.env['PORT'] || 8888;
 
     if(fs.existsSync(proxyUrlFile))
     {
         proxyUrl = (await import('./proxyUrl.js')).default;
     }
-    
+
     if(process.env.SERVER_PROXY_HOST)
     {
         proxyUrl = process.env.SERVER_PROXY_HOST;
     }
-    
+
     console.log(`Using proxy url '${proxyUrl}'`);
-    
+
     //start with dev port
     if(!!argv.devPort)
     {
         port = 8880;
     }
-    
+
     function error(err, req, res)
     {
         if(err.code == 'ECONNREFUSED' || err.code == 'ECONNRESET')
@@ -56,20 +56,20 @@ async function run()
             {
                 'Content-Type': 'text/plain',
             });
-    
+
             res.end('Remote server is offline.');
-    
+
             return;
         }
-    
+
         res.writeHead?.(504,
         {
             'Content-Type': 'text/plain',
         });
-    
+
         res.end('Failed to proxy request.');
     }
-    
+
     //proxy special requests to other location
     server.use(createProxyMiddleware({
                                          pathFilter: ['/api'],
@@ -82,18 +82,19 @@ async function run()
                                              error,
                                          },
                                      }));
-    
+
     server.set('view engine', 'html');
     server.set('views', wwwroot);
-    
+
     // Serve static files from /browser
     server.use(express.static(wwwroot,
     {
         maxAge: '1y',
-        setHeaders: (res, path) => 
+        setHeaders: (res, path) =>
         {
             if (mime.lookup(path) === 'text/html' ||
-                path.indexOf('configBrowserOverride') >= 0) 
+                mime.lookup(path) === 'text/markdown' ||
+                path.indexOf('configBrowserOverride') >= 0)
             {
                 // Skip cache on html to load new builds.
                 res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -106,7 +107,7 @@ async function run()
     if(fs.existsSync(serverPath) && !argv.devPort)
     {
         const {applyServerSideRendering} = await import('./wwwroot/server/server.mjs');
-        
+
         applyServerSideRendering(server);
     }
     else
@@ -120,7 +121,7 @@ async function run()
             return res.sendFile(indexHtml);
         });
     }
-    
+
     //create node.js http server and listen on port
     const runningServer = server.listen(port, () =>
     {

@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, WritableSignal, signal} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {Option, Select} from '@anglr/select';
+import {Option, Select, SelectControlValueAccessor} from '@anglr/select';
 
 import {KodPopisValue} from '../../../misc/types';
 
@@ -18,6 +18,7 @@ import {KodPopisValue} from '../../../misc/types';
         Option,
         JsonPipe,
         ReactiveFormsModule,
+        SelectControlValueAccessor,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

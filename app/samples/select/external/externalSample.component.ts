@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {Select} from '@anglr/select';
+import {Select, SelectControlValueAccessor} from '@anglr/select';
 
 import {ExternalSourceDirective} from './externalSource.directive';
 
@@ -18,6 +18,7 @@ import {ExternalSourceDirective} from './externalSource.directive';
         JsonPipe,
         ReactiveFormsModule,
         ExternalSourceDirective,
+        SelectControlValueAccessor,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

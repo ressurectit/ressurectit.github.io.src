@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {Option, Select} from '@anglr/select';
+import {Option, Select, SelectControlValueAccessor} from '@anglr/select';
 
 /**
  * Multiple sample for select component
@@ -16,6 +16,7 @@ import {Option, Select} from '@anglr/select';
         Option,
         JsonPipe,
         ReactiveFormsModule,
+        SelectControlValueAccessor,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })

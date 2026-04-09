@@ -107,6 +107,31 @@ $orange-900: #c30e14;
 
 $defaultTheme:
 (
+    color:
+    (
+        primary: $blue-400,
+        primaryAlt: $blue-500,
+    ),
+    anchor:
+    (
+        foreground: $blue-700,
+        visited:
+        (
+            foreground: var(--anchor-foreground),
+        ),
+        active:
+        (
+            foreground: $green-600,
+        ),
+        hover:
+        (
+            foreground: var(--anchor-foreground),
+        ),
+        focus:
+        (
+            foreground: var(--anchor-active-foreground),
+        ),
+    ),
     page:
     (
         side:
@@ -116,6 +141,24 @@ $defaultTheme:
         content:
         (
             width: 1280px,
+        ),
+    ),
+    grid:
+    (
+        header:
+        (
+            background: $blue-700,
+            foreground: $white,
+        ),
+        evenRow:
+        (
+            background: $gray-100,
+            foreground: inherit,
+        ),
+        oddRow:
+        (
+            background: $gray-300,
+            foreground: inherit,
         ),
     ),
 );
