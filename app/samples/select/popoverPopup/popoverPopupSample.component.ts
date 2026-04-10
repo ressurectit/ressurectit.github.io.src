@@ -1,7 +1,8 @@
 import {Component, ChangeDetectionStrategy, signal} from '@angular/core';
 import {form, FormField} from '@angular/forms/signals';
 import {JsonPipe} from '@angular/common';
-import {Option, Select, SelectFormControl} from '@anglr/select';
+import {Option, PopoverPositioner, Select, SelectFormControl, SelectOptions} from '@anglr/select';
+import {RecursivePartial} from '@jscrpt/common';
 
 /**
  * Popover popup sample for select component
@@ -29,8 +30,23 @@ export class PopoverPopupSampleComponent
      */
     protected selectField = form(signal<string|null>(null));
 
+    /**
+     * Select options that are used for select initialization, popover popup
+     */
+    protected selectOptions: RecursivePartial<SelectOptions<string>>;
+
     //######################### constructor #########################
     constructor()
     {
+        this.selectOptions =
+        {
+            plugins:
+            {
+                positioner:
+                {
+                    type: PopoverPositioner,
+                },
+            },
+        };
     }
 }
