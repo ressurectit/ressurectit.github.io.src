@@ -44,6 +44,13 @@ export class LiveSearchSampleComponent
         {
             plugins:
             {
+                popup:
+                {
+                    options:
+                    {
+                        liveSearchEnabled: true,
+                    },
+                },
                 liveSearch:
                 {
                     type: FilterLiveSearch,

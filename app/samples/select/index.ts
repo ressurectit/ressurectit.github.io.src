@@ -10,4 +10,5 @@ export * from './external/external.component';
 export * from './formUsage/formUsage.component';
 export * from './liveSearch/liveSearch.component';
 export * from './multiple/multiple.component';
+export * from './popoverPopup/popoverPopup.component';
 export * from './readonly/readonly.component';

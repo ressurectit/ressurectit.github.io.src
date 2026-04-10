@@ -1,28 +1,26 @@
 import {Component, ChangeDetectionStrategy, signal} from '@angular/core';
-import {JsonPipe} from '@angular/common';
 import {form, FormField} from '@angular/forms/signals';
-import {Option, Select, SelectEdit, SelectFormControl, SelectMultipleKeepPopup} from '@anglr/select';
+import {JsonPipe} from '@angular/common';
+import {Option, Select, SelectFormControl} from '@anglr/select';
 
 /**
- * Edit sample for select component
+ * Popover popup sample for select component
  */
 @Component(
 {
-    selector: 'edit-sample',
-    templateUrl: 'editSample.component.html',
+    selector: 'popover-popup-sample',
+    templateUrl: 'popoverPopupSample.component.html',
     imports:
     [
         Select,
         Option,
         JsonPipe,
         FormField,
-        SelectEdit,
         SelectFormControl,
-        SelectMultipleKeepPopup,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EditSampleComponent
+export class PopoverPopupSampleComponent
 {
     //######################### protected properties - template bindings #########################
 
@@ -31,8 +29,8 @@ export class EditSampleComponent
      */
     protected selectField = form(signal<string|null>(null));
 
-    /**
-     * Field bound to multi select
-     */
-    protected selectMultipleField = form(signal<string[]|null>([]));
+    //######################### constructor #########################
+    constructor()
+    {
+    }
 }
