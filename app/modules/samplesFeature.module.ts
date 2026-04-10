@@ -12,15 +12,15 @@ import {AsSourcePipe} from '../pipes';
 {
     imports:
     [
-        SourceCodeComponent,
         AsSourcePipe,
+        SourceCodeComponent,
     ],
     exports:
     [
-        WikiFeatureModule,
-        SourceCodeComponent,
         AsSourcePipe,
         MatTabsModule,
+        WikiFeatureModule,
+        SourceCodeComponent,
     ],
 })
 export class SamplesFeatureModule

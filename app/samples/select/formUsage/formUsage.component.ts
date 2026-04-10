@@ -2,23 +2,23 @@ import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
 
 import {SamplesFeatureModule} from '../../../modules';
-import {BasicSampleComponent} from './basicSample.component';
+import {FormUsageSampleComponent} from './formUsageSample.component';
 
 /**
- * Basic sample for select component
+ * Form usage sample for select component
  */
 @Component(
 {
-    selector: 'basic-view',
-    templateUrl: 'basic.component.html',
+    selector: 'form-usage-view',
+    templateUrl: 'formUsage.component.html',
     imports:
     [
-        SamplesFeatureModule,
-        BasicSampleComponent,
         AsyncPipe,
+        SamplesFeatureModule,
+        FormUsageSampleComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicComponent
+export class FormUsageComponent
 {
 }

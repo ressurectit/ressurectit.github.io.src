@@ -1,24 +1,24 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
 
-import {BasicLazySampleComponent} from './basicLazySample.component';
 import {SamplesFeatureModule} from '../../../modules';
+import {BasicSampleComponent} from './basicSample.component';
 
 /**
- * Basic lazy sample for select component
+ * Basic sample for select component
  */
 @Component(
 {
-    selector: 'basic-lazy-view',
-    templateUrl: 'basicLazy.component.html',
+    selector: 'basic-view',
+    templateUrl: 'basic.component.html',
     imports:
     [
         AsyncPipe,
         SamplesFeatureModule,
-        BasicLazySampleComponent,
+        BasicSampleComponent,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicLazyComponent
+export class BasicComponent
 {
 }

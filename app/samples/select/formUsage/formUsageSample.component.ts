@@ -1,15 +1,15 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
 import {JsonPipe} from '@angular/common';
 import {Option, Select, SelectControlValueAccessor} from '@anglr/select';
 
 /**
- * Basic sample for select component
+ * Form usage sample for select component
  */
 @Component(
 {
-    selector: 'basic-sample',
-    templateUrl: 'basicSample.component.html',
+    selector: 'form-usage-sample',
+    templateUrl: 'formUsageSample.component.html',
     imports:
     [
         Select,
@@ -20,7 +20,7 @@ import {Option, Select, SelectControlValueAccessor} from '@anglr/select';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicSampleComponent
+export class FormUsageSampleComponent
 {
     //######################### protected properties - template bindings #########################
 
@@ -28,4 +28,10 @@ export class BasicSampleComponent
      * Control bound to select
      */
     protected selectControl: FormControl<string|null> = new FormControl(null);
+
+    //######################### constructor #########################
+    constructor(changeDetector: ChangeDetectorRef,)
+    {
+        this.selectControl.valueChanges.subscribe(() => changeDetector.markForCheck());
+    }
 }
