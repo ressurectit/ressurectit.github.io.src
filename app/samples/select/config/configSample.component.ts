@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, signal} from '@angular/core';
 import {JsonPipe} from '@angular/common';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {Option, provideSelectOptions, Select, SelectControlValueAccessor, SelectOptions} from '@anglr/select';
+import {form, FormField} from '@angular/forms/signals';
+import {Option, provideSelectOptions, Select, SelectFormControl, SelectOptions} from '@anglr/select';
 import {RecursivePartial} from '@jscrpt/common';
 
 import {KodPopisValue} from '../../../misc/types';
@@ -18,8 +18,8 @@ import {KodPopisValue} from '../../../misc/types';
         Select,
         Option,
         JsonPipe,
-        ReactiveFormsModule,
-        SelectControlValueAccessor,
+        FormField,
+        SelectFormControl,
     ],
     providers:
     [
@@ -35,9 +35,9 @@ export class ConfigSampleComponent
     //######################### protected properties - template bindings #########################
 
     /**
-     * Control bound to select
+     * Field bound to select
      */
-    protected selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectField = form(signal<string|null>(null));
 
     /**
      * Select options that are used for select initialization, live search

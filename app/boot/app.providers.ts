@@ -305,7 +305,7 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     //######################### MARKDOWN #########################
     provideMarkdownRendererExtensions(GfmHeadingIdExtension,
                                       HighlightJsExtension,
-                                      baseUrlExtension('pomoc/'),
+                                      baseUrlExtension('/'),
                                       MermaidExtension,
                                       assetsPathPrefixExtension('md'),
                                       IncludeMarkdownExtension,

@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, signal} from '@angular/core';
 import {JsonPipe} from '@angular/common';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {DisplayValue, NormalStateTemplate, Option, OptionTemplate, Select, SelectControlValueAccessor} from '@anglr/select';
+import {form, FormField} from '@angular/forms/signals';
+import {DisplayValue, NormalStateTemplate, Option, OptionTemplate, Select, SelectFormControl} from '@anglr/select';
 
 /**
  * Custom template sample for select component
@@ -10,16 +10,17 @@ import {DisplayValue, NormalStateTemplate, Option, OptionTemplate, Select, Selec
 {
     selector: 'custom-template-sample',
     templateUrl: 'customTemplateSample.component.html',
-    imports: [
-    Select,
-    Option,
-    JsonPipe,
-    DisplayValue,
-    OptionTemplate,
-    NormalStateTemplate,
-    ReactiveFormsModule,
-    SelectControlValueAccessor,
-],
+    imports:
+    [
+        Select,
+        Option,
+        JsonPipe,
+        FormField,
+        DisplayValue,
+        OptionTemplate,
+        SelectFormControl,
+        NormalStateTemplate,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CustomTemplateSampleComponent
@@ -27,7 +28,7 @@ export class CustomTemplateSampleComponent
     //######################### protected properties - template bindings #########################
 
     /**
-     * Control bound to select
+     * Field bound to select
      */
-    protected selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectField = form(signal<string|null>(null));
 }

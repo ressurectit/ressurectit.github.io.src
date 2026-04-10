@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {Component, ChangeDetectionStrategy, signal} from '@angular/core';
+import {form, FormField} from '@angular/forms/signals';
 import {JsonPipe} from '@angular/common';
-import {Select, Option, SelectControlValueAccessor, SelectAbsolute} from '@anglr/select';
+import {Select, Option, SelectAbsolute, SelectFormControl} from '@anglr/select';
 
 /**
  * Absolute sample for select component
@@ -15,9 +15,9 @@ import {Select, Option, SelectControlValueAccessor, SelectAbsolute} from '@anglr
         Select,
         Option,
         JsonPipe,
+        FormField,
         SelectAbsolute,
-        ReactiveFormsModule,
-        SelectControlValueAccessor,
+        SelectFormControl,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -26,7 +26,7 @@ export class AbsoluteSampleComponent
     //######################### protected properties - template bindings #########################
 
     /**
-     * Control bound to select
+     * Field bound to select
      */
-    protected selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectField = form(signal<string|null>(null));
 }

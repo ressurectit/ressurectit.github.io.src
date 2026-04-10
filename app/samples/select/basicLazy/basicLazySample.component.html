@@ -1,6 +1,6 @@
-<div>Value: {{selectControl.value | json}}</div>
+<div>Value: {{selectField().value() | json}}</div>
 
-<ng-select [formControl]="selectControl">
+<ng-select [formField]="selectField">
     @for(option of lazyOptions(); track option)
     {
         <ng-option [value]="option.kod" [text]="option.popis"/>

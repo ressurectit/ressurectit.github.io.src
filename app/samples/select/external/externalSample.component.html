@@ -1,13 +1,13 @@
-<div>Value: {{selectControl.value | json}}</div>
+<div>Value: {{selectField().value() | json}}</div>
 
 <div class="bold margin-top-small">Standard enum</div>
 
-<ng-select [formControl]="selectControl" external="cis"/>
+<ng-select [formField]="selectField" external="cis"/>
 
 <div class="bold margin-top-small">Only codes enum</div>
 
-<ng-select [formControl]="selectControl" external="cis" onlyCodes/>
+<ng-select [formField]="selectField" external="cis" onlyCodes/>
 
 <div class="bold margin-top-small">Only texts enum</div>
 
-<ng-select [formControl]="selectControl" external="cis" onlyTexts/>
+<ng-select [formField]="selectField" external="cis" onlyTexts/>

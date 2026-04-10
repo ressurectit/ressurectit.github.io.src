@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {Component, ChangeDetectionStrategy, signal, WritableSignal} from '@angular/core';
 import {JsonPipe} from '@angular/common';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {Option, Select, SelectControlValueAccessor, SelectOptions} from '@anglr/select';
+import {form, FormField, readonly} from '@angular/forms/signals';
+import {Option, Select, SelectFormControl, SelectOptions} from '@anglr/select';
 import {RecursivePartial} from '@jscrpt/common';
 
 import {KodPopisValue} from '../../../misc/types';
@@ -19,8 +19,8 @@ import {CustomReadonlyStateComponent} from './customReadonlyState.component';
         Select,
         Option,
         JsonPipe,
-        ReactiveFormsModule,
-        SelectControlValueAccessor,
+        FormField,
+        SelectFormControl,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -29,14 +29,14 @@ export class CustomReadonlySampleComponent
     //######################### protected properties - template bindings #########################
 
     /**
-     * Control bound to select
+     * Field bound to select
      */
-    protected selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectField = form(signal<string|null>(null), path => readonly(path, () => this.readonly()));
 
     /**
      * Indication whether is NgSelect readonly
      */
-    protected readonly: boolean = false;
+    protected readonly: WritableSignal<boolean> = signal(false);
 
     /**
      * Select options that are used for select initialization

@@ -7,6 +7,7 @@ export * from './customTemplate/customTemplate.component';
 export * from './dynamic/dynamic.component';
 export * from './edit/edit.component';
 export * from './external/external.component';
+export * from './formUsage/formUsage.component';
 export * from './liveSearch/liveSearch.component';
 export * from './multiple/multiple.component';
 export * from './readonly/readonly.component';

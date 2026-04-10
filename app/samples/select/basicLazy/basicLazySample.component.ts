@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, WritableSignal, signal} from '@angular/core';
 import {JsonPipe} from '@angular/common';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {Option, Select, SelectControlValueAccessor} from '@anglr/select';
+import {form, FormField} from '@angular/forms/signals';
+import {Option, Select, SelectFormControl} from '@anglr/select';
 
 import {KodPopisValue} from '../../../misc/types';
 
@@ -17,8 +17,8 @@ import {KodPopisValue} from '../../../misc/types';
         Select,
         Option,
         JsonPipe,
-        ReactiveFormsModule,
-        SelectControlValueAccessor,
+        FormField,
+        SelectFormControl,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -27,9 +27,9 @@ export class BasicLazySampleComponent
     //######################### protected properties - template bindings #########################
 
     /**
-     * Control bound to select
+     * Field bound to select
      */
-    protected selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectField = form(signal<string|null>(null));
 
     /**
      * Array of lazy options

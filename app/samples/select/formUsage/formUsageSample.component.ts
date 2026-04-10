@@ -1,7 +1,8 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {Component, ChangeDetectionStrategy, ChangeDetectorRef, signal} from '@angular/core';
 import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {form, FormField} from '@angular/forms/signals';
 import {JsonPipe} from '@angular/common';
-import {Option, Select, SelectControlValueAccessor} from '@anglr/select';
+import {Option, Select, SelectControlValueAccessor, SelectFormControl} from '@anglr/select';
 
 /**
  * Form usage sample for select component
@@ -15,6 +16,8 @@ import {Option, Select, SelectControlValueAccessor} from '@anglr/select';
         Select,
         Option,
         JsonPipe,
+        FormField,
+        SelectFormControl,
         ReactiveFormsModule,
         SelectControlValueAccessor,
     ],
@@ -23,6 +26,11 @@ import {Option, Select, SelectControlValueAccessor} from '@anglr/select';
 export class FormUsageSampleComponent
 {
     //######################### protected properties - template bindings #########################
+
+    /**
+     * Field bound to select
+     */
+    protected selectField = form(signal<string|null>(null));
 
     /**
      * Control bound to select

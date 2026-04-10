@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, effect, Signal, viewChild, signal} from '@angular/core';
 import {JsonPipe} from '@angular/common';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
-import {CodeOptionsGatherer, DynamicValueHandler, DynamicValueHandlerOptions, FilterLiveSearch, Select, SelectControlValueAccessor, SelectOption, SelectOptions} from '@anglr/select';
+import {form, FormField} from '@angular/forms/signals';
+import {CodeOptionsGatherer, DynamicValueHandler, DynamicValueHandlerOptions, FilterLiveSearch, Select, SelectFormControl, SelectOption, SelectOptions} from '@anglr/select';
 import {getSearch} from '@anglr/select/extensions';
 import {RecursivePartial} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
@@ -19,8 +19,8 @@ import {DataService} from '../../../services/api/data';
     [
         Select,
         JsonPipe,
-        ReactiveFormsModule,
-        SelectControlValueAccessor,
+        FormField,
+        SelectFormControl,
     ],
     providers:
     [
@@ -45,9 +45,9 @@ export class DynamicSampleComponent
     protected selectOptions: RecursivePartial<SelectOptions<string>>;
 
     /**
-     * Control bound to select
+     * Field bound to select
      */
-    protected selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectField = form(signal<string|null>(null));
 
     //######################### protected properties - children #########################
 

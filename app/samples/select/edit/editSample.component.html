@@ -1,8 +1,8 @@
 <div class="flex-row">
     <div class="flex-1 margin-right-small">
-        <div>Value: {{selectControl.value | json}}</div>
+        <div>Value: {{selectField().value() | json}}</div>
 
-        <ng-select [formControl]="selectControl" editStyle>
+        <ng-select [formField]="selectField" editStyle>
             <ng-option value="first" text="First value text"/>
             <ng-option value="second" text="Second value text"/>
             <ng-option value="third" text="Third value text"/>
@@ -12,9 +12,9 @@
     </div>
 
     <div class="flex-1 margin-left-small">
-        <div>Value: {{selectMultipleControl.value | json}}</div>
+        <div>Value: {{selectMultipleField().value() | json}}</div>
 
-        <ng-select multiple [formControl]="selectMultipleControl" editStyle>
+        <ng-select multiple [formField]="selectMultipleField" editStyle>
             <ng-option value="first" text="First value text"/>
             <ng-option value="second" text="Second value text"/>
             <ng-option value="third" text="Third value text"/>
