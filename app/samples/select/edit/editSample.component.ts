@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, signal} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {form, FormField} from '@angular/forms/signals';
-import {Option, Select, SelectFormControl} from '@anglr/select';
+import {Option, Select, SelectEdit, SelectFormControl} from '@anglr/select';
 
 /**
  * Edit sample for select component
@@ -16,6 +16,7 @@ import {Option, Select, SelectFormControl} from '@anglr/select';
         Option,
         JsonPipe,
         FormField,
+        SelectEdit,
         SelectFormControl,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
