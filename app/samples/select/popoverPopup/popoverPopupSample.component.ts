@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, signal} from '@angular/core';
 import {form, FormField} from '@angular/forms/signals';
 import {JsonPipe} from '@angular/common';
-import {Option, PopoverPositioner, Select, SelectFormControl, SelectOptions} from '@anglr/select';
+import {Option, PopoverPositioner, PopoverPositionerOptions, Select, SelectFormControl, SelectOptions} from '@anglr/select';
 import {RecursivePartial} from '@jscrpt/common';
 
 /**
@@ -42,9 +42,20 @@ export class PopoverPopupSampleComponent
         {
             plugins:
             {
+                interactions:
+                {
+                    options:
+                    {
+                        handleClickOutside: false,
+                    },
+                },
                 positioner:
                 {
                     type: PopoverPositioner,
+                    options: <PopoverPositionerOptions>
+                    {
+                        popoverAuto: true,
+                    },
                 },
             },
         };

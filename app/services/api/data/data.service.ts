@@ -84,6 +84,21 @@ export class DataService extends RESTClient
     }
 
     /**
+     * Gets cis detail data
+     * @param kod Code string
+     */
+    public getCisDetail(kod: string): Observable<KodPopisValue|undefined|null>
+    {
+        return this.getCisData()
+            .pipe(map(data =>
+            {
+                const item = data.find(itm => itm.kod.toLowerCase() == kod.toLowerCase());
+
+                return item;
+            }));
+    }
+
+    /**
      * Gets data
      */
     @GET('data.json')
