@@ -1,7 +1,8 @@
-import {Component, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {Component, ChangeDetectionStrategy, signal} from '@angular/core';
+import {form, FormField} from '@angular/forms/signals';
 import {JsonPipe} from '@angular/common';
-import {Option, Select, SelectControlValueAccessor} from '@anglr/select';
+import {Option, Select, SelectEdit, SelectFormControl, SelectOptions} from '@anglr/select';
+import {RecursivePartial} from '@jscrpt/common';
 
 /**
  * Add new option sample for select component
@@ -15,8 +16,9 @@ import {Option, Select, SelectControlValueAccessor} from '@anglr/select';
         Select,
         Option,
         JsonPipe,
-        ReactiveFormsModule,
-        SelectControlValueAccessor,
+        FormField,
+        SelectEdit,
+        SelectFormControl,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -25,13 +27,37 @@ export class AddNewOptionSampleComponent
     //######################### protected properties - template bindings #########################
 
     /**
-     * Control bound to select
+     * Field bound to select
      */
-    protected selectControl: FormControl<string|null> = new FormControl(null);
+    protected selectField = form(signal<string|null>(null));
+
+    /**
+     * Select options that are used for select initialization, custom readonly
+     */
+    protected selectOptions: RecursivePartial<SelectOptions<string>>;
 
     //######################### constructor #########################
-    constructor(changeDetector: ChangeDetectorRef,)
+    constructor()
     {
-        this.selectControl.valueChanges.subscribe(() => changeDetector.markForCheck());
+        this.selectOptions =
+        {
+            plugins:
+            {
+                optionsHandler:
+                {
+                    options:
+                    {
+                        newOptionGetter: value =>
+                        {
+                            return {
+                                group: signal(null),
+                                text: signal(value),
+                                value: signal(value),
+                            };
+                        },
+                    },
+                },
+            },
+        };
     }
 }
