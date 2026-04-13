@@ -1,4 +1,5 @@
 export * from './absolute/absolute.component';
+export * from './addNewOption/addNewOption.component';
 export * from './basicLazy/basicLazy.component';
 export * from './basic/basic.component';
 export * from './cancelValue/cancelValue.component';

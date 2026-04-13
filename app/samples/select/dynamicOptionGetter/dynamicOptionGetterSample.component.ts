@@ -1,12 +1,18 @@
 import {Component, ChangeDetectionStrategy, effect, Signal, viewChild, signal} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {form, FormField} from '@angular/forms/signals';
-import {CodeOptionsGatherer, DynamicValueHandler, DynamicValueHandlerOptions, FilterLiveSearch, Select, SelectFormControl, SelectOption, SelectOptions} from '@anglr/select';
+import {CodeOptionsGatherer, DynamicValueHandler, DynamicValueHandlerOptions, FilterLiveSearch, Select, SelectFormControl, SelectOption, SelectOptions, ValueExtractorFunc} from '@anglr/select';
 import {getSearch} from '@anglr/select/extensions';
-import {RecursivePartial} from '@jscrpt/common';
+import {generateId, RecursivePartial} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {DataService} from '../../../services/api/data';
+
+interface ObjectValue
+{
+    kod: string;
+    randomId: string;
+}
 
 /**
  * Dynamic option getter sample for select component
@@ -35,32 +41,33 @@ export class DynamicOptionGetterSampleComponent
     /**
      * Options gatherer used for select options, allows to dynamically change options of select
      */
-    protected optionsGatherer: CodeOptionsGatherer<string> = new CodeOptionsGatherer<string>();
+    protected optionsGatherer: CodeOptionsGatherer<ObjectValue> = new CodeOptionsGatherer<ObjectValue>();
 
     //######################### protected properties - template bindings #########################
 
     /**
      * Select options that are used for select initialization, custom readonly
      */
-    protected selectOptions: RecursivePartial<SelectOptions<string>>;
+    protected selectOptions: RecursivePartial<SelectOptions<ObjectValue>>;
 
     /**
      * Field bound to select
      */
-    protected selectField = form(signal<string|null>(null));
+    protected selectField = form(signal<string|null>('59563320f6520e0001bfebe4'));
 
     //######################### protected properties - children #########################
 
     /**
      * Instance of select
      */
-    protected select: Signal<Select<string>> = viewChild.required<Select<string>>('select');
+    protected select: Signal<Select<ObjectValue, string>> = viewChild.required<Select<ObjectValue, string>>('select');
 
     //######################### constructor #########################
     constructor(dataSvc: DataService)
     {
         this.selectOptions =
         {
+            valueExtractor: <ValueExtractorFunc<ObjectValue, string>> (itm => itm.value()?.kod ?? ''),
             plugins:
             {
                 liveSearch:
@@ -70,8 +77,24 @@ export class DynamicOptionGetterSampleComponent
                 valueHandler:
                 {
                     type: DynamicValueHandler,
-                    options: <DynamicValueHandlerOptions<string>>
+                    options: <DynamicValueHandlerOptions<ObjectValue, string>>
                     {
+                        optionGetter: async value =>
+                        {
+                            const result = await lastValueFrom(dataSvc.getCisDetail(value));
+
+                            return result ?
+                                {
+                                    group: signal(null),
+                                    text: signal(result.popis),
+                                    value: signal(
+                                    {
+                                        kod: result.kod,
+                                        randomId: generateId(12),
+                                    }),
+                                } :
+                                null;
+                        },
                     },
                 },
             },
@@ -94,9 +117,13 @@ export class DynamicOptionGetterSampleComponent
 
             this.optionsGatherer.setAvailableOptions(result.content.map(itm =>
             {
-                return <SelectOption<string>>
+                return <SelectOption<ObjectValue>>
                 {
-                    value: signal(itm.kod),
+                    value: signal(
+                    {
+                        kod: itm.kod,
+                        randomId: generateId(12),
+                    }),
                     text: signal(itm.popis),
                     group: signal(null),
                 };
