@@ -16,3 +16,4 @@ export * from './liveSearch/liveSearch.component';
 export * from './multiple/multiple.component';
 export * from './popoverPopup/popoverPopup.component';
 export * from './readonly/readonly.component';
+export * from './styling/styling.component';

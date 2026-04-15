@@ -19,6 +19,6 @@ import {SamplesFeatureModule} from '../../../modules';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StylingViewComponent
+export class StylingComponent
 {
 }
