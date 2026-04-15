@@ -19,6 +19,7 @@ $dateTimeTheme: null !default;
 $anglrCommonTheme: null !default;
 $gridTheme: null !default;
 $selectTheme: null !default;
+$selectOverrideTheme: null !default;
 $hljs: null !default;
 
 //---------------------- PAGE STYLING ----------------------
@@ -63,4 +64,11 @@ $hljs: null !default;
 
     @include animations.css;
     @include themes.provideAllAnimations;
+
+    //############## SELECT OVERRIDE ##############
+
+    .select-override
+    {
+        @include select.buildThemeVars($selectOverrideTheme);
+    }
 }

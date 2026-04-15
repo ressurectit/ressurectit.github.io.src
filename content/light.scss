@@ -3,6 +3,7 @@
 @use '@anglr/grid/styles/themes/light' as gridTheme;
 @use '@anglr/select/styles/themes/light' as selectTheme;
 @use '@css-styles/themes' as themes;
+@use '@css-styles/common' as mixins;
 
 @use './scss/theme/defaultTheme' as defaultTheme;
 @use './scss/theme/light' as appTheme;
@@ -15,4 +16,22 @@
                               $dateTimeTheme: dateTimeTheme.defineTheme(),
                               $gridTheme: gridTheme.defineTheme(),
                               $selectTheme: selectTheme.defineTheme(),
+                              $selectOverrideTheme: selectTheme.defineTheme(14px,
+                              (
+                                  select:
+                                  (
+                                      normalState:
+                                      (
+                                          borderColor: #aaaaaa,
+                                          background: #ffffff,
+                                          foreground: #4b4b4b,
+                                          borderWidth: var(--size-1px-fixed),
+                                          padding: var(--size-4px) var(--size-6px),
+                                      ),
+                                      liveSearch:
+                                      (
+                                          placeholder: #4b4b4b,
+                                      )
+                                  ),
+                              )),
                               $hljs: 'vs');
