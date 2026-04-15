@@ -1,7 +1,7 @@
 import {Component, ChangeDetectionStrategy, effect, Signal, viewChild, signal} from '@angular/core';
 import {JsonPipe} from '@angular/common';
 import {form, FormField} from '@angular/forms/signals';
-import {CodeOptionsGatherer, DynamicValueHandler, DynamicValueHandlerOptions, FilterLiveSearch, Select, SelectFormControl, SelectOption, SelectOptions, ValueExtractorFunc} from '@anglr/select';
+import {CodeOptionsGatherer, DynamicValueHandler, DynamicValueHandlerOptions, Select, SelectEdit, SelectFormControl, SelectOption, SelectOptions, ValueExtractorFunc} from '@anglr/select';
 import {getSearch} from '@anglr/select/extensions';
 import {generateId, RecursivePartial} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
@@ -26,6 +26,7 @@ interface ObjectValue
         Select,
         JsonPipe,
         FormField,
+        SelectEdit,
         SelectFormControl,
     ],
     providers:
@@ -53,7 +54,7 @@ export class DynamicOptionGetterSampleComponent
     /**
      * Field bound to select
      */
-    protected selectField = form(signal<string|null>('59563320f6520e0001bfebe4'));
+    protected selectField = form(signal<string|null>('P80747'));
 
     //######################### protected properties - children #########################
 
@@ -70,10 +71,6 @@ export class DynamicOptionGetterSampleComponent
             valueExtractor: <ValueExtractorFunc<ObjectValue, string>> (itm => itm.value()?.kod ?? ''),
             plugins:
             {
-                liveSearch:
-                {
-                    type: FilterLiveSearch,
-                },
                 valueHandler:
                 {
                     type: DynamicValueHandler,
