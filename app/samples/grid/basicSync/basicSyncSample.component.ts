@@ -116,7 +116,7 @@ export class BasicSyncSampleComponent
                                 return data;
                             }
 
-                            return [...data].sort((a, b) =>
+                            return data.sort((a, b) =>
                             {
                                 const aValue = String((a as Record<string, unknown>)[ordering.orderBy] ?? '');
                                 const bValue = String((b as Record<string, unknown>)[ordering.orderBy] ?? '');

@@ -1,20 +1,20 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {GridOptions, SimpleOrdering, BasicPagingOptions, AsyncDataLoaderOptions, DataResponse, MatrixGridModule} from '@anglr/grid';
+import {GridOptions, SimpleOrdering, BasicPagingOptions, AsyncDataLoaderOptions, DataResponse, GridModule} from '@anglr/grid';
 import {RecursivePartial} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {Address, DataService} from '../../../services/api/data';
 
 /**
- * Grid basic sample for new matrix grid component
+ * Grid basic metadata sample showing all available column metadata options
  */
 @Component(
 {
-    selector: 'basic-sample',
-    templateUrl: 'basicSample.component.html',
+    selector: 'basic-metadata-sample',
+    templateUrl: 'basicMetadataSample.component.html',
     imports:
     [
-        MatrixGridModule,
+        GridModule,
     ],
     providers:
     [
@@ -22,7 +22,7 @@ import {Address, DataService} from '../../../services/api/data';
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BasicSampleComponent
+export class BasicMetadataSampleComponent
 {
     //######################### protected properties - template bindings #########################
 

@@ -1,7 +1,11 @@
 export * from './basic/basic.component';
-export * from './legacyBasic/legacyBasic.component';
-// export * from './basicMetadata/basicMetadata.component';
+export * from './basicMetadata/basicMetadata.component';
 export * from './basicSync/basicSync.component';
-// export * from './configuration/configuration.component';
-// export * from './customRenderer/customRenderer.component';
-// export * from './groupedMetadata/groupedMetadata.component';
+export * from './configuration/configuration.component';
+export * from './customizedView/customizedView.component';
+export * from './groupedColumns/groupedColumns.component';
+export * from './htmlTable/htmlTable.component';
+export * from './legacyBasic/legacyBasic.component';
+export * from './metadataSelection/metadataSelection.component';
+export * from './ordering/ordering.component';
+export * from './stronglyTyped/stronglyTyped.component';

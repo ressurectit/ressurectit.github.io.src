@@ -1,0 +1,23 @@
+<ng-grid [gridOptions]="gridOptions">
+    <basic-table-metadata>
+        <!-- country: basic column with ordering enabled -->
+        <basic-table-column id="country" name="country" title="Country" [ordering]="true"/>
+
+        <!-- city: column with fixed width -->
+        <basic-table-column id="city" name="city" title="City" width="150px"/>
+
+        <!-- zip: column with header tooltip and custom header css class -->
+        <basic-table-column id="zip" name="zip" title="ZIP" headerTooltip="Postal code" headerClass="text-center"/>
+
+        <!-- street: column with custom cell css class and custom body cell template -->
+        <basic-table-column id="street" name="street" title="Street" cellClass="font-weight-bold">
+            <ng-template [bodyCellTemplate] let-row>{{row.street}}</ng-template>
+        </basic-table-column>
+
+        <!-- houseNumber: column with hidden title and custom header and body cell templates -->
+        <basic-table-column id="houseNumber" name="houseNumber" title="House Number" [titleVisible]="false">
+            <ng-template [headerCellTemplate]><strong>House #</strong></ng-template>
+            <ng-template [bodyCellTemplate] let-row>{{row.houseNumber}}</ng-template>
+        </basic-table-column>
+    </basic-table-metadata>
+</ng-grid>

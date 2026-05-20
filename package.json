@@ -30,7 +30,7 @@
         "@anglr/common": "24.2.0",
         "@anglr/datetime": "9.0.3",
         "@anglr/error-handling": "16.0.2",
-        "@anglr/grid": "11.0.0",
+        "@anglr/grid": "11.0.1",
         "@anglr/md-help": "11.0.0",
         "@anglr/notifications": "12.0.2",
         "@anglr/rest": "14.0.0",
