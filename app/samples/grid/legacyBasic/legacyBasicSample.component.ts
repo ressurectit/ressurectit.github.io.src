@@ -43,8 +43,8 @@ export class LegacyBasicSampleComponent
                     options: <AsyncDataLoaderOptions<Address, SimpleOrdering>>
                     {
                         //data callback used for getting data asynchronously
-                        dataCallback: this._getData.bind(this)
-                    }
+                        dataCallback: this._getData.bind(this),
+                    },
                 },
                 paging:
                 {
@@ -53,10 +53,10 @@ export class LegacyBasicSampleComponent
                         //available values for items per page buttons
                         itemsPerPageValues: [5, 10, 20],
                         //initial value of items per page, should be one of above
-                        initialItemsPerPage: 5
-                    }
-                }
-            }
+                        initialItemsPerPage: 5,
+                    },
+                },
+            },
         };
     }
 
@@ -70,12 +70,11 @@ export class LegacyBasicSampleComponent
      */
     private async _getData(page: number, itemsPerPage: number, ordering: SimpleOrdering): Promise<DataResponse<Address>>
     {
-        const result = await lastValueFrom(this._dataSvc.getData(
-            {
-                page: page,
-                size: itemsPerPage
-            },
-            ordering));
+        const result = await lastValueFrom(this._dataSvc.getData({
+                                                                     page: page,
+                                                                     size: itemsPerPage,
+                                                                 },
+                                                                 ordering));
 
         return {
             data: result?.content ?? [],

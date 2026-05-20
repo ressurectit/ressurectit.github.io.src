@@ -16,7 +16,8 @@
         "server": "node server.js",
         "lint": "eslint app/**/*.ts",
         "prestart": "npm run version:build && npm run config:build",
-        "start": "concurrently \"npm run server -- --devPort\" \"ng serve\""
+        "start": "concurrently \"npm run server -- --devPort\" \"ng serve\"",
+        "new-sample": "node .utils/new-sample.js"
     },
     "engines": {
         "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
