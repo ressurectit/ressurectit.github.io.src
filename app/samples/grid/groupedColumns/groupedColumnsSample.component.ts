@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {AsyncDataLoaderOptions, BasicPagingOptions, DataResponse, GridOptions, MatrixGridModule, SimpleOrdering} from '@anglr/grid';
+import {AsyncDataLoaderOptions, DataResponse, GridOptions, MatrixGridModule, SimpleOrdering} from '@anglr/grid';
 import {RecursivePartial} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
@@ -44,16 +44,6 @@ export class GroupedColumnsSampleComponent
                     {
                         //data callback used for getting data asynchronously
                         dataCallback: this._getData.bind(this),
-                    },
-                },
-                paging:
-                {
-                    options: <BasicPagingOptions>
-                    {
-                        //available values for items per page buttons
-                        itemsPerPageValues: [5, 10, 20],
-                        //initial value of items per page, should be one of above
-                        initialItemsPerPage: 5,
                     },
                 },
             },
