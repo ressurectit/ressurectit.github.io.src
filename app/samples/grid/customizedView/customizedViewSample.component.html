@@ -1,5 +1,5 @@
 <div class="flex-column gap-large">
-    <div class="bold">List view instead of grid view</div>
+    <div class="bold large-text">List view instead of grid view</div>
 
     <div ngGrid [gridOptions]="gridOptions">
         <div *headerContainerTemplate></div>
@@ -32,36 +32,16 @@
         </div>
     </div>
 
-    <div class="bold">Gallery view instead of grid view</div>
+    <div class="bold large-text">Gallery view instead of grid view</div>
 
     <div ngGrid [gridOptions]="galleryGridOptions">
         <div *headerContainerTemplate></div>
 
-        <div *contentRowContainerTemplate="let datum = datum" class="grid-content-row-css-grid-custom">
-            <div class="flex-row gap-small">
-                <div class="italic">Country:</div>
-                <div class="bold">{{datum.country}}</div>
-            </div>
-
-            <div class="flex-row gap-small">
-                <div class="italic">City:</div>
-                <div class="bold">{{datum.city}}</div>
-            </div>
-
-            <div class="flex-row gap-small">
-                <div class="italic">ZIP:</div>
-                <div class="bold">{{datum.zip}}</div>
-            </div>
-
-            <div class="flex-row gap-small">
-                <div class="italic">Street:</div>
-                <div class="bold">{{datum.street}}</div>
-            </div>
-
-            <div class="flex-row gap-small">
-                <div class="italic">House Number:</div>
-                <div class="bold">{{datum.houseNumber}}</div>
-            </div>
+        <div *contentContainerTemplate="let data = data" class="gallery-div">
+            @for(datum of data; track datum)
+            {
+                <div class="image-div" [style.backgroundImage]="`url(${datum.source})`"></div>
+            }
         </div>
     </div>
 </div>

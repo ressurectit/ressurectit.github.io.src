@@ -12,5 +12,19 @@
             background-color: var(--grid-oddRow-background);
             color: var(--grid-oddRow-foreground);
         }
-    } 
+    }
+
+    .image-div
+    {
+        background-size: cover;
+        aspect-ratio: 16/9;
+    }
+
+    .gallery-div
+    {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: var(--size-small);
+        grid-template-rows: auto;
+    }
 }

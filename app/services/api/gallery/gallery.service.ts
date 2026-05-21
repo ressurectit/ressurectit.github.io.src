@@ -14,7 +14,7 @@ import {GalleryItem} from './gallery.interface';
 export class GalleryService extends RESTClient
 {
     /**
-     * Gets gallery data 
+     * Gets gallery data
      * @param paging Paging for obtaining specific page
      */
     public getGallery(paging: Pageable): Observable<PagedData<GalleryItem>>

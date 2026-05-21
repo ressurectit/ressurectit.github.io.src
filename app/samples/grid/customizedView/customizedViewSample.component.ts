@@ -4,6 +4,7 @@ import {RecursivePartial} from '@jscrpt/common';
 import {lastValueFrom} from '@jscrpt/common/rxjs';
 
 import {Address, DataService} from '../../../services/api/data';
+import {GalleryItem, GalleryService} from '../../../services/api/gallery';
 
 /**
  * Customized View sample for grid component
@@ -19,6 +20,7 @@ import {Address, DataService} from '../../../services/api/data';
     providers:
     [
         DataService,
+        GalleryService,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -37,7 +39,8 @@ export class CustomizedViewSampleComponent
     protected galleryGridOptions: RecursivePartial<GridOptions>;
 
     //######################### constructor #########################
-    constructor(private _dataSvc: DataService)
+    constructor(private _dataSvc: DataService,
+                private _gallerySvc: GalleryService,)
     {
         this.gridOptions =
         {
@@ -60,10 +63,10 @@ export class CustomizedViewSampleComponent
             {
                 dataLoader:
                 {
-                    options: <AsyncDataLoaderOptions<Address, SimpleOrdering>>
+                    options: <AsyncDataLoaderOptions<GalleryItem, SimpleOrdering>>
                     {
                         //data callback used for getting data asynchronously
-                        dataCallback: this._getData.bind(this),
+                        dataCallback: this._getGalleryData.bind(this),
                     },
                 },
             },
@@ -85,6 +88,25 @@ export class CustomizedViewSampleComponent
                                                                      size: itemsPerPage,
                                                                  },
                                                                  ordering));
+
+        return {
+            data: result?.content ?? [],
+            totalCount: result?.totalElements ?? 0,
+        };
+    }
+
+    /**
+     * Callback used for obtaining gallery data
+     * @param page - Index of requested page
+     * @param itemsPerPage - Number of items per page
+     * @param ordering - Order by column name
+     */
+    private async _getGalleryData(page: number, itemsPerPage: number, _ordering: SimpleOrdering): Promise<DataResponse<GalleryItem>>
+    {
+        const result = await lastValueFrom(this._gallerySvc.getGallery({
+                                                                           page: page,
+                                                                           size: itemsPerPage,
+                                                                       }));
 
         return {
             data: result?.content ?? [],
