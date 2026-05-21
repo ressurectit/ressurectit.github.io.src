@@ -9,6 +9,7 @@
 @use 'parts/app' as app;
 @use 'parts/content' as content;
 @use '../../app/scssSamples/customizedView' as customizedView;
+@use '../../app/scssSamples/groupedColumns' as groupedColumns;
 
 //---------------------- PAGE STYLING ----------------------
 .app-page
@@ -41,6 +42,7 @@
     @include app.css;
     @include content.css;
     @include customizedView.css;
+    @include groupedColumns.css;
 
     //############## MISC ##############
 

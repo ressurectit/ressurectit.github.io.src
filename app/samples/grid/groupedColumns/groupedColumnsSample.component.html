@@ -1,2 +1,44 @@
-<h2>Grouped Columns</h2>
-<p>Demo placeholder.</p>
+<div ngGrid [gridOptions]="gridOptions">
+    <ng-container matrixGridColumn="'country'">
+        <div *headerCellTemplate>Country</div>
+        <div *contentCellTemplate="let row = datum">{{row.country}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="'city'">
+        <div *headerCellTemplate>City</div>
+        <div *contentCellTemplate="let row = datum">{{row.city}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="'zip'">
+        <div *headerCellTemplate>ZIP</div>
+        <div *contentCellTemplate="let row = datum">{{row.zip}}</div>
+    </ng-container>
+    
+    <ng-container matrixGridColumn="'street'">
+        <div *headerCellTemplate>Street</div>
+        <div *contentCellTemplate="let row = datum">{{row.street}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="'houseNumber'">
+        <div *headerCellTemplate>House Number</div>
+        <div *contentCellTemplate="let row = datum">{{row.houseNumber}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="'name'">
+        <div *headerCellTemplate>Name</div>
+        <div *contentCellTemplate="let row = datum">{{row.citizen.name}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="'surname'">
+        <div *headerCellTemplate>Surname</div>
+        <div *contentCellTemplate="let row = datum">{{row.citizen.surname}}</div>
+    </ng-container>
+
+    <div *headerRowContainerTemplate="let cssClasses = contentCssClasses" [class]="cssClasses.headerRowContainerClass">
+        <div class="address-group">Address</div>
+        <div class="citizen-group">Citizen</div>
+    </div>
+
+    <div headerRowContainer *headerRowContainerTemplate="let cssClasses = contentCssClasses" [class]="cssClasses.headerRowContainerClass"></div>
+</div>
+

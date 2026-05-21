@@ -1,0 +1,19 @@
+@mixin css
+{
+    [nggrid]
+    {
+        .address-group
+        {
+            grid-column: auto / span 5;
+            border-right: 1px solid var(--theme-primary);
+            justify-content: center;
+        }
+
+        .citizen-group
+        {
+            grid-column: auto / span 2;
+            border-left: 1px solid var(--theme-primary);
+            justify-content: center;
+        }
+    }
+}
