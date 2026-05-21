@@ -8,6 +8,7 @@
 
 @use 'parts/app' as app;
 @use 'parts/content' as content;
+@use '../../app/scssSamples/customizedView' as customizedView;
 
 //---------------------- PAGE STYLING ----------------------
 .app-page
@@ -39,6 +40,7 @@
     @include themes.css-titles;
     @include app.css;
     @include content.css;
+    @include customizedView.css;
 
     //############## MISC ##############
 

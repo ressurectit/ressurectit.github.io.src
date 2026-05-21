@@ -1,0 +1,16 @@
+@mixin css
+{
+    [nggrid] .grid-content-row-css-grid-custom
+    {
+        padding: var(--size-4px) var(--size-10px);
+        display: flex;
+        flex-direction: column;
+        grid-column: 1/-1;
+
+        &:nth-child(2n+1)
+        {
+            background-color: var(--grid-oddRow-background);
+            color: var(--grid-oddRow-foreground);
+        }
+    } 
+}
