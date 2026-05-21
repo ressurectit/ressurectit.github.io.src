@@ -1,5 +1,4 @@
 export * from './basic/basic.component';
-export * from './basicMetadata/basicMetadata.component';
 export * from './basicSync/basicSync.component';
 export * from './configuration/configuration.component';
 export * from './customizedView/customizedView.component';
@@ -9,3 +8,4 @@ export * from './legacyBasic/legacyBasic.component';
 export * from './metadataSelection/metadataSelection.component';
 export * from './ordering/ordering.component';
 export * from './stronglyTyped/stronglyTyped.component';
+export * from './templateMetadata/templateMetadata.component';

@@ -1,0 +1,31 @@
+<div ngGrid [gridOptions]="gridOptions">
+    <ng-container matrixGridColumn="'country'" title="Country column">
+        <div *headerCellTemplate>Country</div>
+        <div *contentCellTemplate="let row = datum">{{row.country}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="'city'" title="City column" width="2fr">
+        <div *headerCellTemplate>City</div>
+        <div *contentCellTemplate="let row = datum">{{row.city}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="'zip'" title="ZIP column" [visible]="false">
+        <div *headerCellTemplate>ZIP</div>
+        <div *contentCellTemplate="let row = datum">{{row.zip}}</div>
+    </ng-container>
+    
+    <ng-container matrixGridColumn="'street'" title="Street column">
+        <div *headerCellTemplate>Street</div>
+        <div *contentCellTemplate="let row = datum">{{row.street}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="'houseNumber'" title="House Number column"  width="120px">
+        <div *headerCellTemplate>House Number</div>
+        <div *contentCellTemplate="let row = datum" class="text-right">{{row.houseNumber}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="'context'" title="Context column">
+        <div *headerCellTemplate>Context</div>
+        <div *contentCellTemplate="let startingIndex = startingIndex; let rowIndex = rowIndex; let index = index" class="text-right">sindex:{{startingIndex}} row: {{rowIndex}} index: {{index}}</div>
+    </ng-container>
+</div>
