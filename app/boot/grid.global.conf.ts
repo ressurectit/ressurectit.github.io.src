@@ -1,42 +1,40 @@
-import {ValueProvider} from '@angular/core';
-import {NO_DATA_RENDERER_OPTIONS, NoDataRendererOptions, GRID_INITIALIZER_OPTIONS, PAGING_OPTIONS, BasicPagingOptions, GridInitializerOptions} from '@anglr/grid';
+import {BasicPagingOptions, provideContentRendererOptions, provideGridInitializerOptions, provideGridInitializerType, provideMetadataSelectorOptions, provideMetadataSelectorType, provideNoDataRendererOptions, providePagingOptions, QueryGridInitializerComponent, QueryPermanentStorageGridInitializerOptions, TableContentRendererOptions} from '@anglr/grid';
+import {DialogMetadataSelectorComponent, DialogMetadataSelectorOptions} from '@anglr/grid/material';
 
 /**
  * Global configuration for Grid
  */
 export const globalGridConfig =
 [
-    <ValueProvider>
+    provideGridInitializerType(QueryGridInitializerComponent),
+    provideMetadataSelectorType(DialogMetadataSelectorComponent),
+    provideNoDataRendererOptions(
     {
-        provide: NO_DATA_RENDERER_OPTIONS,
-        useValue: <NoDataRendererOptions<any>>
+        texts:
         {
-            texts:
-            {
-                noData: 'No data found !!!',
-                loading: 'Data are currently loading!',
-                notLoaded: 'Data are not loaded yet'
-            }
+            loading: 'Nahrávam dáta ...',
+            noData: 'Neboli nájdené dáta odpovedajúce zadaným parametrom',
+            notLoaded: 'Neboli načítané žiadne dáta zatiaľ',
         }
-    },
-    <ValueProvider>
+    }),
+    providePagingOptions<BasicPagingOptions>(
     {
-        provide: GRID_INITIALIZER_OPTIONS,
-        //default value for each grid if not overwritten
-        useValue: <GridInitializerOptions>
-        {
-        }
-    },
-    <ValueProvider>
+        itemsPerPageValues: [15, 30, 60],
+        initialItemsPerPage: 15,
+    }),
+    provideMetadataSelectorOptions<DialogMetadataSelectorOptions>(
     {
-        provide: PAGING_OPTIONS,
-        //default value for each grid if not overwritten
-        useValue: <BasicPagingOptions>
+        showButtonVisible: false,
+    }),
+    provideGridInitializerOptions<QueryPermanentStorageGridInitializerOptions>(
+    {
+        storageIppName: 'all-grid-ipp',
+    }),
+    provideContentRendererOptions<TableContentRendererOptions>(
+    {
+        cssClasses:
         {
-            //available values for items per page buttons
-            itemsPerPageValues: [5, 15, 30],
-            //initial value of items per page, should be one of above
-            initialItemsPerPage: 15
-        }
-    }
+            containerDiv: 'table-container thin-scrollbar',
+        },
+    }),
 ];

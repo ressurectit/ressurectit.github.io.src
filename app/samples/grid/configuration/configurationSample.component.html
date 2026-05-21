@@ -1,2 +1,59 @@
-<h2>Configuration</h2>
-<p>Demo placeholder.</p>
+<div class="flex-column gap-large">
+    <div class="bold">Locally DI provided paging options</div>
+
+    <div ngGrid [gridOptions]="gridOptions">
+        <ng-container matrixGridColumn="'country'">
+            <div *headerCellTemplate>Country</div>
+            <div *contentCellTemplate="let row = datum">{{row.country}}</div>
+        </ng-container>
+    
+        <ng-container matrixGridColumn="'city'">
+            <div *headerCellTemplate>City</div>
+            <div *contentCellTemplate="let row = datum">{{row.city}}</div>
+        </ng-container>
+    
+        <ng-container matrixGridColumn="'zip'">
+            <div *headerCellTemplate>ZIP</div>
+            <div *contentCellTemplate="let row = datum">{{row.zip}}</div>
+        </ng-container>
+    
+        <ng-container matrixGridColumn="'street'">
+            <div *headerCellTemplate>Street</div>
+            <div *contentCellTemplate="let row = datum">{{row.street}}</div>
+        </ng-container>
+    
+        <ng-container matrixGridColumn="'houseNumber'">
+            <div *headerCellTemplate>House Number</div>
+            <div *contentCellTemplate="let row = datum">{{row.houseNumber}}</div>
+        </ng-container>
+    </div>
+    
+    <div class="bold">Overriden paging options using gridOptions2</div>
+
+    <div ngGrid [gridOptions]="gridOptions2">
+        <ng-container matrixGridColumn="'country'">
+            <div *headerCellTemplate>Country</div>
+            <div *contentCellTemplate="let row = datum">{{row.country}}</div>
+        </ng-container>
+    
+        <ng-container matrixGridColumn="'city'">
+            <div *headerCellTemplate>City</div>
+            <div *contentCellTemplate="let row = datum">{{row.city}}</div>
+        </ng-container>
+    
+        <ng-container matrixGridColumn="'zip'">
+            <div *headerCellTemplate>ZIP</div>
+            <div *contentCellTemplate="let row = datum">{{row.zip}}</div>
+        </ng-container>
+    
+        <ng-container matrixGridColumn="'street'">
+            <div *headerCellTemplate>Street</div>
+            <div *contentCellTemplate="let row = datum">{{row.street}}</div>
+        </ng-container>
+    
+        <ng-container matrixGridColumn="'houseNumber'">
+            <div *headerCellTemplate>House Number</div>
+            <div *contentCellTemplate="let row = datum">{{row.houseNumber}}</div>
+        </ng-container>
+    </div>
+</div>
