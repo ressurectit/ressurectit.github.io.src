@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy} from '@angular/core';
-import {GridOptions, SimpleOrdering, BasicPagingOptions, SyncDataLoaderOptions, SyncDataLoaderComponent, MatrixGridModule} from '@anglr/grid';
+import {GridOptions, SimpleOrdering, BasicPagingOptions, SyncDataLoaderOptions, SyncDataLoaderComponent, MatrixGridModule, GridDataDirective} from '@anglr/grid';
 import {RecursivePartial, OrderByDirection} from '@jscrpt/common';
 
 import {Address} from '../../../services/api/data';
@@ -84,6 +84,7 @@ const DATA: Address[] =
     imports:
     [
         MatrixGridModule,
+        GridDataDirective,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -95,6 +96,11 @@ export class BasicSyncSampleComponent
      * Grid options that are used for grid initialization
      */
     protected readonly gridOptions: RecursivePartial<GridOptions>;
+
+    /**
+     * Data used as source for grid
+     */
+    protected readonly data = DATA;
 
     //######################### constructor #########################
     constructor()
