@@ -1,2 +1,58 @@
-<h2>Detail View</h2>
-<p>Demo placeholder.</p>
+<div ngGrid [gridOptions]="gridOptions">
+    <ng-container matrixGridColumn="detailtoggle">
+        <div *headerCellTemplate></div>
+
+        <div *contentCellTemplate="let row = datum">
+            <div class="up-down-caret-icon" [(closed)]="row.detailVisible"></div>
+        </div>
+    </ng-container>
+    
+    <ng-container matrixGridColumn="country">
+        <div *headerCellTemplate>Country</div>
+        <div *contentCellTemplate="let row = datum">{{row.country}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="city">
+        <div *headerCellTemplate>City</div>
+        <div *contentCellTemplate="let row = datum">{{row.city}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="zip">
+        <div *headerCellTemplate>ZIP</div>
+        <div *contentCellTemplate="let row = datum">{{row.zip}}</div>
+    </ng-container>
+    
+    <ng-container matrixGridColumn="street">
+        <div *headerCellTemplate>Street</div>
+        <div *contentCellTemplate="let row = datum">{{row.street}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="houseNumber">
+        <div *headerCellTemplate>House Number</div>
+        <div *contentCellTemplate="let row = datum">{{row.houseNumber}}</div>
+    </ng-container>
+
+    <div contentRowContainer *contentRowContainerTemplate="let cssClasses = contentCssClasses" [class]="cssClasses.contentRowContainerClass"></div>
+    
+    <div *contentRowContainerTemplate="let datum = datum" class="grid-whole-row">
+        @if(datum.detailVisible)
+        {
+            <div class=" flex-column gap-small" animate.enter="slide-in" animate.leave="slide-out">
+                <div class="flex-row gap-small">
+                    <div class="italic">Name</div>
+                    <div class="semi-bold">{{datum.citizen.name}}</div>
+                </div>
+
+                <div class="flex-row gap-small">
+                    <div class="italic">Surname</div>
+                    <div class="semi-bold">{{datum.citizen.surname}}</div>
+                </div>
+
+                <div class="flex-row gap-small">
+                    <div class="italic">Birth date</div>
+                    <div class="semi-bold">{{datum.citizen.birthDate}}</div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
