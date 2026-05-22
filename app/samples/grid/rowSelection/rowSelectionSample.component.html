@@ -1,2 +1,57 @@
-<h2>Row Selection</h2>
-<p>Demo placeholder.</p>
+<div class="flex-column gap-large">
+    @if(selectedAny())
+    {
+        <div>
+            <div class="bold">Selected:</div>
+    
+            <div class="flex-row">
+                <div class="flex-1">
+                    <div>IDs:</div>
+                    <div>{{(grid | getRowSelector).selectedIds() | json}}</div>
+                </div>
+    
+                <div class="flex-1">
+                    <div>Data:</div>
+                    <div>{{(grid | getRowSelector).selectedData() | json}}</div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div ngGrid #grid [gridOptions]="gridOptions">
+        <ng-container matrixGridColumn="selection" width="36px">
+            <div *headerCellTemplate>
+                <input type="checkbox" (click)="toggleAllSelected($any($event.target).checked)" [checked]="selectedAll()">
+            </div>
+
+            <div *contentCellTemplate="let datum=datum; let isSelected=isSelected; let plugins=plugins">
+                <input type="checkbox" (click)="plugins.rowSelector.selectItem(datum, $any($event.target).checked)" [checked]="isSelected">
+            </div>
+        </ng-container>
+
+        <ng-container matrixGridColumn="country">
+            <div *headerCellTemplate>Country</div>
+            <div *contentCellTemplate="let row = datum">{{row.country}}</div>
+        </ng-container>
+
+        <ng-container matrixGridColumn="city">
+            <div *headerCellTemplate>City</div>
+            <div *contentCellTemplate="let row = datum">{{row.city}}</div>
+        </ng-container>
+
+        <ng-container matrixGridColumn="zip">
+            <div *headerCellTemplate>ZIP</div>
+            <div *contentCellTemplate="let row = datum">{{row.zip}}</div>
+        </ng-container>
+
+        <ng-container matrixGridColumn="street">
+            <div *headerCellTemplate>Street</div>
+            <div *contentCellTemplate="let row = datum">{{row.street}}</div>
+        </ng-container>
+
+        <ng-container matrixGridColumn="houseNumber">
+            <div *headerCellTemplate>House Number</div>
+            <div *contentCellTemplate="let row = datum">{{row.houseNumber}}</div>
+        </ng-container>
+    </div>
+</div>
