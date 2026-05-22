@@ -1,25 +1,25 @@
 <table ngGrid [gridOptions]="gridOptions" useTable>
-    <ng-container matrixGridColumn="'country'">
+    <ng-container matrixGridColumn="country">
         <th *headerCellTemplate>Country</th>
         <td *contentCellTemplate="let row = datum">{{row.country}}</td>
     </ng-container>
 
-    <ng-container matrixGridColumn="'city'">
+    <ng-container matrixGridColumn="city">
         <th *headerCellTemplate>City</th>
         <td *contentCellTemplate="let row = datum">{{row.city}}</td>
     </ng-container>
 
-    <ng-container matrixGridColumn="'zip'">
+    <ng-container matrixGridColumn="zip">
         <th *headerCellTemplate>ZIP</th>
         <td *contentCellTemplate="let row = datum">{{row.zip}}</td>
     </ng-container>
     
-    <ng-container matrixGridColumn="'street'">
+    <ng-container matrixGridColumn="street">
         <th *headerCellTemplate>Street</th>
         <td *contentCellTemplate="let row = datum">{{row.street}}</td>
     </ng-container>
 
-    <ng-container matrixGridColumn="'houseNumber'">
+    <ng-container matrixGridColumn="houseNumber">
         <th *headerCellTemplate>House Number</th>
         <td *contentCellTemplate="let row = datum">{{row.houseNumber}}</td>
     </ng-container>

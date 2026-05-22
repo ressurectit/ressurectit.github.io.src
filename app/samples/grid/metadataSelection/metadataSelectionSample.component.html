@@ -4,37 +4,37 @@
     </div>
 
     <div ngGrid [gridOptions]="gridOptions" #grid selectionStore="metadataSelectionSample">
-        <ng-container matrixGridColumn="'country'" title="Country">
+        <ng-container matrixGridColumn="country" title="Country">
             <div *headerCellTemplate>Country</div>
             <div *contentCellTemplate="let row = datum">{{row.country}}</div>
         </ng-container>
     
-        <ng-container matrixGridColumn="'city'" title="City">
+        <ng-container matrixGridColumn="city" title="City">
             <div *headerCellTemplate>City</div>
             <div *contentCellTemplate="let row = datum">{{row.city}}</div>
         </ng-container>
     
-        <ng-container matrixGridColumn="'zip'" title="ZIP">
+        <ng-container matrixGridColumn="zip" title="ZIP">
             <div *headerCellTemplate>ZIP</div>
             <div *contentCellTemplate="let row = datum">{{row.zip}}</div>
         </ng-container>
         
-        <ng-container matrixGridColumn="'street'" title="Street">
+        <ng-container matrixGridColumn="street" title="Street">
             <div *headerCellTemplate>Street</div>
             <div *contentCellTemplate="let row = datum">{{row.street}}</div>
         </ng-container>
     
-        <ng-container matrixGridColumn="'houseNumber'" title="House Number">
+        <ng-container matrixGridColumn="houseNumber" title="House Number">
             <div *headerCellTemplate>House Number</div>
             <div *contentCellTemplate="let row = datum">{{row.houseNumber}}</div>
         </ng-container>
 
-        <ng-container matrixGridColumn="'name'" title="Name" [visible]="false">
+        <ng-container matrixGridColumn="name" title="Name" [visible]="false">
             <div *headerCellTemplate>Name</div>
             <div *contentCellTemplate="let row = datum">{{row.citizen.name}}</div>
         </ng-container>
 
-        <ng-container matrixGridColumn="'surname'" title="Surname" [visible]="false">
+        <ng-container matrixGridColumn="surname" title="Surname" [visible]="false">
             <div *headerCellTemplate>Surname</div>
             <div *contentCellTemplate="let row = datum">{{row.citizen.surname}}</div>
         </ng-container>

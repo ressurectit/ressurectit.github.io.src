@@ -1,2 +1,26 @@
-<h2>Ordering</h2>
-<p>Demo placeholder.</p>
+<div ngGrid [gridOptions]="gridOptions">
+    <ng-container matrixGridColumn="country">
+        <div *headerCellTemplate orderable class="flex-row"><div class="flex-1">Country</div></div>
+        <div *contentCellTemplate="let row = datum">{{row.country}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="city">
+        <div *headerCellTemplate orderable class="flex-row"><div class="flex-1">City</div></div>
+        <div *contentCellTemplate="let row = datum">{{row.city}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="zip">
+        <div *headerCellTemplate orderable class="flex-row"><div class="flex-1">ZIP</div></div>
+        <div *contentCellTemplate="let row = datum">{{row.zip}}</div>
+    </ng-container>
+    
+    <ng-container matrixGridColumn="street">
+        <div *headerCellTemplate>Street</div>
+        <div *contentCellTemplate="let row = datum">{{row.street}}</div>
+    </ng-container>
+
+    <ng-container matrixGridColumn="houseNumber">
+        <div *headerCellTemplate>House Number</div>
+        <div *contentCellTemplate="let row = datum">{{row.houseNumber}}</div>
+    </ng-container>
+</div>
