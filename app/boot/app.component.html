@@ -3,25 +3,11 @@
 <global-notifications class="fullscreen"/>
 <hotkeys-cheatsheet class="fullscreen"/>
 
-<div class="full page-content page">
+<nav class="fullscreen" [(theme)]="theme"></nav>
+
+<main class="page-content">
+    <aside></aside>
     <router-outlet class="hidden"/>
-</div>
+</main>
 
-<div class="page-footer extra-small-text text-center">GUI version: {{guiVersion}}</div>
-
-@if(consoleVisible())
-{
-    <console class="fullscreen"/>
-}
-
-<!-- @if(!initialized)
-{
-    <div class="loading-indicator">
-        <div class="loading-header">
-            <div class="loading-title">APP</div>
-        </div>
-
-        <div class="loading-card"></div>
-        <div class="loading-spinner"></div>
-    </div>
-} -->
+<footer class="fullscreen extra-small-text text-center">GUI version: {{guiVersion}}</footer>

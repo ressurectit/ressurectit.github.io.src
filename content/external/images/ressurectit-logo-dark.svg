@@ -1,0 +1,35 @@
+<svg width="320" height="98" viewBox="0 0 320 98" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ressurectit-logo-text-title ressurectit-logo-text-desc">
+    <title id="ressurectit-logo-text-title">ressurectIt text logo</title>
+    <desc id="ressurectit-logo-text-desc">A compact dark text-only badge for ressurectIt with a technology subtitle.</desc>
+
+    <defs>
+        <linearGradient id="textBadgeGlow" x1="30" y1="15" x2="296" y2="86" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#132338"/>
+            <stop offset=".52" stop-color="#0b1220"/>
+            <stop offset="1" stop-color="#101820"/>
+        </linearGradient>
+
+        <linearGradient id="textWordGradient" x1="36" y1="29" x2="240" y2="64" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#f8fafc"/>
+            <stop offset=".7" stop-color="#e5edf7"/>
+            <stop offset="1" stop-color="#93c5fd"/>
+        </linearGradient>
+
+        <filter id="textShadow" x="0" y="0" width="320" height="98" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+            <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#020617" flood-opacity=".28"/>
+        </filter>
+    </defs>
+
+    <g filter="url(#textShadow)">
+        <rect x="8" y="10" width="304" height="78" rx="26" fill="url(#textBadgeGlow)"/>
+        <rect x="8.75" y="10.75" width="302.5" height="76.5" rx="25.25" stroke="#26354b" stroke-width="1.5"/>
+    </g>
+
+    <text x="34" y="49" fill="url(#textWordGradient)" font-family="Bahnschrift, 'Aptos Display', 'Segoe UI', sans-serif" font-size="34" font-weight="700" letter-spacing="-.9">
+        ressurect<tspan fill="#93c5fd">It</tspan>
+    </text>
+
+    <text x="36" y="68" fill="#94a3b8" font-family="Bahnschrift, 'Aptos', 'Segoe UI', sans-serif" font-size="9" font-weight="600" letter-spacing="1.8">
+        ANGULAR · TYPESCRIPT · .NET · CSS
+    </text>
+</svg>

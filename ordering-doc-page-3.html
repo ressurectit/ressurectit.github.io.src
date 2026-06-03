@@ -1,0 +1,1297 @@
+<!doctype html>
+<html lang="en"><head><script data-od-sandbox-shim="">(function(){
+  function makeStore(){
+    var data = {};
+    var api = {
+      getItem: function(k){ return Object.prototype.hasOwnProperty.call(data, k) ? data[k] : null; },
+      setItem: function(k, v){ data[k] = String(v); },
+      removeItem: function(k){ delete data[k]; },
+      clear: function(){ data = {}; },
+      key: function(i){ return Object.keys(data)[i] || null; }
+    };
+    Object.defineProperty(api, 'length', { get: function(){ return Object.keys(data).length; } });
+    return api;
+  }
+  function tryShim(name){
+    var works = false;
+    try { works = !!window[name] && typeof window[name].getItem === 'function'; void window[name].length; }
+    catch (_) { works = false; }
+    if (works) return;
+    try { Object.defineProperty(window, name, { configurable: true, value: makeStore() }); }
+    catch (_) { try { window[name] = makeStore(); } catch (__) {} }
+  }
+  tryShim('localStorage');
+  tryShim('sessionStorage');
+  document.addEventListener('click', (e) => {
+    if (!e.target || !(e.target instanceof Element)) return;
+    var link = e.target.closest('a[href]');
+    if (!link) return;
+    var href = link.getAttribute('href');
+    if (href === null) return;
+    var isAnchor = href.startsWith('#') || href === '';
+    if (isAnchor) {
+      e.preventDefault();
+      if (href === '' || href === '#') {
+        window.scrollTo({ top: 0 });
+        history.replaceState(null, '', ' ');
+      } else {
+        var targetId = href.slice(1);
+        var target = targetId ? document.getElementById(targetId) : null;
+        if (target) {
+          target.scrollIntoView();
+          location.hash === href && history.replaceState(null, '', ' ');
+          location.hash = href;
+        }
+      }
+    } else if (link.getAttribute('target') === '_blank') {
+      e.preventDefault();
+      let safe = false;
+      try {
+        var url = new URL(href, location.href);
+        safe =
+          url.protocol === 'http:' ||
+          url.protocol === 'https:' ||
+          url.protocol === 'mailto:';
+      } catch (_) {}
+      safe && window.open(href, '_blank', 'noopener,noreferrer');
+    }
+  });
+})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ordering — Matrix Grid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&amp;family=Roboto+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   css-styles theme — emitted CSS vars (buildThemeVars + buildSizes)
+   anchored to fontFamily 'Roboto'. All component CSS below
+   references these vars, never raw colors/sizes — same contract
+   as a real app that consumes @css-styles/common + @css-styles/themes.
+   ============================================================ */
+.app-page {
+  /* ---- font + page ---- */
+  --fontFamily: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --fontMono:   'Roboto Mono', 'JetBrains Mono', 'Cascadia Code', 'Consolas', ui-monospace, monospace;
+
+  --page-background: #F8F9FF;
+  --page-foreground: #1A1C1E;
+  --page-scrollbar:  #C2C7CF;
+
+  /* ---- theme palette ---- */
+  --theme-primary:              #0061A4;
+  --theme-onPrimary:             #FFFFFF;
+  --theme-primaryContainer:      #D1E4FF;
+  --theme-onPrimaryContainer:    #001D36;
+  --theme-secondary:             #535F70;
+  --theme-onSecondary:           #FFFFFF;
+  --theme-secondaryContainer:    #D7E3F7;
+  --theme-onSecondaryContainer:  #101C2B;
+  --theme-success:               #146C2E;
+  --theme-onSuccess:             #FFFFFF;
+  --theme-successContainer:      #B7F2BE;
+  --theme-onSuccessContainer:    #002109;
+  --theme-info:                  #0061A4;
+  --theme-onInfo:                #FFFFFF;
+  --theme-warning:               #7D5700;
+  --theme-onWarning:             #FFFFFF;
+  --theme-error:                 #BA1A1A;
+  --theme-onError:               #FFFFFF;
+  --theme-errorContainer:        #FFDAD6;
+
+  /* ---- neutral surfaces (page chrome) ---- */
+  --surface:                     #FDFBFF;
+  --surface-variant:             #DFE2EB;
+  --surface-container-low:       #F2F4FB;
+  --surface-container:           #EAEEF6;
+  --surface-container-high:      #E4E8F0;
+  --outline:                     #72777F;
+  --outline-variant:             #C2C7CF;
+
+  /* ---- size scale (buildSizes / buildFixedSizes) ---- */
+  --size-none: 0;
+  --size-xs: 0.286em;  /* 4px @ 14px root */
+  --size-sm: 0.714em;  /* 10px */
+  --size-md: 1.071em;  /* 15px */
+  --size-lg: 1.429em;  /* 20px */
+  --size-bg: 1.429em;
+  --size-extra-small: var(--size-xs);
+  --size-small:       var(--size-sm);
+  --size-medium:      var(--size-md);
+  --size-large:       var(--size-lg);
+  --size-big:         var(--size-bg);
+
+  --size-borderRadius-xs: 4px;
+  --size-borderRadius-sm: 4px;
+  --size-borderRadius-md: 6px;
+
+  --size-1px: 1px; --size-2px: 2px; --size-3px: 3px; --size-4px: 4px;
+  --size-6px: 6px; --size-8px: 8px; --size-10px: 10px; --size-12px: 12px;
+  --size-14px: 14px; --size-16px: 16px; --size-20px: 20px;
+
+  --size-font-extra-small:        12px;
+  --size-font-small:              13px;
+  --size-font-medium:             14px;
+  --size-font-large:              16px;
+  --size-font-extra-large:        18px;
+  --size-font-extra-extra-large:  22px;
+
+  /* ---- titles ----
+     "minimal" title theme — overrides the old filled-bar look so the
+     page title reads like the documentation heading in
+     ordering-doc-page.html: large, normal weight, on-surface color, with
+     a thin divider underneath instead of a colored background bar. */
+  --title-page-background:    transparent;
+  --title-page-foreground:    var(--page-foreground);
+  --title-page-padding:       0 0 var(--size-sm) 0;
+  --title-page-margin:        0 0 var(--size-md) 0;
+  --title-page-fontSize:      var(--size-font-extra-extra-large);
+  --title-page-fontWeight:    400;
+  --title-page-letterSpacing: -0.01em;
+  --title-page-textTransform: none;
+  --title-page-borderBottom:  1px solid var(--outline-variant);
+  --title-page-borderRadius:  0;
+
+  /* ---- blocks ---- */
+  --block-highlight-background:  var(--surface);
+  --block-highlight-foreground:  var(--page-foreground);
+  --block-highlight-padding:     var(--size-md);
+  --block-highlight-borderRadius:var(--size-borderRadius-xs);
+  --block-highlight-scrollbar:   var(--outline-variant);
+
+  --block-secondary-background:  var(--surface-container);
+  --block-secondary-foreground:  var(--page-foreground);
+  --block-secondary-padding:     var(--size-md);
+  --block-secondary-borderRadius:var(--size-borderRadius-xs);
+
+  /* ---- buttons ---- */
+  --button-padding:               0 var(--size-md);
+  --button-borderRadius:          var(--size-borderRadius-xs);
+  --button-borderWidth:           1px;
+  --button-borderStyle:           solid;
+
+  --button-primary-background:    var(--theme-primary);
+  --button-primary-foreground:    var(--theme-onPrimary);
+  --button-primary-borderColor:   var(--theme-primary);
+  --button-primary-hover-background:   color-mix(in srgb, var(--theme-primary) 85%, #000);
+  --button-primary-active-background:  color-mix(in srgb, var(--theme-primary) 70%, #000);
+
+  --button-info-background:       transparent;
+  --button-info-foreground:       var(--theme-primary);
+  --button-info-borderColor:      var(--outline);
+  --button-info-hover-background: color-mix(in srgb, var(--theme-primary) 10%, transparent);
+
+  --button-secondary-background:  transparent;
+  --button-secondary-foreground:  var(--page-foreground);
+  --button-secondary-borderColor: var(--outline-variant);
+  --button-secondary-hover-background: color-mix(in srgb, var(--page-foreground) 6%, transparent);
+
+  /* ---- inputs ---- */
+  --input-padding:                0 var(--size-sm);
+  --input-borderRadius:           var(--size-borderRadius-xs);
+  --input-borderColor:            var(--outline-variant);
+  --input-background:             var(--surface);
+  --input-foreground:             var(--page-foreground);
+
+  /* ---- alerts ---- */
+  --alert-padding:                var(--size-sm) var(--size-md);
+  --alert-borderRadius:           var(--size-borderRadius-xs);
+  --alert-borderWidth:            1px;
+  --alert-borderStyle:            solid;
+  --alert-info-background:        var(--theme-primaryContainer);
+  --alert-info-foreground:        var(--theme-onPrimaryContainer);
+  --alert-info-borderColor:       color-mix(in srgb, var(--theme-primary) 30%, transparent);
+  --alert-warning-background:     #FFDEA8;
+  --alert-warning-foreground:     #2A1900;
+  --alert-warning-borderColor:    color-mix(in srgb, var(--theme-warning) 30%, transparent);
+  --alert-success-background:     var(--theme-successContainer);
+  --alert-success-foreground:     var(--theme-onSuccessContainer);
+  --alert-success-borderColor:    color-mix(in srgb, var(--theme-success) 30%, transparent);
+
+  /* ---- text ---- */
+  --text-primary-background:      var(--theme-primaryContainer);
+  --text-primary-foreground:      var(--theme-onPrimaryContainer);
+  --text-success-background:      var(--theme-successContainer);
+  --text-success-foreground:      var(--theme-onSuccessContainer);
+  --text-danger-background:       var(--theme-errorContainer);
+  --text-danger-foreground:       #410002;
+
+  /* ---- grid (css-grid) ---- */
+  --grid-header-background:       var(--surface-container);
+  --grid-header-foreground:       var(--page-foreground);
+  --grid-row-altBackground:       var(--surface-container-low);
+  --grid-row-hoverBackground:     color-mix(in srgb, var(--theme-primary) 6%, var(--surface));
+  --grid-borderColor:             var(--outline-variant);
+
+  /* misc */
+  --misc-separator-foreground:    var(--outline-variant);
+  --formGroup-direction:          column;
+  --formGroup-gap:                var(--size-xs);
+  --inputs-columnGap:             var(--size-sm);
+  --inputs-rowGap:                var(--size-sm);
+}
+
+/* dark theme deep-merge — overrides only the keys that change */
+.app-page.dark {
+  --page-background: #111316;
+  --page-foreground: #E2E2E6;
+  --page-scrollbar:  #42474E;
+
+  --theme-primary:              #9ECAFF;
+  --theme-onPrimary:            #003258;
+  --theme-primaryContainer:     #00497D;
+  --theme-onPrimaryContainer:   #D1E4FF;
+  --theme-secondary:            #BBC8DB;
+  --theme-onSecondary:          #253140;
+  --theme-secondaryContainer:   #3B4858;
+  --theme-onSecondaryContainer: #D7E3F7;
+  --theme-success:              #6DD58C;
+  --theme-onSuccess:            #003914;
+  --theme-successContainer:     #003914;
+  --theme-onSuccessContainer:   #6DD58C;
+  --theme-error:                #FFB4AB;
+  --theme-onError:              #690005;
+  --theme-errorContainer:       #93000A;
+  --theme-warning:              #FFB951;
+
+  --surface:                    #1E2023;
+  --surface-variant:            #42474E;
+  --surface-container-low:      #1A1C1F;
+  --surface-container:          #282B2E;
+  --surface-container-high:     #333639;
+  --outline:                    #8C9199;
+  --outline-variant:            #42474E;
+
+  --alert-warning-background:   #5F4200;
+  --alert-warning-foreground:   #FFDEA8;
+  --text-danger-background:     #93000A;
+  --text-danger-foreground:     #FFDAD6;
+}
+
+@media (prefers-color-scheme: dark) {
+  .app-page:not(.light) {
+    --page-background: #111316;
+    --page-foreground: #E2E2E6;
+    --page-scrollbar:  #42474E;
+    --theme-primary:              #9ECAFF;
+    --theme-onPrimary:            #003258;
+    --theme-primaryContainer:     #00497D;
+    --theme-onPrimaryContainer:   #D1E4FF;
+    --theme-secondary:            #BBC8DB;
+    --theme-secondaryContainer:   #3B4858;
+    --theme-onSecondaryContainer: #D7E3F7;
+    --theme-success:              #6DD58C;
+    --theme-successContainer:     #003914;
+    --theme-onSuccessContainer:   #6DD58C;
+    --theme-error:                #FFB4AB;
+    --theme-errorContainer:       #93000A;
+    --theme-warning:              #FFB951;
+    --surface:                    #1E2023;
+    --surface-variant:            #42474E;
+    --surface-container-low:      #1A1C1F;
+    --surface-container:          #282B2E;
+    --surface-container-high:     #333639;
+    --outline:                    #8C9199;
+    --outline-variant:            #42474E;
+    --alert-warning-background:   #5F4200;
+    --alert-warning-foreground:   #FFDEA8;
+    --text-danger-background:     #93000A;
+    --text-danger-foreground:     #FFDAD6;
+  }
+}
+
+/* ============================================================
+   reset
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: var(--fontFamily);
+  background: var(--page-background);
+  color: var(--page-foreground);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   utility classes (subset emitted by misc-css + buildSizes)
+   ============================================================ */
+
+/* layout */
+.flex          { display: flex; }
+.flex-row      { display: flex; flex-direction: row; }
+.flex-column   { display: flex; flex-direction: column; }
+.flex-wrap     { flex-wrap: wrap; }
+.flex-end      { justify-content: flex-end; }
+.flex-0        { flex: 0 0 auto; min-width: 0; min-height: 0; }
+.flex-1        { flex: 1 1 0; min-width: 0; min-height: 0; }
+.flex-2        { flex: 2 1 0; min-width: 0; min-height: 0; }
+
+.align-items-start   { align-items: flex-start; }
+.align-items-center  { align-items: center; }
+.align-items-end     { align-items: flex-end; }
+.align-items-stretch { align-items: stretch; }
+
+.justify-content-start          { justify-content: flex-start; }
+.justify-content-center         { justify-content: center; }
+.justify-content-end            { justify-content: flex-end; }
+.justify-content-space-between  { justify-content: space-between; }
+
+.relative { position: relative; }
+
+/* sizing */
+.full-width   { width: 100%; }
+.full-height  { height: 100%; }
+.max-height-full { max-height: 100%; }
+
+/* text */
+.text-left      { text-align: left; }
+.text-right     { text-align: right; }
+.text-center    { text-align: center; }
+.text-uppercase { text-transform: uppercase; }
+.bold           { font-weight: 700; }
+.semi-bold      { font-weight: 500; }
+.regular        { font-weight: 400; }
+.italic         { font-style: italic; }
+.text-ellipsis  { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* display */
+.block        { display: block; }
+.inline-block { display: inline-block; }
+.hidden       { display: none; }
+.cursor-pointer { cursor: pointer; }
+
+/* spacing — paddings */
+.padding-none       { padding: 0; }
+.padding-extra-small{ padding: var(--size-xs); }
+.padding-small      { padding: var(--size-sm); }
+.padding-medium     { padding: var(--size-md); }
+.padding-large      { padding: var(--size-lg); }
+.padding-big        { padding: var(--size-bg); }
+
+.padding-horizontal-small  { padding-left: var(--size-sm); padding-right: var(--size-sm); }
+.padding-horizontal-medium { padding-left: var(--size-md); padding-right: var(--size-md); }
+.padding-horizontal-large  { padding-left: var(--size-lg); padding-right: var(--size-lg); }
+.padding-horizontal-big    { padding-left: var(--size-bg); padding-right: var(--size-bg); }
+.padding-vertical-small    { padding-top: var(--size-sm); padding-bottom: var(--size-sm); }
+.padding-vertical-medium   { padding-top: var(--size-md); padding-bottom: var(--size-md); }
+.padding-vertical-large    { padding-top: var(--size-lg); padding-bottom: var(--size-lg); }
+
+.padding-top-small    { padding-top: var(--size-sm); }
+.padding-top-medium   { padding-top: var(--size-md); }
+.padding-bottom-small { padding-bottom: var(--size-sm); }
+.padding-bottom-medium{ padding-bottom: var(--size-md); }
+.padding-left-small   { padding-left: var(--size-sm); }
+.padding-right-small  { padding-right: var(--size-sm); }
+
+/* spacing — margins */
+.margin-none        { margin: 0; }
+.margin-small       { margin: var(--size-sm); }
+.margin-medium      { margin: var(--size-md); }
+.margin-top-small   { margin-top: var(--size-sm); }
+.margin-top-medium  { margin-top: var(--size-md); }
+.margin-bottom-small{ margin-bottom: var(--size-sm); }
+.margin-bottom-medium{ margin-bottom: var(--size-md); }
+.margin-bottom-large{ margin-bottom: var(--size-lg); }
+
+/* gaps */
+.gap-extra-small  { gap: var(--size-xs); }
+.gap-small        { gap: var(--size-sm); }
+.gap-medium       { gap: var(--size-md); }
+.gap-large        { gap: var(--size-lg); }
+.column-gap-small { column-gap: var(--size-sm); }
+.column-gap-medium{ column-gap: var(--size-md); }
+.row-gap-small    { row-gap: var(--size-sm); }
+
+/* border-radius */
+.border-round-xs   { border-radius: var(--size-borderRadius-xs); }
+.border-round-sm   { border-radius: var(--size-borderRadius-sm); }
+.border-round-md   { border-radius: var(--size-borderRadius-md); }
+.top-border-round-xs    { border-top-left-radius: var(--size-borderRadius-xs); border-top-right-radius: var(--size-borderRadius-xs); }
+.bottom-border-round-xs { border-bottom-left-radius: var(--size-borderRadius-xs); border-bottom-right-radius: var(--size-borderRadius-xs); }
+
+/* font sizes */
+.extra-small-text { font-size: var(--size-font-extra-small); }
+.small-text       { font-size: var(--size-font-small); }
+.medium-text      { font-size: var(--size-font-medium); }
+.large-text       { font-size: var(--size-font-large); }
+.extra-large-text { font-size: var(--size-font-extra-large); }
+
+/* groups */
+.buttons-gap { gap: var(--size-sm); }
+.inputs-gap  { column-gap: var(--inputs-columnGap); row-gap: var(--inputs-rowGap); }
+
+/* ============================================================
+   component classes (css-titles, css-blocks, css-buttons,
+   css-alerts, css-texts, css-grid)
+   ============================================================ */
+
+/* css-titles */
+.page-title {
+  background: var(--title-page-background);
+  color: var(--title-page-foreground);
+  padding: var(--title-page-padding);
+  margin: var(--title-page-margin, 0);
+  font-size: var(--title-page-fontSize);
+  font-weight: var(--title-page-fontWeight, 500);
+  letter-spacing: var(--title-page-letterSpacing, 0.04em);
+  text-transform: var(--title-page-textTransform, none);
+  border-bottom: var(--title-page-borderBottom, none);
+  border-radius: var(--title-page-borderRadius, 0);
+  display: flex;
+  align-items: center;
+}
+.section-title {
+  font-size: var(--size-font-large);
+  font-weight: 500;
+  color: var(--theme-primary);
+  padding: var(--size-sm) 0;
+  border-bottom: 1px solid var(--misc-separator-foreground);
+  margin-bottom: var(--size-md);
+}
+.subsection-title {
+  font-size: var(--size-font-medium);
+  font-weight: 500;
+  color: var(--page-foreground);
+  margin-bottom: var(--size-sm);
+}
+
+/* css-blocks */
+.highlight-block {
+  background: var(--block-highlight-background);
+  color: var(--block-highlight-foreground);
+  padding: var(--block-highlight-padding);
+  border-radius: var(--block-highlight-borderRadius);
+  scrollbar-color: var(--block-highlight-scrollbar) transparent;
+}
+.secondary-block {
+  background: var(--block-secondary-background);
+  color: var(--block-secondary-foreground);
+  padding: var(--block-secondary-padding);
+  border-radius: var(--block-secondary-borderRadius);
+}
+
+/* css-buttons — attribute selector (single-class form, v2.6.0+) */
+[class|="btn"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: var(--button-padding);
+  border-radius: var(--button-borderRadius);
+  border: var(--button-borderWidth) var(--button-borderStyle) transparent;
+  font-family: var(--fontFamily);
+  font-size: var(--size-font-small);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  user-select: none;
+}
+[class|="btn"]:disabled, [class|="btn"].disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-primary {
+  background: var(--button-primary-background);
+  color: var(--button-primary-foreground);
+  border-color: var(--button-primary-borderColor);
+}
+.btn-primary:hover  { background: var(--button-primary-hover-background); border-color: var(--button-primary-hover-background); }
+.btn-primary:active { background: var(--button-primary-active-background); border-color: var(--button-primary-active-background); }
+
+.btn-info {
+  background: var(--button-info-background);
+  color: var(--button-info-foreground);
+  border-color: var(--button-info-borderColor);
+}
+.btn-info:hover { background: var(--button-info-hover-background); border-color: var(--theme-primary); color: var(--theme-primary); }
+
+.btn-secondary {
+  background: var(--button-secondary-background);
+  color: var(--button-secondary-foreground);
+  border-color: var(--button-secondary-borderColor);
+}
+.btn-secondary:hover { background: var(--button-secondary-hover-background); }
+
+.btn-primary.icon-only, .btn-info.icon-only, .btn-secondary.icon-only {
+  width: 32px; padding: 0;
+}
+
+/* css-alerts */
+[class|="alert"] {
+  padding: var(--alert-padding);
+  border-radius: var(--alert-borderRadius);
+  border: var(--alert-borderWidth) var(--alert-borderStyle) transparent;
+  font-size: var(--size-font-small);
+}
+.alert-info    { background: var(--alert-info-background);    color: var(--alert-info-foreground);    border-color: var(--alert-info-borderColor); }
+.alert-warning { background: var(--alert-warning-background); color: var(--alert-warning-foreground); border-color: var(--alert-warning-borderColor); }
+.alert-success { background: var(--alert-success-background); color: var(--alert-success-foreground); border-color: var(--alert-success-borderColor); }
+
+/* css-texts */
+.text-primary { background: var(--text-primary-background); color: var(--text-primary-foreground); padding: 0 var(--size-xs); border-radius: var(--size-borderRadius-xs); }
+.text-success { background: var(--text-success-background); color: var(--text-success-foreground); padding: 0 var(--size-xs); border-radius: var(--size-borderRadius-xs); }
+.text-danger  { background: var(--text-danger-background);  color: var(--text-danger-foreground);  padding: 0 var(--size-xs); border-radius: var(--size-borderRadius-xs); }
+.text-primary-transparent { color: var(--theme-primary); }
+.text-success-transparent { color: var(--theme-success); }
+.text-danger-transparent  { color: var(--theme-error);   }
+
+/* css-grid — applied to [nggrid] and the host table */
+[nggrid] {
+  display: block;
+  border: 1px solid var(--grid-borderColor);
+  border-radius: var(--size-borderRadius-xs);
+  overflow: hidden;
+  background: var(--surface);
+}
+[nggrid] table { width: 100%; border-collapse: collapse; font-size: var(--size-font-small); }
+[nggrid] thead tr { background: var(--grid-header-background); }
+[nggrid] thead th {
+  color: var(--grid-header-foreground);
+  font-weight: 500;
+  text-align: left;
+  padding: var(--size-sm) var(--size-md);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-size: var(--size-font-extra-small);
+  border-bottom: 1px solid var(--grid-borderColor);
+  white-space: nowrap;
+  user-select: none;
+}
+[nggrid] thead th.sortable { cursor: pointer; transition: background 0.15s, color 0.15s; }
+[nggrid] thead th.sortable:hover {
+  background: color-mix(in srgb, var(--theme-primary) 8%, var(--grid-header-background));
+  color: var(--theme-primary);
+}
+[nggrid] thead th.sort-asc,
+[nggrid] thead th.sort-desc {
+  color: var(--theme-primary);
+  background: color-mix(in srgb, var(--theme-primary) 6%, var(--grid-header-background));
+}
+[nggrid] .th-inner { display: inline-flex; align-items: center; gap: 4px; }
+[nggrid] .sort-icon { display: inline-flex; flex-direction: column; gap: 1px; opacity: 0.45; }
+[nggrid] th.sort-asc .sort-icon,
+[nggrid] th.sort-desc .sort-icon { opacity: 1; }
+[nggrid] .sort-icon .arr-up,
+[nggrid] .sort-icon .arr-down { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; }
+[nggrid] .sort-icon .arr-up   { border-bottom: 5px solid currentColor; opacity: 0.4; }
+[nggrid] .sort-icon .arr-down { border-top:    5px solid currentColor; opacity: 0.4; }
+[nggrid] th.sort-asc  .arr-up   { opacity: 1; }
+[nggrid] th.sort-asc  .arr-down { opacity: 0.2; }
+[nggrid] th.sort-desc .arr-up   { opacity: 0.2; }
+[nggrid] th.sort-desc .arr-down { opacity: 1; }
+
+[nggrid] tbody tr {
+  border-bottom: 1px solid var(--surface-variant);
+  transition: background 0.1s;
+}
+[nggrid] tbody tr:last-child { border-bottom: none; }
+[nggrid] tbody tr:nth-child(even) { background: var(--grid-row-altBackground); }
+[nggrid] tbody tr:hover    { background: var(--grid-row-hoverBackground); }
+[nggrid] tbody td { padding: var(--size-sm) var(--size-md); color: var(--page-foreground); }
+[nggrid] tbody td.col-mono { font-family: var(--fontMono); font-size: var(--size-font-extra-small); color: var(--theme-secondary); font-variant-numeric: tabular-nums; }
+
+/* paging (from grid theme) */
+.grid-paging {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-md);
+  flex-wrap: wrap;
+  padding: var(--size-sm) 0;
+}
+.grid-page-nav { display: flex; align-items: center; gap: 2px; }
+.grid-page-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 30px; height: 30px; padding: 0 var(--size-sm);
+  border-radius: var(--size-borderRadius-xs);
+  font-family: var(--fontFamily); font-size: var(--size-font-small); font-weight: 500;
+  color: var(--theme-secondary); background: transparent; border: none;
+  cursor: pointer; text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.grid-page-btn:hover { background: color-mix(in srgb, var(--theme-primary) 10%, transparent); color: var(--theme-primary); }
+.grid-page-btn.active { background: var(--theme-primary); color: var(--theme-onPrimary); }
+.grid-page-btn.arrow { font-size: 15px; }
+.grid-pp-label { font-family: var(--fontMono); font-size: var(--size-font-extra-small); color: var(--theme-secondary); }
+
+/* ============================================================
+   page-scoped — nav, sidebar, prose, code panel
+   (uses theme vars; minimal bespoke CSS)
+   ============================================================ */
+.top-bar {
+  background: var(--surface-container);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+/* Single-line nav that wraps to multiple rows only when content overflows.
+   Theme toggle is pushed to the right via margin-left:auto, and stays on the
+   first row even after wrap (it's a separate flex item). */
+.nav-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0 var(--size-md);
+  row-gap: 2px;
+  column-gap: 2px;
+  min-height: 52px;
+}
+.nav-bar a {
+  position: relative;
+  display: inline-flex; align-items: center;
+  padding: 0 var(--size-md);
+  height: 36px;
+  border-radius: var(--size-borderRadius-xs);
+  font-size: var(--size-font-medium);
+  font-weight: 500;
+  color: var(--theme-secondary);
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  transition: color 0.15s, background 0.15s;
+}
+.nav-bar a:hover {
+  color: var(--theme-primary);
+  background: color-mix(in srgb, var(--theme-primary) 10%, transparent);
+}
+.nav-bar a.active {
+  color: var(--theme-onPrimary);
+  background: var(--theme-primary);
+  font-weight: 600;
+}
+.nav-bar a.active:hover {
+  background: var(--theme-primary);
+  color: var(--theme-onPrimary);
+}
+.nav-bar .nav-spacer { flex: 1 1 auto; min-width: var(--size-md); }
+
+.theme-toggle {
+  width: 32px; height: 32px;
+  margin-left: auto; margin-right: 4px;
+  align-self: center;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: var(--size-borderRadius-xs);
+  border: 1px solid var(--outline-variant);
+  background: transparent;
+  color: var(--theme-secondary);
+  cursor: pointer;
+}
+.theme-toggle:hover { background: color-mix(in srgb, var(--page-foreground) 6%, transparent); color: var(--theme-primary); border-color: var(--theme-primary); }
+.theme-toggle svg { width: 18px; height: 18px; }
+
+.app-layout {
+  display: flex;
+  max-width: 1320px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+.sidebar {
+  flex: 0 0 240px;
+  position: sticky; top: var(--nav-h, 80px);
+  max-height: calc(100vh - var(--nav-h, 80px));
+  display: flex; flex-direction: column;
+  padding: var(--size-md) var(--size-sm);
+  border-right: 1px solid var(--outline-variant);
+  background: var(--surface);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.sidebar-nav { display: flex; flex-direction: column; gap: 2px; }
+.sidebar-nav a {
+  display: flex; align-items: center;
+  padding: var(--size-xs) var(--size-md);
+  height: 32px;
+  font-size: var(--size-font-small); font-weight: 500;
+  color: var(--theme-secondary);
+  text-decoration: none;
+  border-radius: var(--size-borderRadius-xs);
+  transition: background 0.15s, color 0.15s;
+}
+.sidebar-nav a:hover  { background: color-mix(in srgb, var(--page-foreground) 6%, transparent); color: var(--page-foreground); }
+.sidebar-nav a.active { background: var(--theme-secondaryContainer); color: var(--theme-onSecondaryContainer); font-weight: 700; }
+
+main {
+  flex: 1; min-width: 0;
+  padding: var(--size-lg) var(--size-bg) var(--size-lg);
+}
+
+/* prose */
+.prose { font-size: var(--size-font-small); line-height: 1.55; max-width: 900px; }
+.prose p { margin-bottom: var(--size-sm); }
+.prose ul { padding-left: var(--size-lg); margin-bottom: var(--size-sm); }
+.prose ul ul { padding-left: var(--size-md); list-style-type: circle; }
+.prose ul ul ul { list-style-type: square; }
+.prose li { margin-bottom: 2px; }
+
+code {
+  font-family: var(--fontMono);
+  font-size: var(--size-font-extra-small);
+  color: var(--theme-primary);
+  background: var(--theme-primaryContainer);
+  border-radius: var(--size-borderRadius-xs);
+  padding: 0 var(--size-xs);
+  white-space: nowrap;
+}
+
+/* code panel */
+.code-panel {
+  display: none;
+  border: 1px solid var(--outline-variant);
+  border-radius: var(--size-borderRadius-xs);
+  overflow: hidden;
+  background: var(--surface);
+}
+.code-panel.open { display: block; }
+.code-tabs {
+  display: flex;
+  background: var(--surface-container);
+  border-bottom: 1px solid var(--outline-variant);
+  overflow-x: auto; scrollbar-width: none;
+}
+.code-tabs::-webkit-scrollbar { display: none; }
+.code-tab {
+  padding: var(--size-sm) var(--size-md);
+  font-family: var(--fontMono);
+  font-size: var(--size-font-extra-small); font-weight: 500;
+  color: var(--theme-secondary);
+  background: transparent; border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer; white-space: nowrap;
+  transition: color 0.15s, background 0.15s;
+  margin-bottom: -1px;
+}
+.code-tab:hover { color: var(--theme-primary); background: color-mix(in srgb, var(--theme-primary) 6%, transparent); }
+.code-tab.active { color: var(--theme-primary); border-bottom-color: var(--theme-primary); }
+.code-pane { display: none; overflow: auto; max-height: 420px; background: var(--surface); }
+.code-pane.active { display: block; }
+.code-pane pre {
+  font-family: var(--fontMono);
+  font-size: var(--size-font-extra-small);
+  line-height: 1.6;
+  padding: var(--size-md) var(--size-lg);
+  tab-size: 4; white-space: pre;
+  color: var(--page-foreground);
+}
+
+footer {
+  text-align: center;
+  padding: var(--size-sm) var(--size-md);
+  border-top: 1px solid var(--outline-variant);
+  background: var(--surface-container);
+}
+.version-badge {
+  display: inline-flex; align-items: center; gap: var(--size-xs);
+  font-family: var(--fontMono);
+  font-size: var(--size-font-extra-small);
+  color: var(--theme-secondary);
+  background: var(--surface-container-high);
+  border-radius: 999px;
+  padding: 2px var(--size-md);
+}
+.version-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--theme-success); }
+</style>
+<style data-od-tweaks-bridge-style="">
+[data-od-tweaks-hidden] .tw-panel {
+  transform: translateX(calc(100% + 32px)) !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+.tw-restore { display: none !important; }
+</style><script data-od-tweaks-bridge="">(function(){
+  // Synchronously hide BEFORE the artifact body parses so the panel never
+  // flashes on initial paint. The host removes the attribute via postMessage
+  // once it knows the desired state.
+  document.documentElement.setAttribute('data-od-tweaks-hidden', '');
+
+  var suppressEcho = false;
+  var observer = null;
+
+  function panelEl(){ return document.querySelector('.tw-panel'); }
+
+  function applyClassesToPanel(visible){
+    var panel = panelEl();
+    if (panel) panel.classList.toggle('tw-hidden', !visible);
+  }
+
+  function setPanelVisible(visible){
+    suppressEcho = true;
+    document.documentElement.toggleAttribute('data-od-tweaks-hidden', !visible);
+    applyClassesToPanel(visible);
+    // Clear flag after the MutationObserver has had a chance to fire for this
+    // change so we don't echo our own host-driven toggles back to the host.
+    Promise.resolve().then(function(){ suppressEcho = false; });
+  }
+
+  function postState(){
+    var panel = panelEl();
+    if (!panel) return;
+    try {
+      parent.postMessage({
+        type: 'od:tweaks-panel-state',
+        visible: !panel.classList.contains('tw-hidden'),
+      }, '*');
+    } catch (e) {}
+  }
+
+  function postAvailability(){
+    try {
+      parent.postMessage({
+        type: 'od:tweaks-available',
+        available: !!panelEl(),
+      }, '*');
+    } catch (e) {}
+  }
+
+  function attachObserver(){
+    var panel = panelEl();
+    if (!panel || observer) return;
+    observer = new MutationObserver(function(){
+      if (suppressEcho) return;
+      postState();
+    });
+    observer.observe(panel, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  function onReady(){
+    // Capture the panel authored visibility BEFORE we apply the host hidden
+    // attribute. The bridge sets data-od-tweaks-hidden synchronously in head
+    // (before the body parses), so on entry to onReady the attribute is
+    // always present even though the artifact may have authored the panel
+    // as default-visible. Reading the panel class first is the only place
+    // we can still observe the author intent. Then drive the attribute,
+    // classes, and posted state from that captured value so a default
+    // visible tw-panel reports visible:true and the toolbar toggle starts
+    // ON. Issue surfaced in PR #1643 review.
+    var panel = panelEl();
+    var initialVisible = !!panel && !panel.classList.contains('tw-hidden');
+    document.documentElement.toggleAttribute('data-od-tweaks-hidden', !initialVisible);
+    applyClassesToPanel(initialVisible);
+    attachObserver();
+    postAvailability();
+    // Post the captured initial visibility so the toolbar toggle reflects
+    // the default state on mount. Without this the toggle reads OFF while
+    // a default-visible tw-panel artifact clearly shows its panel and the
+    // user would have to click toggle-on then toggle-off to actually hide.
+    postState();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', onReady);
+  } else {
+    onReady();
+  }
+
+  window.addEventListener('message', function(ev){
+    if (!ev.data || ev.data.type !== 'od:tweaks-panel-visible') return;
+    setPanelVisible(!!ev.data.visible);
+  });
+})();</script></head>
+<body class="app-page">
+
+<nav class="top-bar" data-od-id="path-0">
+  <div class="nav-bar" data-od-id="path-0-0">
+    <a href="#" data-od-id="path-0-0-0">Home</a><a href="#" data-od-id="path-0-0-1">Animations</a><a href="#" data-od-id="path-0-0-2">Authentication</a><a href="#" data-od-id="path-0-0-3">Datetime</a><a href="#" data-od-id="path-0-0-4">Common</a><a href="#" data-od-id="path-0-0-5">Error handling</a><a href="#" class="active" data-od-id="path-0-0-6">Grid</a><a href="#" data-od-id="path-0-0-7">MD help</a><a href="#" data-od-id="path-0-0-8">Notifications</a><a href="#" data-od-id="path-0-0-9">Rest</a><a href="#" data-od-id="path-0-0-10">Select</a><a href="#" data-od-id="path-0-0-11">Translate extensions</a>
+    <span class="nav-spacer"></span>
+    <button class="theme-toggle" id="theme-toggle" title="Toggle dark/light" aria-label="Toggle theme" data-od-id="path-0-0-13">
+      <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display:none" data-od-id="path-0-0-13-0"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1zm0-16a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1zm8.66 3.34a1 1 0 0 1 0 1.41l-.71.71a1 1 0 1 1-1.41-1.41l.71-.71a1 1 0 0 1 1.41 0zM4.05 18.95a1 1 0 0 1 0-1.41l.71-.71a1 1 0 1 1 1.41 1.41l-.71.71a1 1 0 0 1-1.41 0zM21 12a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zM4 12a1 1 0 0 1-1 1H2a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm15.66 6.66a1 1 0 0 1-1.41 0l-.71-.71a1 1 0 1 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41zM5.76 6.76a1 1 0 0 1-1.41 0l-.71-.71A1 1 0 0 1 5.05 4.64l.71.71a1 1 0 0 1 0 1.41z"></path></svg>
+      <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" data-od-id="path-0-0-13-1"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"></path></svg>
+    </button>
+  </div>
+</nav>
+
+<div class="app-layout" data-od-id="path-1">
+  <aside class="sidebar" data-od-id="path-1-0">
+    <nav class="sidebar-nav" data-od-id="path-1-0-0">
+      <a href="#" data-od-id="path-1-0-0-0">Homepage</a>
+      <a href="#" data-od-id="path-1-0-0-1">Concept</a>
+      <a href="#" data-od-id="path-1-0-0-2">Basic Async Usage</a>
+      <a href="#" data-od-id="path-1-0-0-3">Legacy Basic Async Usage</a>
+      <a href="#" data-od-id="path-1-0-0-4">Basic Sync Usage</a>
+      <a href="#" data-od-id="path-1-0-0-5">HTML Table</a>
+      <a href="#" data-od-id="path-1-0-0-6">Template Metadata</a>
+      <a href="#" data-od-id="path-1-0-0-7">Grouped Columns</a>
+      <a href="#" data-od-id="path-1-0-0-8">Metadata Selection</a>
+      <a href="#" class="active" data-od-id="path-1-0-0-9">Ordering</a>
+      <a href="#" data-od-id="path-1-0-0-10">Row Selection</a>
+      <a href="#" data-od-id="path-1-0-0-11">Detail View</a>
+      <a href="#" data-od-id="path-1-0-0-12">Reactive Data</a>
+      <a href="#" data-od-id="path-1-0-0-13">Strongly Typed</a>
+      <a href="#" data-od-id="path-1-0-0-14">Configuration</a>
+      <a href="#" data-od-id="path-1-0-0-15">Customized View</a>
+    </nav>
+  </aside>
+
+  <main data-od-id="path-1-1">
+
+    <!-- canonical css-styles page shell: minimal page-title + block -->
+    <div class="page-title" data-od-id="path-1-1-0">
+      <div class="flex-1">Ordering</div>
+    </div>
+    <div class="highlight-block border-round-xs padding-horizontal-big padding-vertical-medium margin-bottom-medium" data-od-id="path-1-1-1">
+
+      <p class="prose margin-bottom-medium">
+        Basic simple usage of <strong>new Matrix</strong> <em>Grid</em> with data loaded asynchronously from <em>REST</em> service and simple columns and enabled ordering on specified columns.
+      </p>
+
+      <div class="prose margin-bottom-medium">
+        <ul>
+          <li>required module <code>MatrixGridModule</code> from <code>@anglr/grid</code></li>
+          <li>required directive <code>OrderableDirective</code> from <code>@anglr/grid</code></li>
+          <li><code>GridOptions</code> initialized with
+            <ul>
+              <li>default <code>AsyncDataLoaderComponent</code> with <code>dataCallback</code> for loading data asynchronously from rest
+                <ul>
+                  <li>callback gets page and items per page which should be obtained</li>
+                  <li>callback gets column that will be used for ordering or null if default ordering is set</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li>html <code>&lt;div&gt;</code> is top level element, can be any element
+            <ul>
+              <li>top level element contains <code>ngGrid</code> <em>attribute</em>, which changes element to <code>MatrixGridComponent</code>, which configures <code>ContentRenderer</code> to <code>MatrixContentRenderer</code> and also uses custom <code>MetadataGatherer</code></li>
+              <li>on <code>MatrixGridComponent</code> you can set <code>gridOptions</code></li>
+              <li>it contains templates for <em>columns</em>
+                <ul>
+                  <li>column definition is <em>template</em> with <code>id</code> (set by <code>matrixGridColumn</code> assignment) value (must be set to unique value if metadata selector should work)</li>
+                  <li>it contains header and content cell templates</li>
+                  <li><em>header cell template</em> has <code>orderable</code> attribute (<code>OrderableDirective</code> from <code>@anglr/grid</code>) which enables ordering for column and it uses <code>matrixGridColumn</code> <code>id</code> as key for ordering</li>
+                  <li><em>content cell template</em> has template context containing <code>datum</code> which are row data</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="alert-info margin-bottom-medium">
+        Click <strong>City</strong> or <strong>Street</strong> column headers to toggle ascending / descending ordering.
+      </div>
+
+      <!-- source code toggle -->
+      <div class="flex-row flex-end buttons-gap margin-bottom-small">
+        <button type="button" class="btn-info" id="code-toggle" data-od-id="path-1-1-1-3-0">&lt;/&gt;&nbsp;&nbsp;Show source</button>
+      </div>
+
+      <div class="code-panel" id="code-panel" data-od-id="path-1-1-1-4">
+        <div class="code-tabs" id="code-tabs" data-od-id="path-1-1-1-4-0">
+          <button class="code-tab active" data-pane="pane-ts" data-od-id="path-1-1-1-4-0-0">orderingSample.component.ts</button>
+          <button class="code-tab" data-pane="pane-html" data-od-id="path-1-1-1-4-0-1">orderingSample.component.html</button>
+          <button class="code-tab" data-pane="pane-iface" data-od-id="path-1-1-1-4-0-2">data.interface.ts</button>
+        </div>
+        <div class="code-pane active" id="pane-ts" data-od-id="path-1-1-1-4-1"><pre>import {Component, ChangeDetectionStrategy} from '@angular/core';
+import {GridOptions, SimpleOrdering, BasicPagingOptions, AsyncDataLoaderOptions,
+        DataResponse, MatrixGridModule, OrderableDirective} from '@anglr/grid';
+import {RecursivePartial} from '@jscrpt/common';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
+
+import {Address, DataService} from '../../../services/api/data';
+
+@Component(
+{
+    selector: 'ordering-sample',
+    templateUrl: 'orderingSample.component.html',
+    imports: [MatrixGridModule, OrderableDirective],
+    providers: [DataService],
+    changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class OrderingSampleComponent
+{
+    protected gridOptions: RecursivePartial&lt;GridOptions&gt;;
+
+    constructor(private _dataSvc: DataService)
+    {
+        this.gridOptions =
+        {
+            plugins:
+            {
+                dataLoader:
+                {
+                    options: &lt;AsyncDataLoaderOptions&lt;Address, SimpleOrdering&gt;&gt;
+                    {
+                        dataCallback: async (page: number, itemsPerPage: number, ordering: SimpleOrdering|undefined) =&gt;
+                        {
+                            const data = await lastValueFrom(this._dataSvc.getData(page, itemsPerPage, ordering));
+                            return &lt;DataResponse&lt;Address&gt;&gt;{data: data.content, totalCount: data.totalCount};
+                        }
+                    }
+                },
+                paging:
+                {
+                    options: &lt;BasicPagingOptions&gt;
+                    {
+                        itemsPerPage: 15,
+                        availableItemsPerPage: [15, 30, 60]
+                    }
+                }
+            }
+        };
+    }
+}</pre></div>
+        <div class="code-pane" id="pane-html" data-od-id="path-1-1-1-4-2"><pre>&lt;div ngGrid [gridOptions]="gridOptions"&gt;
+    &lt;ng-template matrixGridColumn="country" let-datum&gt;
+        &lt;ng-template matrixGridHeader&gt;&lt;span&gt;Country&lt;/span&gt;&lt;/ng-template&gt;
+        &lt;ng-template matrixGridCell&gt;&lt;span&gt;{{datum.country}}&lt;/span&gt;&lt;/ng-template&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template matrixGridColumn="city" let-datum&gt;
+        &lt;ng-template matrixGridHeader orderable&gt;&lt;span&gt;City&lt;/span&gt;&lt;/ng-template&gt;
+        &lt;ng-template matrixGridCell&gt;&lt;span&gt;{{datum.city}}&lt;/span&gt;&lt;/ng-template&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template matrixGridColumn="zip" let-datum&gt;
+        &lt;ng-template matrixGridHeader&gt;&lt;span&gt;ZIP&lt;/span&gt;&lt;/ng-template&gt;
+        &lt;ng-template matrixGridCell&gt;&lt;span&gt;{{datum.zip}}&lt;/span&gt;&lt;/ng-template&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template matrixGridColumn="street" let-datum&gt;
+        &lt;ng-template matrixGridHeader orderable&gt;&lt;span&gt;Street&lt;/span&gt;&lt;/ng-template&gt;
+        &lt;ng-template matrixGridCell&gt;&lt;span&gt;{{datum.street}}&lt;/span&gt;&lt;/ng-template&gt;
+    &lt;/ng-template&gt;
+    &lt;ng-template matrixGridColumn="houseNumber" let-datum&gt;
+        &lt;ng-template matrixGridHeader&gt;&lt;span&gt;House Number&lt;/span&gt;&lt;/ng-template&gt;
+        &lt;ng-template matrixGridCell&gt;&lt;span&gt;{{datum.houseNumber}}&lt;/span&gt;&lt;/ng-template&gt;
+    &lt;/ng-template&gt;
+&lt;/div&gt;</pre></div>
+        <div class="code-pane" id="pane-iface" data-od-id="path-1-1-1-4-3"><pre>export interface Address
+{
+    country:     string;
+    city:        string;
+    zip:         string;
+    street:      string;
+    houseNumber: string;
+}</pre></div>
+      </div>
+
+      <!-- grid (css-grid styles apply via [nggrid]) -->
+      <div nggrid="" class="margin-top-medium">
+        <table>
+          <thead>
+            <tr>
+              <th>Country</th>
+              <th class="sortable sort-asc" data-col="city"><span class="th-inner">City<span class="sort-icon"><span class="arr-up"></span><span class="arr-down"></span></span></span></th>
+              <th>ZIP</th>
+              <th class="sortable" data-col="street"><span class="th-inner">Street<span class="sort-icon"><span class="arr-up"></span><span class="arr-down"></span></span></span></th>
+              <th>House Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Slovakia</td><td>Banská Bystrica</td><td class="col-mono">97401</td><td>Janka Chalupku</td><td>13</td></tr>
+            <tr><td>Slovakia</td><td>Banská Bystrica</td><td class="col-mono">97404</td><td>Janka Chalupku</td><td>13</td></tr>
+            <tr><td>Slovakia</td><td>Banská Bystrica</td><td class="col-mono">12345</td><td>Janka Chalupku</td><td>131</td></tr>
+            <tr><td>Slovakia</td><td>Banská Bystrica</td><td class="col-mono">97401</td><td>Janka Chalupku</td><td>13</td></tr>
+            <tr><td>Slovakia</td><td>Banská Bystrica</td><td class="col-mono">97401</td><td>Janka Chalupku</td><td>13</td></tr>
+            <tr><td>Slovakia</td><td>Bratislava</td><td class="col-mono">82109</td><td>Trenčianska</td><td>156/A</td></tr>
+            <tr><td>Slovakia</td><td>Bratislava</td><td class="col-mono">82109</td><td>Trenčianska</td><td>156/A</td></tr>
+            <tr><td>Slovakia</td><td>Bratislava</td><td class="col-mono">98752</td><td>Trenčianska</td><td>156/A</td></tr>
+            <tr><td>Slovakia</td><td>Bratislava</td><td class="col-mono">82109</td><td>Trenčianska</td><td>156/A</td></tr>
+            <tr><td>Slovakia</td><td>Košice</td><td class="col-mono">04011</td><td>Werferova</td><td>11</td></tr>
+            <tr><td>Slovakia</td><td>Košice</td><td class="col-mono">04011</td><td>Werferova</td><td>11</td></tr>
+            <tr><td>Slovakia</td><td>Košice</td><td class="col-mono">04011</td><td>Werferova</td><td>11</td></tr>
+            <tr><td>Slovakia</td><td>Košice</td><td class="col-mono">04011</td><td>Werferova</td><td>11</td></tr>
+            <tr><td>Slovakia</td><td>Lučenec</td><td class="col-mono">82109</td><td>Trenčianska</td><td>156/A</td></tr>
+            <tr><td>Slovakia</td><td>Poltár</td><td class="col-mono">04011</td><td>Werferova</td><td>11</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- paging -->
+      <div class="grid-paging">
+        <nav class="grid-page-nav" data-od-id="path-1-1-1-6-0">
+          <a href="#" class="grid-page-btn arrow" aria-label="Previous" data-od-id="path-1-1-1-6-0-0">←</a>
+          <a href="#" class="grid-page-btn active" data-page="1" data-od-id="path-1-1-1-6-0-1">1</a>
+          <a href="#" class="grid-page-btn" data-page="2" data-od-id="path-1-1-1-6-0-2">2</a>
+          <a href="#" class="grid-page-btn arrow" aria-label="Next" data-od-id="path-1-1-1-6-0-3">→</a>
+        </nav>
+        <div class="flex-row align-items-center gap-small">
+          <span class="grid-pp-label" id="per-page-label" data-od-id="path-1-1-1-6-1-0">15 / 18</span>
+          <div class="flex-row buttons-gap">
+            <button class="btn-primary" data-pp="15" data-od-id="path-1-1-1-6-1-1-0">15</button>
+            <button class="btn-info" data-pp="30" data-od-id="path-1-1-1-6-1-1-1">30</button>
+            <button class="btn-info" data-pp="60" data-od-id="path-1-1-1-6-1-1-2">60</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.highlight-block -->
+
+  </main>
+</div>
+
+<footer data-od-id="path-2">
+  <span class="version-badge"><span class="version-dot"></span>GUI version: 1.0.0-beta.20260522113423</span>
+</footer>
+
+<script>
+  // theme toggle
+  (function() {
+    const root = document.body; // .app-page is on <body>
+    const stored = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = stored ? stored === 'dark' : prefersDark;
+    apply(isDark);
+    function apply(dark) {
+      root.classList.toggle('dark', dark);
+      root.classList.toggle('light', !dark);
+      document.getElementById('icon-sun').style.display  = dark ? 'block' : 'none';
+      document.getElementById('icon-moon').style.display = dark ? 'none'  : 'block';
+    }
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      const dark = !root.classList.contains('dark');
+      apply(dark);
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    });
+  })();
+
+  // sticky nav offset
+  const topBar = document.querySelector('.top-bar');
+  function syncNavH() { document.documentElement.style.setProperty('--nav-h', topBar.offsetHeight + 'px'); }
+  syncNavH(); new ResizeObserver(syncNavH).observe(topBar);
+
+  // code toggle + tabs
+  const codeToggle = document.getElementById('code-toggle');
+  const codePanel  = document.getElementById('code-panel');
+  codeToggle.addEventListener('click', () => {
+    const open = codePanel.classList.toggle('open');
+    codeToggle.innerHTML = open ? '&lt;/&gt;&nbsp;&nbsp;Hide source' : '&lt;/&gt;&nbsp;&nbsp;Show source';
+  });
+  document.getElementById('code-tabs').addEventListener('click', e => {
+    const tab = e.target.closest('.code-tab');
+    if (!tab) return;
+    document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.code-pane').forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.pane).classList.add('active');
+  });
+
+  // sortable headers
+  document.querySelectorAll('thead th.sortable').forEach(th => {
+    th.addEventListener('click', () => {
+      const wasAsc  = th.classList.contains('sort-asc');
+      const wasDesc = th.classList.contains('sort-desc');
+      document.querySelectorAll('thead th.sortable').forEach(t => t.classList.remove('sort-asc','sort-desc'));
+      if (!wasAsc && !wasDesc) th.classList.add('sort-asc');
+      else if (wasAsc) th.classList.add('sort-desc');
+    });
+  });
+
+  // pagination
+  document.querySelectorAll('.grid-page-btn[data-page]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelectorAll('.grid-page-btn.active').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // per-page (btn-primary marks the active size, btn-info the inactive ones)
+  document.querySelectorAll('[data-pp]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-pp]').forEach(b => {
+        b.classList.remove('btn-primary');
+        b.classList.add('btn-info');
+      });
+      btn.classList.remove('btn-info');
+      btn.classList.add('btn-primary');
+      document.getElementById('per-page-label').textContent = btn.dataset.pp + ' / 18';
+    });
+  });
+</script>
+
+
+<script data-od-snapshot-bridge="">(function(){
+  function copyComputedStyle(source, target){
+    if (!source || !target || source.nodeType !== 1 || target.nodeType !== 1) return;
+    var computed = window.getComputedStyle(source);
+    var style = target.getAttribute('style') || '';
+    for (var i = 0; i < computed.length; i++){
+      var prop = computed[i];
+      style += prop + ':' + computed.getPropertyValue(prop) + ';';
+    }
+    target.setAttribute('style', style);
+  }
+  function syncElementState(source, target){
+    var tag = source.tagName ? source.tagName.toLowerCase() : '';
+    if (tag === 'img' && source.currentSrc) target.setAttribute('src', source.currentSrc);
+    if (tag === 'input' || tag === 'textarea') target.setAttribute('value', source.value || '');
+    if (tag === 'canvas') {
+      try {
+        var img = document.createElement('img');
+        img.setAttribute('src', source.toDataURL('image/png'));
+        img.setAttribute('style', target.getAttribute('style') || '');
+        target.parentNode && target.parentNode.replaceChild(img, target);
+      } catch (_) {}
+    }
+  }
+  function inlineSnapshotStyles(originalRoot, cloneRoot){
+    copyComputedStyle(originalRoot, cloneRoot);
+    syncElementState(originalRoot, cloneRoot);
+    var originals = originalRoot.querySelectorAll('*');
+    var clones = cloneRoot.querySelectorAll('*');
+    var count = Math.min(originals.length, clones.length);
+    for (var i = 0; i < count; i++){
+      copyComputedStyle(originals[i], clones[i]);
+      syncElementState(originals[i], clones[i]);
+    }
+    var scripts = cloneRoot.querySelectorAll('script');
+    for (var s = scripts.length - 1; s >= 0; s--) scripts[s].remove();
+  }
+  function waitForImages(){
+    var imgs = Array.prototype.slice.call(document.images || []);
+    return Promise.all(imgs.map(function(img){
+      if (img.complete) return Promise.resolve();
+      return new Promise(function(resolve){
+        img.addEventListener('load', resolve, { once: true });
+        img.addEventListener('error', resolve, { once: true });
+      });
+    }));
+  }
+  function renderSnapshot(id){
+    var w = Math.max(1, window.innerWidth || document.documentElement.clientWidth || 1);
+    var h = Math.max(1, window.innerHeight || document.documentElement.clientHeight || 1);
+    var dpr = window.devicePixelRatio || 1;
+    var docW = Math.max(w, document.documentElement.scrollWidth || 0, document.body ? document.body.scrollWidth : 0);
+    var docH = Math.max(h, document.documentElement.scrollHeight || 0, document.body ? document.body.scrollHeight : 0);
+    var clone = document.documentElement.cloneNode(true);
+    clone.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+    inlineSnapshotStyles(document.documentElement, clone);
+    var serializer = new XMLSerializer();
+    var html = serializer.serializeToString(clone);
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '">' +
+      '<foreignObject x="' + (-window.scrollX || 0) + '" y="' + (-window.scrollY || 0) + '" width="' + docW + '" height="' + docH + '">' +
+      html +
+      '</foreignObject></svg>';
+    var img = new Image();
+    img.onload = function(){
+      try {
+        var canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.floor(w * dpr));
+        canvas.height = Math.max(1, Math.floor(h * dpr));
+        var ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error('no 2d context');
+        ctx.scale(dpr, dpr);
+        ctx.drawImage(img, 0, 0, w, h);
+        window.parent.postMessage({ type: 'od:snapshot:result', id: id, dataUrl: canvas.toDataURL('image/png'), w: canvas.width, h: canvas.height }, '*');
+      } catch (err) {
+        window.parent.postMessage({ type: 'od:snapshot:result', id: id, error: String(err && err.message || err) }, '*');
+      }
+    };
+    img.onerror = function(){
+      window.parent.postMessage({ type: 'od:snapshot:result', id: id, error: 'snapshot image failed' }, '*');
+    };
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+  window.addEventListener('message', function(ev){
+    var data = ev && ev.data;
+    if (!data || data.type !== 'od:snapshot' || !data.id) return;
+    waitForImages().then(function(){ renderSnapshot(String(data.id)); });
+  });
+})();</script><script data-od-srcdoc-transport-activation="">(function(){
+  window.addEventListener('message', function(ev){
+    var data = ev && ev.data;
+    if (!data || data.type !== 'od:srcdoc-transport-activate' || typeof data.html !== 'string') return;
+    document.open();
+    document.write(data.html);
+    document.close();
+  });
+})();</script></body></html>

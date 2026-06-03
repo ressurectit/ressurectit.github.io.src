@@ -1,0 +1,20 @@
+$fontXxs: 10;
+$fontXs: 12;
+$fontSm: 13;
+$fontMd: 14;
+$fontLg: 16;
+$fontXl: 18;
+$fontXxl: 20;
+$fontXxxl: 28;
+
+$fontSizes:
+(
+    extra-extra-small: $fontXxs,
+    extra-small: $fontXs,
+    small: $fontSm,
+    medium: $fontMd,
+    large: $fontLg,
+    extra-large: $fontXl,
+    extra-extra-large: $fontXxl,
+    extra-extra-extra-large: $fontXxxl,
+);

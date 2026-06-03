@@ -1,0 +1,33 @@
+<div class="nav-bar">
+    @for(menuitem of menu.value(); track menuitem)
+    {
+            <!-- <ng-template #submenu>
+                <div class="example-menu" cdkMenu>
+                    @if(menuitem.mdPath)
+                    {
+                        <button type="button" class="example-menu-item" cdkMenuItem [mdMenuItem]="menuitem.mdPath">Homepage</button>
+                    }
+
+                    @for(submenuitem of menuitem.children; track submenuitem)
+                    {
+                        <button type="button" class="example-menu-item" cdkMenuItem [mdMenuItem]="submenuitem.mdPath">{{submenuitem.title}}</button>
+                    }
+                </div>
+            </ng-template> -->
+
+        <a [routerLink]="menuitem.mdPath" [class.active]="menuitem.mdPath | startsWith: activeRoute()">{{menuitem.title}}</a>
+    }
+
+    <div class="nav-spacer"></div>
+
+    <button class="theme-toggle" title="Toggle dark/light" aria-label="Toggle theme" (click)="theme.set(theme() == 'light' ? 'dark' : 'light')">
+        @if(theme() == 'dark')
+        {
+            <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm0 2a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1zm0-16a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1zm8.66 3.34a1 1 0 0 1 0 1.41l-.71.71a1 1 0 1 1-1.41-1.41l.71-.71a1 1 0 0 1 1.41 0zM4.05 18.95a1 1 0 0 1 0-1.41l.71-.71a1 1 0 1 1 1.41 1.41l-.71.71a1 1 0 0 1-1.41 0zM21 12a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zM4 12a1 1 0 0 1-1 1H2a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm15.66 6.66a1 1 0 0 1-1.41 0l-.71-.71a1 1 0 1 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41zM5.76 6.76a1 1 0 0 1-1.41 0l-.71-.71A1 1 0 0 1 5.05 4.64l.71.71a1 1 0 0 1 0 1.41z"></path></svg>
+        }
+        @else 
+        {
+            <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"></path></svg>
+        }
+    </button>
+</div>

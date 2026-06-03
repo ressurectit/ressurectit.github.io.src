@@ -2,17 +2,7 @@ import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot} from '@angular/router';
 import {lastValueFrom} from 'rxjs';
 
-import {ContentMenu, ContentService} from '../../../services/api/content';
-
-/**
- * Resolver that resolves data for content menu
- */
-export function contentMenuResolver(): Promise<ContentMenu[]>
-{
-    const contentSvc = inject(ContentService);
-
-    return lastValueFrom(contentSvc.getMenu());
-}
+import {ContentService} from '../../../services/api/content';
 
 /**
  * Resolver that resolves data for content markdown

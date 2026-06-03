@@ -5,7 +5,7 @@
 
 //############## FONT ##############
 
-$fontSize: 14px;
+$fontSize: 13px;
 
 //############## AVAILABLE COLORS ##############
 
@@ -107,6 +107,7 @@ $orange-900: #c30e14;
 
 $defaultTheme:
 (
+    fontFamily: 'Roboto',
     color:
     (
         primary: $blue-400,

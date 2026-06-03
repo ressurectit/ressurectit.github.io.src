@@ -8,8 +8,9 @@
 @use '@anglr/grid/styles' as grid;
 @use '@anglr/select/styles' as select;
 
-@use 'themeColors';
+@use './themeColors' as themeColors;
 @use '../animations' as animations;
+@use './vars' as appVars;
 
 $fontSize: 14px !default;
 $theme: () !default;
@@ -27,12 +28,12 @@ $hljs: null !default;
 {
     //############## FLUID FONT ##############
 
-    @include mixins.fluid-type(768px, 1024px, 12px, $fontSize);
+    @include mixins.fluid-type(768px, 1024px, 10px, $fontSize);
 
     //############## SIZES AND COMMON ##############
 
     @include mixins.buildSizes($fontSize, vars.$sizes);
-    @include mixins.buildFontSizeCss($fontSize, vars.$fontSizes);
+    @include mixins.buildFontSizeCss($fontSize, appVars.$fontSizes);
     @include mixins.buildFixedSizes($fontSize);
     @include mixins.buildGapsCss($fontSize, vars.$sizes);
     @include mixins.buildBorderRadiusCss($fontSize, vars.$sizes);

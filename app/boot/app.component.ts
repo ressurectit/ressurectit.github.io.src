@@ -1,17 +1,14 @@
-import {Component, OnDestroy, ChangeDetectionStrategy, Inject, signal, WritableSignal} from '@angular/core';
+import {Component, OnDestroy, ChangeDetectionStrategy, Inject, WritableSignal, signal, effect} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {RouterOutlet} from '@angular/router';
-import {ConsoleComponent, LOGGER, Logger, ProgressIndicatorModule} from '@anglr/common';
+import {LOGGER, Logger, ProgressIndicatorModule} from '@anglr/common';
 import {AppHotkeysService, HotkeysCheatsheetComponent} from '@anglr/common/hotkeys';
 import {InternalServerErrorComponent} from '@anglr/error-handling';
 import {NotificationsGlobalModule} from '@anglr/notifications';
-import {nameof} from '@jscrpt/common';
 import {TranslateService} from '@ngx-translate/core';
-import {Hotkey} from 'angular2-hotkeys';
-import {Subscription} from 'rxjs';
 
-import {SettingsDebug, SettingsGeneral} from '../config';
 import {SettingsService} from '../services/settings';
+import {Navbar} from '../components';
 import version from '../../config/version.json';
 
 /**
@@ -24,51 +21,34 @@ import version from '../../config/version.json';
     styleUrl: 'app.component.scss',
     imports:
     [
+        Navbar,
         RouterOutlet,
-        InternalServerErrorComponent,
         ProgressIndicatorModule,
         NotificationsGlobalModule,
-        ConsoleComponent,
         HotkeysCheatsheetComponent,
+        InternalServerErrorComponent,
     ],
     providers: [AppHotkeysService],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnDestroy
 {
-    //######################### private fields #########################
-
-    /**
-     * Subscription for changes of general settings
-     */
-    private _settingsChangeSubscription: Subscription;
-
-    /**
-     * Subscription for changes of debugging settings
-     */
-    private _settingsDebuggingChangeSubscription: Subscription;
+    //######################### protected properties - template bindings #########################
 
     /**
      * Currently active theme
      */
-    private _theme: string;
-
-    //######################### public properties - template bindings #########################
-
-    /**
-     * Indication whether is console visible
-     */
-    public consoleVisible: WritableSignal<boolean> = signal(false);
+    protected theme: WritableSignal<string>;
 
     /**
      * Current version of gui
      */
-    public guiVersion: string = version.version;
+    protected guiVersion: string = version.version;
 
     /**
      * Indication whether is application initialized
      */
-    public initialized: boolean = false;
+    protected initialized: boolean = false;
 
     //######################### constructor #########################
     constructor(translateSvc: TranslateService,
@@ -80,40 +60,16 @@ export class AppComponent implements OnDestroy
         logger.verbose('Application is starting, main component constructed.');
 
         document.body.classList.add('app-page', settings.settings.theme);
-        this._theme = settings.settings.theme;
+        this.theme = signal(settings.settings.theme);
 
-        this._settingsChangeSubscription = settings.settingsChange
-            .subscribe(itm =>
-            {
-                if(itm == nameof<SettingsGeneral>('theme'))
-                {
-                    document.body.classList.remove(this._theme);
-                    this._theme = settings.settings.theme;
-                    document.body.classList.add(this._theme);
-                }
-
-                if(itm == nameof<SettingsGeneral>('language'))
-                {
-                    translateSvc.use(settings.settings.language);
-                }
-            });
-
-        this._settingsDebuggingChangeSubscription = settings.settingsDebuggingChange
-            .subscribe(itm =>
-            {
-                if(itm == nameof<SettingsDebug>('consoleEnabled'))
-                {
-                    this._toggleConsoleHotkey();
-                }
-            });
+        effect(() =>
+        {
+            document.body.classList.remove('dark', 'light');
+            document.body.classList.add(this.theme());
+        });
 
         translateSvc.setDefaultLang('en');
         translateSvc.use(settings.settings.language);
-
-        if(settings.settingsDebugging?.consoleEnabled)
-        {
-            this._toggleConsoleHotkey();
-        }
     }
 
     //######################### public methods - implementation of OnDestroy #########################
@@ -123,33 +79,6 @@ export class AppComponent implements OnDestroy
      */
     public ngOnDestroy(): void
     {
-        this._settingsChangeSubscription?.unsubscribe();
-        this._settingsDebuggingChangeSubscription?.unsubscribe();
-
         this._appHotkeys.destroy();
-    }
-
-    //######################### private methods #########################
-
-    /**
-     * Toggles hotkey for displaying console log
-     */
-    private _toggleConsoleHotkey()
-    {
-        const oldHelpHotkey = this._appHotkeys.hotkeys.get('~');
-
-        if(oldHelpHotkey)
-        {
-            this._appHotkeys.hotkeys.remove(oldHelpHotkey);
-        }
-        else
-        {
-            this._appHotkeys.hotkeys.add(new Hotkey('~', () =>
-            {
-                this.consoleVisible.update(val => !val);
-
-                return false;
-            }, undefined, 'Show console'));
-        }
     }
 }

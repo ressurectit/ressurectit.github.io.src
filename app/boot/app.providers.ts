@@ -26,6 +26,7 @@ import {HighlightJsExtension} from '@anglr/md-help/highlightjs';
 import {MermaidExtension} from '@anglr/md-help/mermaid';
 import {provideRestDateTime} from '@anglr/rest/datetime';
 import {isString} from '@jscrpt/common';
+import {lastValueFrom} from '@jscrpt/common/rxjs';
 import {MissingTranslationHandler, TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {sk} from 'date-fns/locale';
 
@@ -33,12 +34,19 @@ import {routes} from './app.component.routes';
 import {config} from '../config';
 import {GlobalizationService as GlobalizationServiceImpl} from '../services/globalization/globalization.service';
 import {SettingsService, LocalSettingsStorage} from '../services/settings';
-import {SETTINGS_STORAGE} from '../misc/tokens';
+import {MENU_JSON_PROMISE, SETTINGS_STORAGE} from '../misc/tokens';
 import {AccountAuthOptions} from '../services/api/account/accountAuth.options';
 import {ReportMissingTranslationService} from '../services/missingTranslation';
 import {VersionUpdateService} from '../services/versionUpdate';
 import {StaticBuildTranslateLoaderService} from '../services/staticBuildTranslateLoader';
 import {IncludeSampleExtension} from '../misc/markdownExtensions';
+import {ContentMenu, ContentService} from '../services/api/content';
+
+type PromiseSelfResolving<T> = Promise<T> &
+{
+    resolve?: (value: T|PromiseLike<T>) => void;
+    reject?: (reason?: unknown) => void;
+};
 
 /**
  * Array of providers that are used in app module
@@ -97,6 +105,28 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
         provide: HttpGatewayTimeoutInterceptorOptions,
     },
 
+    //######################### MENU JSON #########################
+    <FactoryProvider>
+    {
+        provide: MENU_JSON_PROMISE,
+        useFactory: () =>
+        {
+            let resolveFn: ((value: ContentMenu[]|PromiseLike<ContentMenu[]>) => void)|undefined;
+            let rejectFn: ((reason?: unknown) => void)|undefined;
+
+            const promise: PromiseSelfResolving<ContentMenu[]> = new Promise((resolve, reject) =>
+            {
+                resolveFn = resolve;
+                rejectFn = reject;
+            }) as PromiseSelfResolving<ContentMenu[]>;
+
+            promise.resolve = resolveFn;
+            promise.reject = rejectFn;
+
+            return promise;
+        },
+    },
+
     //######################### GLOBALIZATION SERVICE #########################
     <ClassProvider>
     {
@@ -123,6 +153,11 @@ export const appProviders: (Provider|EnvironmentProviders)[] =
     provideAppInitializer(async () =>
     {
         const swUpdate = inject(VersionUpdateService);
+        const contentSvc = inject(ContentService);
+        const menuJsonPromise = inject(MENU_JSON_PROMISE) as PromiseSelfResolving<ContentMenu[]>;
+
+        const data = await lastValueFrom(contentSvc.getMenu());
+        menuJsonPromise.resolve?.(data ?? []);
 
         await swUpdate.initialize();
     }),

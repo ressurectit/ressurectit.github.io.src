@@ -1,0 +1,88 @@
+@use '@css-styles/common' as mixins;
+
+@use '../theme/defaultTheme' as defaults;
+
+@mixin css
+{
+    nav
+    {
+        background: var(--surface-container);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+
+        .nav-bar 
+        {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            padding: 0 var(--size-md);
+            row-gap: var(--size-2px);
+            column-gap: var(--size-2px);
+            min-height: mixins.getSize(defaults.$fontSize, 52);
+
+            a
+            {
+                display: inline-flex;
+                align-items: center;
+                padding: 0 var(--size-md);
+                height: mixins.getSize(defaults.$fontSize, 36);
+                border-radius: var(--size-borderRadius-xs);
+                font-size: var(--size-font-medium);
+                font-weight: 500;
+                color: var(--theme-secondary);
+                text-decoration: none;
+                white-space: nowrap;
+                letter-spacing: 0.01em;
+                transition: color 0.15s, background 0.15s;
+
+                &:hover
+                {
+                    color: var(--theme-primary);
+                    background: color-mix(in srgb, var(--theme-primary) 10%, transparent);
+                }
+
+                &.active
+                {
+                    color: var(--theme-onPrimary);
+                    background: var(--theme-primary);
+                    font-weight: 600;
+                }
+            }
+
+            .nav-spacer
+            {
+                flex: 1 1 auto;
+                min-width: var(--size-md);
+            }
+
+            .theme-toggle
+            {
+                width: mixins.getSize(defaults.$fontSize, 32);
+                height: mixins.getSize(defaults.$fontSize, 32);
+                margin-left: auto;
+                margin-right: var(--size-xs);
+                align-self: center;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: var(--size-borderRadius-xs);
+                border: 1px solid var(--outline-variant);
+                background: transparent;
+                color: var(--theme-secondary);
+                cursor: pointer;
+
+                &:hover
+                {
+                    background: color-mix(in srgb, var(--page-foreground) 6%, transparent);
+                    color: var(--theme-primary);
+                    border-color: var(--theme-primary);
+                }
+
+                svg
+                {
+                    width: 18px;
+                    height: 18px;
+                }
+            }
+        }
+    }
+}

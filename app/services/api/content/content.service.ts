@@ -7,7 +7,7 @@ import {ContentMenu} from './content.interface';
 /**
  * Service used to obtain content files
  */
-@Injectable()
+@Injectable({providedIn: 'root'})
 @BaseUrl('content/')
 export class ContentService extends RESTClient
 {
