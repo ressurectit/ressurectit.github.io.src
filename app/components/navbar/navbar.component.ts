@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Resource, resource, Inject, Signal, computed, model, ModelSignal} from '@angular/core';
+import {Component, ChangeDetectionStrategy, Resource, resource, Inject, Signal, computed, model, ModelSignal, output, OutputEmitterRef, effect, EffectRef} from '@angular/core';
 import {PRIMARY_OUTLET, Router, RouterLink} from '@angular/router';
 
 import {MENU_JSON_PROMISE} from '../../misc/tokens';
@@ -40,6 +40,13 @@ export class Navbar
      */
     public theme: ModelSignal<string> = model.required();
 
+    //######################### public properties - outputs #########################
+
+    /**
+     * Occurs when menuitem is selected
+     */
+    public menuitem: OutputEmitterRef<ContentMenu> = output<ContentMenu>();
+
     //######################### constructor #########################
     constructor(@Inject(MENU_JSON_PROMISE) menuJson: Promise<ContentMenu[]>,
                 router: Router,)
@@ -51,5 +58,35 @@ export class Navbar
         });
 
         this.activeRoute = computed(() => router.lastSuccessfulNavigation()?.finalUrl?.root.children[PRIMARY_OUTLET].segments.join('/'));
+
+        let effectRef: EffectRef|null = effect(() =>
+        {
+            const menuitems = this.menu.value();
+            const activeRoute = this.activeRoute();
+
+            if(activeRoute && menuitems.length)
+            {
+                const matchedMenuItem = menuitems.find(itm => itm.mdPath?.startsWith(activeRoute));
+
+                if(matchedMenuItem)
+                {
+                    this.menuitem.emit(matchedMenuItem);
+
+                    effectRef?.destroy();
+                    effectRef = null;
+                }
+            }
+        }, {manualCleanup: true});
+    }
+
+    //######################### protected methods - template bindings #########################
+
+    /**
+     * Show submenu of given menuitem
+     * @param menuitem - Menuitem which submenu should be displayed
+     */
+    protected showSubmenu(menuitem: ContentMenu): void
+    {
+        this.menuitem.emit(menuitem);
     }
 }

@@ -13,11 +13,11 @@ export class StartsWith implements PipeTransform
      */
     public transform(value: string|undefined|null, route: string|undefined|null): boolean
     {
-        if(!route)
+        if(!route || !value)
         {
             return false;
         }
 
-        return value?.startsWith(route) ?? false;
+        return route.startsWith(value);
     }
 }

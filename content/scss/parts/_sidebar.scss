@@ -1,0 +1,55 @@
+@use '@css-styles/common' as mixins;
+
+@use '../theme/defaultTheme' as defaults;
+
+@mixin css
+{
+    aside
+    {
+        flex: 0 0 mixins.getSize(defaults.$fontSize, 240);
+        display: flex;
+        min-height: 80dvh;
+        flex-direction: column;
+        padding: var(--size-md) var(--size-sm);
+        border-right: var(--size-1px) solid var(--outline-variant);
+        background: var(--surface);
+        overflow-y: auto;
+        scrollbar-width: thin;
+
+        .package-title
+        {
+            font-size: var(--size-11px);
+            font-weight: 500;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+            color: var(--md-on-surface-variant);
+            padding: var(--size-md) var(--size-md) var(--size-xs);
+        }
+
+        nav
+        {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: var(--size-1px);
+            padding: var(--size-4px) var(--size-8px) var(--size-12px);
+
+            a
+            {
+                position: relative;
+                display: flex;
+                align-items: center;
+                font-size: var(--size-font-medium);
+                height: mixins.getSize(defaults.$fontSize, 36);
+                padding: 0 var(--size-12px);
+                border-radius: var(--md-shape-full);
+                font-weight: 400;
+                color: var(--md-on-surface-variant);
+                text-decoration: none;
+                white-space: nowrap;
+                overflow: hidden;
+                transition: color 0.15s;
+            }
+        }
+    }
+}

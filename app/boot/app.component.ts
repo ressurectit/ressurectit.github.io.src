@@ -8,8 +8,9 @@ import {NotificationsGlobalModule} from '@anglr/notifications';
 import {TranslateService} from '@ngx-translate/core';
 
 import {SettingsService} from '../services/settings';
-import {Navbar} from '../components';
+import {Navbar, Sidebar} from '../components';
 import version from '../../config/version.json';
+import {ContentMenu} from '../services/api/content';
 
 /**
  * Application entry component
@@ -22,6 +23,7 @@ import version from '../../config/version.json';
     imports:
     [
         Navbar,
+        Sidebar,
         RouterOutlet,
         ProgressIndicatorModule,
         NotificationsGlobalModule,
@@ -39,6 +41,11 @@ export class AppComponent implements OnDestroy
      * Currently active theme
      */
     protected theme: WritableSignal<string>;
+
+    /**
+     * Currently active menu item
+     */
+    protected menuitem: WritableSignal<ContentMenu|undefined|null> = signal(undefined);
 
     /**
      * Current version of gui

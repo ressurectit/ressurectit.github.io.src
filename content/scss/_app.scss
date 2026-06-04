@@ -9,6 +9,7 @@
 @use 'parts/app' as app;
 @use 'parts/content' as content;
 @use 'parts/navbar' as navbar;
+@use 'parts/sidebar' as sidebar;
 @use '../../app/scssSamples/customizedView' as customizedView;
 @use '../../app/scssSamples/groupedColumns' as groupedColumns;
 
@@ -43,6 +44,7 @@
     @include app.css;
     @include content.css;
     @include navbar.css;
+    @include sidebar.css;
     @include customizedView.css;
     @include groupedColumns.css;
 

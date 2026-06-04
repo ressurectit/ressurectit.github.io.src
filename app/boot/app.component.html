@@ -3,10 +3,10 @@
 <global-notifications class="fullscreen"/>
 <hotkeys-cheatsheet class="fullscreen"/>
 
-<nav class="fullscreen" [(theme)]="theme"></nav>
+<nav class="fullscreen" [(theme)]="theme" (menuitem)="menuitem.set($event)"></nav>
 
 <main class="page-content">
-    <aside></aside>
+    <aside [menuitem]="menuitem()"></aside>
     <router-outlet class="hidden"/>
 </main>
 
