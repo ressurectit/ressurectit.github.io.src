@@ -4,26 +4,39 @@
     {
         ul
         {
-            padding-inline-start: var(--size-lg);
+            padding-left: var(--size-lg);
+            margin-bottom: var(--size-sm);
+            font-size: var(--size-font-small);
+            line-height: 1.55;
+
+            li
+            {
+                margin-bottom: 2px;
+            }
         }
 
         p
         {
-            padding-block: var(--size-sm);
+            margin-bottom: var(--size-md);
+            font-size: var(--size-font-small);
+            line-height: 1.55;
         }
 
         h1, h2, h3
         {
-            color: var(--color-primary);
+            color: var(--title-page-foreground);
         }
 
         h1
         {
-            padding-block: var(--size-lg) var(--size-xs);
-            font-size: var(--size-24px);
-            font-weight: 600;
-            border-bottom: var(--size-1px) solid;
-            margin-block-end: var(--size-sm);
+            padding: var(--title-page-padding);
+            font-size: var(--title-page-fontSize);
+            font-weight: var(--title-page-fontWeight, 500);
+            letter-spacing: var(--title-page-letterSpacing, 0.04em);
+            text-transform: var(--title-page-textTransform, none);
+            border-bottom: var(--title-page-borderBottom, none);
+            border-radius: var(--title-page-borderRadius, 0);
+            margin: var(--title-page-margin, 0);
         }
 
         h2
@@ -61,39 +74,34 @@
 
         code
         {
-            font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
-            padding-inline: var(--size-2px);
-            color: var(--color-primaryAlt);
+            font-family: var(--fontMono);
+            font-size: var(--size-font-extra-small);
+            color: var(--theme-primary);
+            background: var(--theme-primaryContainer);
+            border-radius: var(--size-borderRadius-xs);
+            padding: 0 var(--size-xs);
         }
 
         a
         {
             transition: all 280ms;
             text-decoration: none;
-            color: var(--anchor-foreground);
+            font-size: var(--size-font-medium);
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--size-4px);
+            position: relative;
+            color: var(--theme-primary);
+            text-decoration: none;
+            padding: var(--size-2px) var(--size-6px) var(--size-2px) 0;
+            border-radius: var(--size-3px);
+            transition: color 0.15s;
+            overflow: hidden;
 
-            &:visited
-            {
-                color: var(--anchor-visited-foreground);
-            }
-            
             &:hover
             {
-                color: var(--anchor-hover-foreground);
-                text-shadow: 0 0 1.5px var(--anchor-hover-foreground);
-            }
-
-            &:focus
-            {
-                color: var(--anchor-focus-foreground);
-                outline: none;
-                opacity: .65    ;
-            }
-
-            &:active
-            {
-                color: var(--anchor-active-foreground);
-                transform: scale(1.5);
+                background: color-mix(in srgb, var(--theme-primary) 8%, transparent);
             }
         }
 

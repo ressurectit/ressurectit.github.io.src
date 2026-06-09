@@ -1,5 +1,4 @@
 import {Component, ChangeDetectionStrategy, input, InputSignal} from '@angular/core';
-import {WithScrollableCssClass} from '@anglr/common';
 import {RenderMarkdownDirective} from '@anglr/md-help';
 import {ComponentRoute} from '@anglr/common/router';
 
@@ -12,6 +11,7 @@ import {contentMarkdownResolver} from './content.resolver';
 {
     selector: 'content-view',
     templateUrl: 'content.component.html',
+    styleUrl: 'content.component.scss',
     imports:
     [
         RenderMarkdownDirective,
@@ -19,7 +19,6 @@ import {contentMarkdownResolver} from './content.resolver';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 @ComponentRoute({path: '**', resolve: {markdown: contentMarkdownResolver}})
-@WithScrollableCssClass()
 export class ContentComponent
 {
     //######################### protected properties - template bindings #########################

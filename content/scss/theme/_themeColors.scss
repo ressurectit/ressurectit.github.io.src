@@ -4,6 +4,8 @@
 
 @mixin buildThemeColors($theme)
 {
+    --fontMono: 'Roboto Mono', 'JetBrains Mono', 'Cascadia Code', 'Consolas', ui-monospace, monospace;
+
     @if $theme
     {
         $surface: map.get($theme, 'surface');
