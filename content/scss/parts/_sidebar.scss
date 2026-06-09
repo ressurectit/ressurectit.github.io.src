@@ -12,7 +12,7 @@
         flex-direction: column;
         padding: var(--size-md) var(--size-sm);
         border-right: var(--size-1px) solid var(--outline-variant);
-        background: var(--surface);
+        background: var(--surface-value);
         overflow-y: auto;
         scrollbar-width: thin;
 
@@ -22,7 +22,7 @@
             font-weight: 500;
             letter-spacing: 0.09em;
             text-transform: uppercase;
-            color: var(--md-on-surface-variant);
+            color: var(--on-surface-variant);
             padding: var(--size-md) var(--size-md) var(--size-xs);
         }
 
@@ -33,22 +33,37 @@
             flex-direction: column;
             gap: var(--size-1px);
             padding: var(--size-4px) var(--size-8px) var(--size-12px);
+            background-color: inherit;
+            box-shadow: none;
 
             a
             {
                 position: relative;
                 display: flex;
                 align-items: center;
-                font-size: var(--size-font-medium);
                 height: mixins.getSize(defaults.$fontSize, 36);
-                padding: 0 var(--size-12px);
-                border-radius: var(--md-shape-full);
-                font-weight: 400;
-                color: var(--md-on-surface-variant);
-                text-decoration: none;
+                font-weight: 500;
                 white-space: nowrap;
                 overflow: hidden;
-                transition: color 0.15s;
+                padding: var(--size-xs) var(--size-md);
+                font-size: var(--size-font-small);
+                color: var(--theme-secondary);
+                text-decoration: none;
+                border-radius: var(--size-borderRadius-xs);
+                transition: background 0.15s, color 0.15s;
+
+                &:hover
+                {
+                    background: color-mix(in srgb, var(--page-foreground) 6%, transparent);
+                    color: var(--page-foreground);
+                }
+
+                &.active
+                {
+                    background: var(--theme-secondaryContainer);
+                    color: var(--theme-onSecondaryContainer);
+                    font-weight: 700;
+                }
             }
         }
     }

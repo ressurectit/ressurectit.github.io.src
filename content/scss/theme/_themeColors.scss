@@ -1,9 +1,21 @@
+@use 'sass:map';
+
 @use '@css-styles/common' as mixins;
 
 @mixin buildThemeColors($theme)
 {
     @if $theme
     {
-        @include mixins.buildCssVars('-', $theme);
+        $surface: map.get($theme, 'surface');
+    
+        @include mixins.buildCssVars('--surface', $surface);
+
+        $onSurface: map.get($theme, 'onSurface');
+    
+        @include mixins.buildCssVars('--on-surface', $onSurface);
+
+        $outline: map.get($theme, 'outline');
+    
+        @include mixins.buildCssVars('--outline', $outline);
     }
 }

@@ -1,20 +1,6 @@
 <div class="nav-bar">
     @for(menuitem of menu.value(); track menuitem)
     {
-            <!-- <ng-template #submenu>
-                <div class="example-menu" cdkMenu>
-                    @if(menuitem.mdPath)
-                    {
-                        <button type="button" class="example-menu-item" cdkMenuItem [mdMenuItem]="menuitem.mdPath">Homepage</button>
-                    }
-
-                    @for(submenuitem of menuitem.children; track submenuitem)
-                    {
-                        <button type="button" class="example-menu-item" cdkMenuItem [mdMenuItem]="submenuitem.mdPath">{{submenuitem.title}}</button>
-                    }
-                </div>
-            </ng-template> -->
-
         <a [routerLink]="menuitem.mdPath" [class.active]="menuitem.mdPath | startsWith: activeRoute()" (click)="showSubmenu(menuitem)">{{menuitem.title}}</a>
     }
 

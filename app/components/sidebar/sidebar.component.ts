@@ -1,5 +1,5 @@
-import {Component, input, InputSignal} from '@angular/core';
-import {RouterLink} from '@angular/router';
+import {Component, computed, input, InputSignal, Signal} from '@angular/core';
+import {PRIMARY_OUTLET, Router, RouterLink, RouterLinkActive} from '@angular/router';
 
 import {ContentMenu} from '../../services/api/content';
 
@@ -13,14 +13,28 @@ import {ContentMenu} from '../../services/api/content';
     imports:
     [
         RouterLink,
+        RouterLinkActive,
     ],
 })
 export class Sidebar
 {
+    //######################### protected properties - template bindings #########################
+
+    /**
+     * Currently active route path
+     */
+    protected activeRoute: Signal<string|undefined|null>;
+
     //######################### public properties - inputs #########################
 
     /**
      * Currently selected menu item
      */
     public menuitem: InputSignal<ContentMenu|undefined|null> = input();
+
+    //######################### constructor #########################
+    constructor(router: Router,)
+    {
+        this.activeRoute = computed(() => router.lastSuccessfulNavigation()?.finalUrl?.root.children[PRIMARY_OUTLET].segments.join('/'));
+    }
 }

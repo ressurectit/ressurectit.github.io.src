@@ -1,6 +1,11 @@
 <div class="package-title">{{menuitem()?.title}}</div>
 
 <nav>
+    @if(menuitem()?.mdPath)
+    {
+        <a class="package-item" [routerLink]="menuitem()?.mdPath" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Homepage</a>
+    }
+
     @for(item of menuitem()?.children; track $index)
     {
         <a class="package-item" [routerLink]="item.mdPath" routerLinkActive="active">{{item.title}}</a>
